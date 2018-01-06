@@ -63,4 +63,7 @@ public class login extends AppCompatActivity implements AsyncResponse, View.OnCl
 
 
     }
+
+    public void login(View view) {
+    }
 }

@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-
+/**
+ * okienko glowne
+ */
 public class MainActivity extends AppCompatActivity {
     public Button btnMap;
     public Button btnStatistics;

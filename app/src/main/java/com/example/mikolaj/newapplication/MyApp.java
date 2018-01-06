@@ -7,13 +7,5 @@ import android.app.Application;
  */
 
 public class MyApp extends Application {
-    private String myState;
 
-    public String getMyState() {
-        return myState;
-    }
-
-    public void setMyState(String myState) {
-        this.myState = myState;
-    }
 }

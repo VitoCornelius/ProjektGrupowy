@@ -12,6 +12,7 @@ import android.widget.TextView;
 public class addOffense extends AppCompatActivity {
     Button bu, bu2;
     TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +23,6 @@ public class addOffense extends AppCompatActivity {
         bu2=(Button)findViewById(R.id.button3);
         textView = (TextView) findViewById(R.id.abc);
         textView.setText(login.account.getName());
-
-
     }
 
     public  void logout(View view){
