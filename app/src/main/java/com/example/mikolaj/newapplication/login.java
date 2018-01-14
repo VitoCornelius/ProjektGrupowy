@@ -16,7 +16,7 @@ import com.kosalgeek.asynctask.PostResponseAsyncTask;
 
 import java.util.HashMap;
 
-public class login extends AppCompatActivity implements AsyncResponse, View.OnClickListener{
+public class login extends AppCompatActivity implements AsyncResponse, View.OnClickListener {
 
     EditText etUsername, etPassword;
     Button btnLogin;
@@ -37,15 +37,16 @@ public class login extends AppCompatActivity implements AsyncResponse, View.OnCl
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
     }
+
     @Override
-    public void processFinish(String result){
-        if(result.equals("success")) {
+    public void processFinish(String result) {
+        if (result.equals("success")) {
             Toast.makeText(this, "Login Successfully", Toast.LENGTH_LONG).show();
             Intent in = new Intent(this, userMenu.class);
             sUsername = etUsername.getText().toString();
             account = new myAccount(sUsername);
             startActivity(in);
-        }else{
+        } else {
             Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
 
         }
@@ -59,7 +60,7 @@ public class login extends AppCompatActivity implements AsyncResponse, View.OnCl
         postData.put("txtPassword", etPassword.getText().toString());
 
         PostResponseAsyncTask task = new PostResponseAsyncTask(this, postData);
-            task.execute("http://192.168.64.2/client/login.php");
+        task.execute("http://192.168.64.2/client/login.php");
 
 
     }

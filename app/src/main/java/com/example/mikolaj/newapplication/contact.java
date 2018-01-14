@@ -11,6 +11,7 @@ import android.widget.Spinner;
 
 public class contact extends AppCompatActivity {
     public Button btnSendContactForm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

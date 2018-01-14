@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 /**
  * okienko glowne
@@ -22,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
-        btnMap = (Button ) findViewById(R.id.btn_map);
+        btnMap = (Button) findViewById(R.id.btn_map);
         btnStatistics = (Button) findViewById(R.id.btn_statistics);
         btnContact = (Button) findViewById(R.id.btn_contact);
         btnZaloguj = (Button) findViewById(R.id.btn_zaloguj);
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toy = new Intent(MainActivity.this, map.class);
+                Intent toy = new Intent(MainActivity.this, MapService.class);
                 startActivity(toy);
             }
         });
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         btnStatistics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Intent toy = new Intent(MainActivity.this, contact.class);
+                // Intent toy = new Intent(MainActivity.this, contact.class);
                 // startActivity(toy);
             }
         });

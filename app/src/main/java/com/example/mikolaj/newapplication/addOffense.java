@@ -19,20 +19,20 @@ public class addOffense extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_add_offense);
 
-        bu=(Button)findViewById(R.id.button2);
-        bu2=(Button)findViewById(R.id.button3);
+        bu = (Button) findViewById(R.id.button2);
+        bu2 = (Button) findViewById(R.id.button3);
         textView = (TextView) findViewById(R.id.abc);
         textView.setText(login.account.getName());
     }
 
-    public  void logout(View view){
+    public void logout(View view) {
         SharedPreferences sharedpreferences = getSharedPreferences(login.MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.clear();
         editor.commit();
     }
 
-    public void close(View view){
+    public void close(View view) {
         finish();
     }
 }
