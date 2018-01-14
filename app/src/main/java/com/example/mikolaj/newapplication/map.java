@@ -25,10 +25,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import android.util.Log;
+
 /**
  * This shows how to create a simple activity with a map and a marker on the map.
  */
 public class map extends AppCompatActivity implements OnMapReadyCallback {
+
+    public static String TAG = "mapka";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,9 @@ public class map extends AppCompatActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map); // pobranie tej klasy w widoku
         mapFragment.getMapAsync(this); // pobranie async tej mapy
+
+        Log.i(TAG, "stworzenie mapy");
+
     }
 
     /**
