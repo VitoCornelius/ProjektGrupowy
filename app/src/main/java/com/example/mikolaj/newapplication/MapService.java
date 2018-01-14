@@ -16,13 +16,6 @@
 
 package com.example.mikolaj.newapplication;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,11 +28,17 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * This shows how to create a simple activity with a MapService and a marker on the MapService.
@@ -48,6 +47,9 @@ public class MapService extends AppCompatActivity implements OnMapReadyCallback 
 
     public static String TAG = "mapka";
 
+    /**
+     * rzeczy wprowadzone w celu weryfikacji GPS -> TODO do wywalenia potem
+     */
     private TextView gpsTextView;
     private Button locationButton;
 
@@ -56,7 +58,9 @@ public class MapService extends AppCompatActivity implements OnMapReadyCallback 
 
     private GoogleMap googleMap;
 
-
+    /**
+     * pozycja uzytkownika okreslona za pomocą wspolrzędnych oraz pizdlika na mapie
+     */
     private LatLng myposition;
     private Marker myLocationMarker;
 
@@ -87,7 +91,7 @@ public class MapService extends AppCompatActivity implements OnMapReadyCallback 
     }
 
     /**
-     *
+     * ustawienie słuchacza, który aktualizuje pizdlika na mapie oraz wyświetla współrzędne na textview
      */
     private void configureGpsListener() {
         locationListener = new LocationListener() {

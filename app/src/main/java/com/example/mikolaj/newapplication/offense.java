@@ -28,8 +28,8 @@ public class offense {
         this.status = status;
     }
 
-    public boolean sendOffense(){
-        // TO DO - wysylanie obiektu do bazy danych
+    public boolean sendOffense() {
+        // TODO - wysylanie obiektu do bazy danych
         return true;
     }
 }
