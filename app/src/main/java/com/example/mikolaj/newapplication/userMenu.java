@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Menu dostępne jedynie po zalogowaniu
+ */
 public class userMenu extends AppCompatActivity {
     Button newOffense;
     @Override
@@ -13,8 +16,6 @@ public class userMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_menu);
         getSupportActionBar().hide();
-
-
 
         newOffense = (Button) findViewById(R.id.btn_newOffense);
 
@@ -25,8 +26,5 @@ public class userMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
     }
 }

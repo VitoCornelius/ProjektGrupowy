@@ -5,6 +5,7 @@ package com.example.mikolaj.newapplication;
  */
 
 public class offense {
+
     private int offenseId;  // id zgloszenia
     private int officerId;  // id funkcjonariusza
     private String date;    // data - do zmiany na format date
