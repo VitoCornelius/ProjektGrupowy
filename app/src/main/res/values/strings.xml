@@ -41,6 +41,7 @@
     <string name="name">Imie</string>
     <string name="surname">Nazwisko</string>
     <string name="hint_dzielnica">Dzielnica</string>
+    <string name="username">Nick</string>
 
 
     <string-array name="dzielnice_gdanska">
