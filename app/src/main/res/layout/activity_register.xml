@@ -76,19 +76,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/hint_dob"/>
-        </android.support.design.widget.TextInputLayout>
-        <Spinner
-            android:id="@+id/spinner1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/dzielnice_gdanska"
-            android:prompt="@string/hint_dzielnica"
-            android:layout_marginTop="10dp"/>
-        <Button android:id="@+id/btn_signup"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_sign_up"
+            android:hint="@string/hint_dob"/>
+    </android.support.design.widget.TextInputLayout>
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/dzielnice_gdanska"
+        android:prompt="@string/hint_dzielnica"
+        android:layout_marginTop="10dp"/>
+    <Button android:id="@+id/btn_signup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_sign_up"
             android:background="@color/colorPrimaryDark"
             android:layout_marginTop="40dp"
             android:textColor="@android:color/white"/>

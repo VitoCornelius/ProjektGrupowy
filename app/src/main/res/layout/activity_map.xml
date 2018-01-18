@@ -13,44 +13,31 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 --><!-- This can go anywhere in your layout (see other demos for some examples). -->
-
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:layout_height="match_parent">
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/map"
+    android:layout_width="match_parent"
+    android:layout_height="470dp"
+    class="com.google.android.gms.maps.SupportMapFragment" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="15dp"
-        android:orientation="vertical"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+    <EditText
+        android:id="@+id/TF_location"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:ems="10"
+        android:inputType="textPersonName" />
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/map"
-            class="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-
-            android:layout_height="250dp" />
-
-        <TextView
-            android:id="@+id/coordinate_gps"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Request Location"
-            android:id="@+id/button_gps"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-
-
-    </LinearLayout>
-
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/B_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/TF_location"
+        android:onClick="onClick"
+        android:text="Button" />
+</RelativeLayout>
