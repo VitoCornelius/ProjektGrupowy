@@ -55,7 +55,7 @@
         <activity android:name=".userMenu" />
         <activity android:name=".addOffense" />
         <activity
-            android:name=".MapService"
+            android:name=".map"
             android:label="@string/title_activity_map"></activity>
     </application>
 
