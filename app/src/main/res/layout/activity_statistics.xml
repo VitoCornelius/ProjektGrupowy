@@ -7,4 +7,42 @@
     android:background="@android:color/black"
     tools:context="com.example.mikolaj.newapplication.statistics">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <fragment
+            android:id="@+id/map"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="424dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:layout_margin="10dp"
+            android:background="#ECEFF1"
+            android:text="np. Morena"
+            android:textAlignment="center"
+            android:textColor="#757575"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.917"
+            tools:layout_editor_absoluteX="10dp" />
+
+        <Button
+            android:id="@+id/button_gps"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/mybutton"
+            android:text="Szukaj"
+            android:textColor="@android:color/background_light"
+            tools:layout_editor_absoluteX="10dp"
+            tools:layout_editor_absoluteY="10dp" />
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
