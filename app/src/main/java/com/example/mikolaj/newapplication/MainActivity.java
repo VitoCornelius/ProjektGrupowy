@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
     public Button btnStatistics;
     public Button btnContact;
     public Button btnZaloguj;
+    public Button btnZarejestruj;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         btnStatistics = (Button) findViewById(R.id.btn_statistics);
         btnContact = (Button) findViewById(R.id.btn_contact);
         btnZaloguj = (Button) findViewById(R.id.btn_zaloguj);
-
+        btnZarejestruj = (Button) findViewById(R.id.btn_zarejestruj);
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent toy = new Intent(MainActivity.this, login.class);
+                startActivity(toy);
+            }
+        });
+
+        btnZarejestruj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toy = new Intent(MainActivity.this, rejestracja.class);
                 startActivity(toy);
             }
         });

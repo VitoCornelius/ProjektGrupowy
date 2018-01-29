@@ -36,9 +36,6 @@ public class contact extends AppCompatActivity {
                 final Spinner feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
                 String feedbackType = feedbackSpinner.getSelectedItem().toString();
 
-                final CheckBox responseCheckbox = (CheckBox) findViewById(R.id.CheckBoxResponse);
-                boolean bRequiresResponse = responseCheckbox.isChecked();
-
             }
         });
     }

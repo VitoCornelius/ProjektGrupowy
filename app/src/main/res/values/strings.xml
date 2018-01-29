@@ -41,7 +41,16 @@
     <string name="name">Imie</string>
     <string name="surname">Nazwisko</string>
     <string name="hint_dzielnica">Dzielnica</string>
+    <string name="hint_zgloszenia">Typ zgłoszenia</string>
     <string name="username">Nick</string>
+
+
+    <string-array name="typy_zgloszenia">
+        <item>Głośne przeklinanie</item>
+        <item>Porwanie</item>
+        <item>Zabójstwo</item>
+        <item>Przemoc domowa</item>
+    </string-array>
 
 
     <string-array name="dzielnice_gdanska">
