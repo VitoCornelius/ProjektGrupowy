@@ -30,9 +30,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -40,6 +43,7 @@ import android.location.Location;
 //import com.google.android.gms.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -47,10 +51,23 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,9 +86,17 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private Marker curreLocationMarker;
     public static final int REQUEST_LOCATION_CODE = 99;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
+
+        DownloadDataBase.getData1(DownloadDataBase.address);
+        DownloadDataBase.getData1(DownloadDataBase.URLDistriction);
+        DownloadDataBase.getData1(DownloadDataBase.URLborderPoints);
+        DownloadDataBase.splitOffenseData(DownloadDataBase.offenses);
+
         setContentView(R.layout.activity_map); // ustawienie widoku na jakiś taki z xml
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M)
@@ -125,16 +150,19 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
-        //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
 
-        }
+
+
+
+
+//        for (offense sthHappened: DownloadDataBase.offenses) {
+//            googleMap.addMarker(new MarkerOptions()
+//                    .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
+//                    .title(sthHappened.getDescription()));
+//        }
+
+
+    }
 
         public void onClick(View view)
         {
@@ -166,6 +194,28 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                         mMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
                     }
 
+                }
+            }else if(view.getId()==R.id.B_show){
+                mMap.clear();
+                for (offense sthHappened: DownloadDataBase.offenses) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
+                            .title(sthHappened.getDescription()));
+                }
+            }
+            else if(view.getId()==R.id.B_showD){
+                mMap.clear();
+                for(int i=0; i<DownloadDataBase.districts.size(); i++) {
+                    PolygonOptions opts = new PolygonOptions();
+
+                    for (LatLng location : DownloadDataBase.districts.get(i).getList()) {
+                        opts.add(location);
+                    }
+                    Polygon polygon = mMap.addPolygon(opts
+                            .strokeColor(Color.RED)
+                            .fillColor(0x7F00FF00)     //przezroczystosc trza ustawic!
+                            .strokeWidth(1)
+                    );
                 }
             }
         }
@@ -274,4 +324,5 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
 }

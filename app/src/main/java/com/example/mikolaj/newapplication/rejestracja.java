@@ -73,7 +73,7 @@ public class rejestracja extends AppCompatActivity implements AsyncResponse, Vie
 
 
         PostResponseAsyncTask task = new PostResponseAsyncTask(this, postData);
-        task.execute("http://192.168.64.2/client/register.php");
+        task.execute("http://wilki.kylos.pl/PSI/register.php");
 
 
     }

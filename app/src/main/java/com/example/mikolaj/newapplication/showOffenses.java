@@ -1,8 +1,11 @@
 package com.example.mikolaj.newapplication;
 
+import android.app.ListActivity;
+import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -21,7 +24,7 @@ public class showOffenses extends AppCompatActivity {
 
     ListView listView;
     ArrayAdapter<String> adapter;
-    String address = "http://192.168.64.2/client/showOffenses.php";
+    String address = "http://wilki.kylos.pl/PSI/showOffenses.php";
     InputStream inputStream = null;
     String line = null;
     String result = null;
@@ -38,6 +41,7 @@ public class showOffenses extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data);
         listView.setAdapter(adapter);
     }
+
 
     private void getData(){
         try {
@@ -64,7 +68,6 @@ public class showOffenses extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         //PARSE JSON DATA
 
         try{
@@ -74,18 +77,30 @@ public class showOffenses extends AppCompatActivity {
             data =  new String[jsonArray.length()];
             for(int i=0;i<jsonArray.length();i++){
                 jsonObject = jsonArray.getJSONObject(i);
+                String type = null;
+
+                switch (jsonObject.getString("id_typ_zgloszenia"))
+                {
+                    case "1":
+                        type = "Głośne przeklinanie";
+                        break;
+                    case "2":
+                        type = "Porwanie";
+                        break;
+                    case "3":
+                        type = "Zabójstwo";
+                        break;
+                    case "4":
+                        type = "Przemoc domowa";
+                        break;
+                }
                 data[i]="ID: " + jsonObject.getString("id_zgloszenia")
-                        + ", ID funkcjonariusza " + jsonObject.getString("id_funkcjonariusza")
                 +
-                        ", Data zgłoszenia: " + jsonObject.getString("data_zgloszenia") +", Typ zgłoszenia: " + jsonObject.getString("id_typ_zgloszenia")
+                        ", Data zgłoszenia: " + jsonObject.getString("data_zgloszenia") +", Typ zgłoszenia: " + type
                         +
-                        ", Dzielnica: " +jsonObject.getString("id_dzielnica") +", Opis:: "+ jsonObject.getString("opis_zdarzenia")
-                        +
-                        ", Liczba poszkodowanych: " +jsonObject.getString("liczba_poszkodowanych");
-                //+
-                //        ", ID Dyspozytora: " +jsonObject.getString("id_dyspoztora") + ", Status zgłoszenia: "+ jsonObject.getString("id_status_zgloszenia") ;
-                        //+
-                //        ", X: " +jsonObject.getString("pozycja_gps_x") + ", Y: " + jsonObject.getString("pozycja_gps_y");
+                        ", Opis: "+ jsonObject.getString("opis_zdarzenia")
+                        + ", Status zgłoszenia: "+ jsonObject.getString("id_status_zgloszenia") +
+                                ", Adres: " + jsonObject.getString("adres");
             }
 
 

@@ -22,10 +22,10 @@
     <string name="feedbackname">Twoje imię</string>
     <string name="feedbackemail">Twój email</string>
     <string name="feedbacktype">Typ zgłoszenia</string>
-    <string name="feedbacktype1">Praise</string>
-    <string name="feedbacktype2">Gripe</string>
-    <string name="feedbacktype3">Suggestion</string>
-    <string name="feedbacktype4">Bug</string>
+    <string name="feedbacktype1">Głośne przeklinanie</string>
+    <string name="feedbacktype2">Porwanie</string>
+    <string name="feedbacktype3">Zabójstwo</string>
+    <string name="feedbacktype4">Inne</string>
     <string name="feedbackbody">Treść</string>
     <string name="feedbackresponse">Czy wysłać potwierdzenie?</string>
     <string name="feedbackbutton">Wyślij</string>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.mikolaj.newapplication.showOffenses">
+
     <ListView
         android:id="@+id/ListView1"
         android:layout_width="match_parent"
@@ -13,8 +14,6 @@
         android:layout_alignParentTop="true"
         android:divider="#f00"
         android:dividerHeight="2dp"
-        android:listSelector="@color/colorAccent"
-        >
-    </ListView>
+        android:listSelector="@color/colorAccent"></ListView>
 
 </LinearLayout>
