@@ -16,8 +16,27 @@
 
 package com.example.mikolaj.newapplication;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,30 +47,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import com.google.android.gms.location.LocationListener;
-
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-//import android.location.LocationListener;
-//import com.google.android.gms.location.LocationListener;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.io.IOException;
 import java.util.List;
+
+//import android.location.LocationListener;
+//import com.google.android.gms.location.LocationListener;
 
 /**
  * This shows how to create a simple activity with a map and a marker on the map.
@@ -69,9 +72,17 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private Marker curreLocationMarker;
     public static final int REQUEST_LOCATION_CODE = 99;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
+
+        DownloadDataBase.getData1(DownloadDataBase.address);
+        DownloadDataBase.getData1(DownloadDataBase.URLDistriction);
+        DownloadDataBase.getData1(DownloadDataBase.URLborderPoints);
+        DownloadDataBase.splitOffenseData(DownloadDataBase.offenses);
+
         setContentView(R.layout.activity_map); // ustawienie widoku na jakiś taki z xml
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M)
@@ -125,21 +136,17 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
-        //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
 
-        }
 
-        public void onClick(View view)
+    }
+
+
+    public void onClick(View view)
+    {
+        switch (view.getId())
         {
-            if(view.getId()==R.id.B_search)
-            {
+            case R.id.B_search:
+                {
                 EditText tf_location = (EditText)findViewById(R.id.TF_location);
                 String location = tf_location.getText().toString();
                 List<Address> addressList = null;
@@ -167,10 +174,69 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                     }
 
                 }
-            }
+                break;
+                }
+        case R.id.B_clear:
+                {
+                mMap.clear();
+                break;
+                }
+
+        case R.id.B_morderstwa:
+                {
+                for (offense sthHappened: DownloadDataBase.zabojstwo) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
+                            .title(sthHappened.getDescription()));
+                }
+                break;
+                }
+
+        case R.id.B_porwania:
+                {
+                for (offense sthHappened: DownloadDataBase.porwanie) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
+                            .title(sthHappened.getDescription()));
+                }
+                break;
+                }
+        case R.id.B_przeklinanie:
+                {
+                for (offense sthHappened: DownloadDataBase.glosne_przeklinanie) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
+                            .title(sthHappened.getDescription()));
+                }
+                break;
+                }
+        case R.id.B_przemoc:
+                {
+                    for (offense sthHappened: DownloadDataBase.przemoc_domowa) {
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
+                                .title(sthHappened.getDescription()));
+                    }
+                    break;
+                }
+        case R.id.B_showD:
+                {
+                for(int i=0; i<DownloadDataBase.districts.size(); i++) {
+                    PolygonOptions opts = new PolygonOptions();
+
+                    for (LatLng location : DownloadDataBase.districts.get(i).getList()) {
+                        opts.add(location);
+                    }
+                    Polygon polygon = mMap.addPolygon(opts
+                            .strokeColor(Color.RED)
+                            .fillColor(0x7F00FF00)     //przezroczystosc trza ustawic!
+                            .strokeWidth(1)
+                    );
+                }
+                break;
+                }
         }
-
-
+    }
         /*////////////////////////do usuniecia
         LatLng gdansk = new LatLng(54.22,18.38);
 
@@ -274,4 +340,5 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
 }

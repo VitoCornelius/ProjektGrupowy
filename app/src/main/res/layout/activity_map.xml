@@ -17,11 +17,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/map"
-    android:layout_width="match_parent"
-    android:layout_height="470dp"
-    class="com.google.android.gms.maps.SupportMapFragment" />
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/map"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="350dp" />
 
     <EditText
         android:id="@+id/TF_location"
@@ -39,5 +40,60 @@
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/TF_location"
         android:onClick="onClick"
-        android:text="Button" />
+        android:text="Dodaj pineskę" />
+
+    <Button
+        android:id="@+id/B_morderstwa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/map"
+        android:onClick="onClick"
+        android:text="Morderstwa" />
+
+    <Button
+        android:id="@+id/B_showD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/map"
+        android:onClick="onClick"
+        android:text="Koloruj mape" />
+
+    <Button
+        android:id="@+id/B_porwania"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/map"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick"
+        android:text="porwania" />
+
+    <Button
+        android:id="@+id/B_przeklinanie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/B_morderstwa"
+        android:onClick="onClick"
+        android:text="przeklinanie" />
+
+    <Button
+        android:id="@+id/B_przemoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/B_porwania"
+        android:layout_below="@+id/B_showD"
+        android:onClick="onClick"
+        android:text="Przemoc" />
+
+    <Button
+        android:id="@+id/B_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/B_showD"
+        android:layout_below="@+id/B_showD"
+        android:onClick="onClick"
+        android:text="Wyczysc" />
+
 </RelativeLayout>
