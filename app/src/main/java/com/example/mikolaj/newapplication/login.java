@@ -23,8 +23,7 @@ public class login extends AppCompatActivity implements AsyncResponse, View.OnCl
     public static final String MyPREFERENCES = "username";
     public static final String Name = "nameKey";
     public static String sUsername;
-    public static myAccount account;
-
+    public myAccount account;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +38,13 @@ public class login extends AppCompatActivity implements AsyncResponse, View.OnCl
 
     @Override
     public void processFinish(String result) {
-        if (result.equals("success")) {
-            Toast.makeText(this, "Login Successfully", Toast.LENGTH_LONG).show();
-            Intent in = new Intent(this, userMenu.class);
+        int res = Integer.parseInt(result);
+        if (res>0) {
             sUsername = etUsername.getText().toString();
-            account = new myAccount(sUsername);
+            account = new myAccount(sUsername,res);
+            String temp = account.getMyID();
+            Toast.makeText(this, "Zalogowano", Toast.LENGTH_LONG).show();
+            Intent in = new Intent(this, userMenu.class);
             startActivity(in);
         } else {
             Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();

@@ -48,44 +48,73 @@
     <string-array name="typy_zgloszenia">
         <item>Głośne przeklinanie</item>
         <item>Porwanie</item>
-        <item>Zabójstwo</item>
+        <item>Zabojstwo</item>
         <item>Przemoc domowa</item>
     </string-array>
-
-
+    <string-array name="id_zglaszajacego">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
     <string-array name="dzielnice_gdanska">
         <item>Aniołki</item>
+        <item>Babie Doły</item>
         <item>Brętowo</item>
         <item>Brzeźno</item>
         <item>Chełm</item>
+        <item>Chwarzno-Wiczlino</item>
+        <item>Chylonia</item>
+        <item>Cisowa</item>
+        <item>Dąbrowa</item>
+        <item>Działki Leśne</item>
+        <item>Gdańsk-Śródmieście</item>
+        <item>Gdynia-Śródmieście</item>
+        <item>Grabówek</item>
         <item>Jasień</item>
+        <item>Kamienna Góra</item>
+        <item>Karwiny</item>
         <item>Kokoszki</item>
-        <item>Górki zachodnie</item>
+        <item>Krakowiec-Górki Zachodnie</item>
+        <item>Leszczynki</item>
         <item>Letnica</item>
+        <item>Lipce - Święty Wojciech - Orunia</item>
+        <item>Mały Kack</item>
         <item>Matarnia</item>
         <item>Młyniska</item>
         <item>Nowy Port</item>
+        <item>Obłuże</item>
+        <item>Oksywie</item>
         <item>Oliwa</item>
         <item>Olszynka</item>
-        <item>Orunia</item>
+        <item>Orłowo</item>
+        <item>Osowa</item>
         <item>Piecki-Migowo</item>
+        <item>Pogórze</item>
         <item>Przeróbka</item>
         <item>Przymorze Małe</item>
         <item>Przymorze Wielkie</item>
+        <item>Pustki Cisowskie-Demptowo</item>
+        <item>Redłowo</item>
         <item>Rudniki</item>
         <item>Siedlce</item>
+        <item>Sopot</item>
         <item>Stogi</item>
         <item>Strzyża</item>
         <item>Suchanino</item>
-        <item>Srodmiescie</item>
-        <item>Ujeścisko</item>
+        <item>Ujeścisko-Łostowice</item>
         <item>VII Dwór</item>
-        <item>Wrzeszcz Górny</item>
+        <item>Wielki Kack</item>
+        <item>Witomino-Leśniczówka</item>
+        <item>Witomino-Radiostacja</item>
         <item>Wrzeszcz Dolny</item>
+        <item>Wrzeszcz Górny</item>
         <item>Wyspa Sobieszewska</item>
         <item>Wzgórze Mickiewicza</item>
-        <item>Zaspa</item>
-        <item>Żabianka</item>
+        <item>Wzgórze Św. Maksymiliana</item>
+        <item>Zaspa-Młyniec</item>
+        <item>Zaspa-Rozstaje</item>
+        <item>Żabianka-Wejhera-Jelitkowo-Tysiąclecia</item>
 
 
     </string-array>

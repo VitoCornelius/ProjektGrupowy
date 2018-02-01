@@ -37,7 +37,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import com.google.maps.android.PolyUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -56,10 +56,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.maps.android.geometry.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static android.app.PendingIntent.getActivity;
 
@@ -75,11 +78,20 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         LocationListener {
 
     private ArrayList<Polygon> polygonList = new ArrayList<>();
+    private Set<offense> customOffenses = new HashSet<>();
+    //private Set<offense> custom = new HashSet<>();
     private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastLocation;
     private Marker curreLocationMarker;
+
+    private boolean isMapColor = false;
+    private boolean isPressedB_zabojstwo = false;
+    private boolean isPressedB_porwania = false;
+    private boolean isPressedB_przemoc = false;
+    private boolean isPressedB_przeklenstwa = false;
+
     public static final int REQUEST_LOCATION_CODE = 99;
 
     @Override
@@ -94,8 +106,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
         setContentView(R.layout.activity_map); // ustawienie widoku na jakiś taki z xml
 
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
 
@@ -110,32 +121,25 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 //        mMap.animateCamera();
 
 
-
     }
-
 
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case REQUEST_LOCATION_CODE:
-                if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
-                {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //permission granted
-                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    ==PackageManager.PERMISSION_GRANTED)
-                    {
-                        if(client==null)
-                        {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+                        if (client == null) {
                             buildGoogleApiClient();
                         }
                         mMap.setMyLocationEnabled(true);
                     }
-                }
-                else    //permission denied
+                } else    //permission denied
                 {
-                    Toast.makeText(this, "Permission Denied!",Toast.LENGTH_LONG)
+                    Toast.makeText(this, "Permission Denied!", Toast.LENGTH_LONG)
                             .show();
                 }
         }
@@ -151,9 +155,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         //mMap.setOnMapClickListener(this);
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)
-                ==PackageManager.PERMISSION_GRANTED)
-        {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
@@ -166,19 +169,19 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 //                polygon.setFillColor(polygon.getFillColor()^ 0x00ffffff);
 //                polygon.setStrokeColor(0x800000FF);
 //                polygon.setFillColor(0x800000FF);
-                String description=null;
-                int counter=0;
+                String description = null;
+                int counter = 0;
 
-                int PRZEKLINANIE=0;
+                int PRZEKLINANIE = 0;
                 int PORAWANIE = 0;
                 int ZABOJSTWO = 0;
-                int PRZEMOC_DOMOWA=0;
+                int PRZEMOC_DOMOWA = 0;
 
                 for (int i = 0; i < DownloadDataBase.districts.size(); i++) {
-                        if (DownloadDataBase.districts.get(i).getPolygon().equals(polygon)) {
-                            description = DownloadDataBase.districts.get(i).getDistrictName();
-                        }
+                    if (DownloadDataBase.districts.get(i).getPolygon().equals(polygon)) {
+                        description = DownloadDataBase.districts.get(i).getDistrictName();
                     }
+                }
                 for (int i = 0; i < DownloadDataBase.offenses.size(); i++) {
                     if (DownloadDataBase.offenses.get(i).getDistrict().equals(description)) {
                         counter++;
@@ -208,12 +211,17 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                 }
 
 
-                    android.support.v7.app.AlertDialog.Builder adb = new android.support.v7.app.AlertDialog.Builder(
-                            map.this);
-                    adb.setTitle(description);
-                    adb.setMessage("Zanotowano "+ counter + " wykroczeń" + "\nPrzeklinanie: " + PRZEKLINANIE + "\n Porwania: " + PORAWANIE + "\n Zabójstwa: " + ZABOJSTWO + "\n Przemoc domowa: " + PRZEMOC_DOMOWA);
-                    adb.setPositiveButton("Ok", null);
-                    adb.show();
+                android.support.v7.app.AlertDialog.Builder adb = new android.support.v7.app.AlertDialog.Builder(
+                        map.this);
+                adb.setTitle(description);
+                adb.setMessage("Zanotowano " + counter + " wykroczeń"
+                        + "\nPrzeklinanie: " + PRZEKLINANIE
+                        + "\n Porwania: " + PORAWANIE
+                        + "\n Zabójstwa: " + ZABOJSTWO
+                        + "\n Przemoc domowa: "
+                        + PRZEMOC_DOMOWA);
+                adb.setPositiveButton("Ok", null);
+                adb.show();
 
 
             }
@@ -224,135 +232,74 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
-    public void onClick(View view)
-    {
-        switch (view.getId())
-        {
-            case R.id.B_search:
-                {
-                EditText tf_location = (EditText)findViewById(R.id.TF_location);
-                String location = tf_location.getText().toString();
-                List<Address> addressList = null;
-                MarkerOptions mo = new MarkerOptions();
+    public void onClick(View view) {
 
-                if(!location.equals(""))
-                {
-                    Geocoder geocoder = new Geocoder(this);
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 5);
-                    }
-                    catch (IOException e)
-                    {
-                        e.printStackTrace();
-                    }
+        switch (view.getId()) {
 
-                    for(int i=0; i<addressList.size();i++)
-                    {
-                        Address myAddress = addressList.get(i);
-                        LatLng latlng = new LatLng(myAddress.getLatitude(), myAddress.getLongitude());
-                        mo.position(latlng);
-                        mo.title("Your search result");
-                        mMap.addMarker(mo);
-                        mMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
-                    }
-
-                }
-                break;
-                }
-        case R.id.B_clear:
-                {
+            case R.id.B_clear: {
                 mMap.clear();
+                customOffenses.clear();
+                isPressedB_zabojstwo = false;
+                isPressedB_porwania = false;
+                isPressedB_przeklenstwa = false;
+                isPressedB_przemoc = false;
+                isMapColor = false;
                 break;
+            }
+
+            case R.id.B_morderstwa: {
+                if (isPressedB_zabojstwo) {
+                    isPressedB_zabojstwo = false;
+                } else {
+                    isPressedB_zabojstwo = true;
+                }
+                break;
+            }
+
+            case R.id.B_porwania: {
+                if (isPressedB_porwania) {
+                    isPressedB_porwania = false;
+                } else {
+                    isPressedB_porwania = true;
+                }
+                break;
+            }
+            case R.id.B_przeklinanie: {
+                if (isPressedB_przeklenstwa) {
+                    isPressedB_przeklenstwa = false;
+                } else {
+                    isPressedB_przeklenstwa = true;
                 }
 
-        case R.id.B_morderstwa:
-                {
-                for (offense sthHappened: DownloadDataBase.zabojstwo) {
+                    /*for (offense sthHappened: DownloadDataBase.glosne_przeklinanie) {
+                    customOffenses.add(sthHappened);
+
                     mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
                             .title(sthHappened.getDescription()));
+                }*/
+                break;
+            }
+            case R.id.B_przemoc: {
+                if (isPressedB_przemoc) {
+                    isPressedB_przemoc = false;
+                } else {
+                    isPressedB_przemoc = true;
                 }
                 break;
-                }
-
-        case R.id.B_porwania:
-                {
-                for (offense sthHappened: DownloadDataBase.porwanie) {
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
-                            .title(sthHappened.getDescription()));
-                }
-                break;
-                }
-        case R.id.B_przeklinanie:
-                {
-                for (offense sthHappened: DownloadDataBase.glosne_przeklinanie) {
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
-                            .title(sthHappened.getDescription()));
+            }
+            case R.id.B_showD: {
+                if (isMapColor) {
+                    mMap.clear();
+                    isMapColor = false;
+                } else {
+                    colorMap();
+                    isMapColor = true;
                 }
                 break;
-                }
-        case R.id.B_przemoc:
-                {
-                    for (offense sthHappened: DownloadDataBase.przemoc_domowa) {
-                        mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
-                                .title(sthHappened.getDescription()));
-                    }
-                    break;
-                }
-        case R.id.B_showD:
-                {
-                    final int COLOR_GREEN = 0x80009900;
-                    final int COLOR_YELLOW = 0x80FFFF00;
-                    final int COLOR_ORANGE = 0x80FFF800;
-                    final int COLOR_RED = 0x80CC0000;
-                    int color = 0;
-                    String dName=null;
-                    int dCounter;
-
-                    for(int i=0; i<DownloadDataBase.districts.size(); i++) {
-                        PolygonOptions opts = new PolygonOptions();
-                        //Polygon polygon = mMap.addPolygon(opts);
-
-                        for (LatLng location : DownloadDataBase.districts.get(i).getList())
-                        {
-                            opts.add(location);
-                        }
-
-                        dName = DownloadDataBase.districts.get(i).getDistrictName();
-                        dCounter = 0;
-                        for (int j = 0; j < DownloadDataBase.offenses.size(); j++) {
-                            if (DownloadDataBase.offenses.get(j).getDistrict().equals(dName)) {
-                                dCounter++;
-                            }
-
-                        }
-
-
-
-                        if(dCounter==0){
-                            color = COLOR_GREEN;
-                        }else if(dCounter>=1 && dCounter<=3){
-                            color = COLOR_YELLOW;
-                        }else if(dCounter>3 && dCounter<=6){
-                            color = COLOR_ORANGE;
-                        }else if(dCounter>6){
-                            color = COLOR_RED;
-                        }
-                        Polygon polygon = mMap.addPolygon(opts
-                                .strokeColor(Color.RED)
-                                .fillColor(color)     //przezroczystosc trza ustawic!
-                                .strokeWidth(1)
-                        );
-                        DownloadDataBase.districts.get(i).addPolygon(polygon);
-                        polygon.setClickable(true);
-                        polygonList.add(polygon);
-                    }
-                break;
-                }
+            }
         }
+
 
 //        mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
 //            public void onPolygonClick(Polygon polygon) {
@@ -365,7 +312,114 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 //
 //            }
 //        });
+        customOffenses.clear();
+        mMap.clear();
+        if(isPressedB_zabojstwo)
+        {
+            addEvent(DownloadDataBase.zabojstwo);
+        }
+        if(isPressedB_porwania)
+        {
+            addEvent(DownloadDataBase.porwanie);
+        }
+        if(isPressedB_przeklenstwa)
+        {
+            addEvent(DownloadDataBase.glosne_przeklinanie);
+        }
+        if(isPressedB_przemoc)
+        {
+            addEvent(DownloadDataBase.przemoc_domowa);
+        }
+
+        drawEverything();
     }
+
+    private void drawEverything() {
+
+        for (offense sthHappened : customOffenses) {
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(sthHappened.getPosition_longitude(), sthHappened.getPosition_latitude()))
+                    .title(sthHappened.getDescription()));
+        }
+        if(isMapColor)
+            colorMap();
+    }
+
+    private void addEvent(List<offense> accidentList)
+    {
+        for (offense sthHappened: accidentList) {
+            customOffenses.add(sthHappened);
+        }
+    }
+
+
+    private void showEvent(List<offense> accidentList)
+    {
+        for (offense sthHappened: accidentList) {
+            customOffenses.add(sthHappened);
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
+                    .title(sthHappened.getDescription()));
+        }
+    }
+
+    private void colorMap()
+    {
+
+        final int COLOR_GREEN = 0x80009900;
+        final int COLOR_YELLOW = 0x80FFFF00;
+        final int COLOR_ORANGE = 0x80FFF800;
+        final int COLOR_RED = 0x80CC0000;
+        int color = 0;
+        String dName=null;
+        int dCounter;
+
+        for(int i=0; i<DownloadDataBase.districts.size(); i++) {
+            PolygonOptions opts = new PolygonOptions();
+            //Polygon polygon = mMap.addPolygon(opts);
+
+            for (LatLng location : DownloadDataBase.districts.get(i).getList())
+            {
+                opts.add(location);
+            }
+
+            dName = DownloadDataBase.districts.get(i).getDistrictName();
+            dCounter = 0;
+                        /*for (int j = 0; j < DownloadDataBase.offenses.size(); j++) {
+                            if (DownloadDataBase.offenses.get(j).getDistrict().equals(dName)) {
+                                dCounter++;
+                            }
+
+                        }*/
+            for (offense chosenOffense: customOffenses
+                    ) {
+                if (chosenOffense.getDistrict().equals(dName)) {
+                    dCounter++;
+                }
+            }
+
+            if(dCounter==0){
+                color = COLOR_GREEN;
+            }else if(dCounter>=1 && dCounter<=3){
+                color = COLOR_YELLOW;
+            }else if(dCounter>3 && dCounter<=6){
+                color = COLOR_ORANGE;
+            }else if(dCounter>6){
+                color = COLOR_RED;
+            }
+
+            Polygon polygon = mMap.addPolygon(opts
+                    .strokeColor(Color.RED)
+                    .fillColor(color)     //przezroczystosc trza ustawic!
+                    .strokeWidth(1)
+            );
+            DownloadDataBase.districts.get(i).addPolygon(polygon);
+            polygon.setClickable(true);
+            polygonList.add(polygon);
+        }
+
+    }
+
         /*////////////////////////do usuniecia
         LatLng gdansk = new LatLng(54.22,18.38);
 

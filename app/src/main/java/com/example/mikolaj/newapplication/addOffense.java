@@ -19,7 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.maps.android.PolyUtil;
 import com.kosalgeek.asynctask.AsyncResponse;
 import com.kosalgeek.asynctask.PostResponseAsyncTask;
 
@@ -29,6 +33,7 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +54,7 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_add_offense);
-        etID = (EditText) findViewById(R.id.input_ID);
+        //etID = (EditText) findViewById(R.id.input_ID);
         etAddress = (EditText) findViewById(R.id.address);
         etLatitude = (EditText) findViewById(R.id.poz_x);
         etLongitude = (EditText) findViewById(R.id.poz_y);
@@ -74,13 +79,30 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
                 lokalizacja = etAddress.getText().toString();
                 new Coordinates().execute(lokalizacja.replace(" ","+"));
                 break;
+            case R.id.btn_district:
+                boolean inside;
+                List<LatLng> list = new ArrayList<>();
+                DownloadDataBase.getData1(DownloadDataBase.URLborderPoints);
+                Toast.makeText(this, "succes", Toast.LENGTH_LONG).show();
+                for(int i=0;i<DownloadDataBase.districts.size();i++){
+                    list = DownloadDataBase.districts.get(i).getList();
+                    inside = PolyUtil.containsLocation(new LatLng(dTemp1,dTemp2), list, true);
+                    if(inside){
+                        String dName = DownloadDataBase.districts.get(i).getDistrictName();
+                        Toast.makeText(this, dName, Toast.LENGTH_LONG).show();
+
+                    }
+                }
+                break;
             case R.id.btn_signup:
                 Calendar c = Calendar.getInstance();
                 System.out.println("Current time =&gt; "+c.getTime());
                 HashMap postData = new HashMap();
-                postData.put("txtID", etID.getText().toString());
+//                postData.put("txtID", etID.getText().toString());
+                postData.put("txtID", myAccount.getMyID());
+
                 postData.put("txtLatitude", etLatitude.getText().toString());
-                postData.put("txtLongitude", etLongitude.getText().toString());
+                postData.put("txtLongitute", etLongitude.getText().toString());
                 postData.put("txtAddress", etAddress.getText().toString());
                 postData.put("txtDescription", etDescription.getText().toString());
                 postData.put("txtCount", etCount.getText().toString());

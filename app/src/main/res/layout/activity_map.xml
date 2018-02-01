@@ -22,32 +22,17 @@
         android:id="@+id/map"
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="350dp" />
-
-    <EditText
-        android:id="@+id/TF_location"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="350dp"
+        android:layout_above="@+id/B_morderstwa"
         android:layout_alignParentStart="true"
-        android:ems="10"
-        android:inputType="textPersonName" />
-
-    <Button
-        android:id="@+id/B_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/TF_location"
-        android:onClick="onClick"
-        android:text="Dodaj pineskę" />
+        android:layout_alignParentTop="true" />
 
     <Button
         android:id="@+id/B_morderstwa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/B_przeklinanie"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/map"
         android:onClick="onClick"
         android:text="Morderstwa" />
 
@@ -55,8 +40,8 @@
         android:id="@+id/B_showD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/B_clear"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/map"
         android:onClick="onClick"
         android:text="Koloruj mape" />
 
@@ -64,7 +49,7 @@
         android:id="@+id/B_porwania"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/map"
+        android:layout_above="@+id/B_przemoc"
         android:layout_centerHorizontal="true"
         android:onClick="onClick"
         android:text="porwania" />
@@ -73,8 +58,8 @@
         android:id="@+id/B_przeklinanie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/B_morderstwa"
         android:onClick="onClick"
         android:text="przeklinanie" />
 
@@ -91,8 +76,8 @@
         android:id="@+id/B_clear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/B_showD"
-        android:layout_below="@+id/B_showD"
         android:onClick="onClick"
         android:text="Wyczysc" />
 
