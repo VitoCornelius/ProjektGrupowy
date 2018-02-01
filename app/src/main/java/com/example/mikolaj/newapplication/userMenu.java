@@ -10,7 +10,7 @@ import android.widget.Button;
  * Menu dostępne jedynie po zalogowaniu
  */
 public class userMenu extends AppCompatActivity {
-    Button newOffense, showOffenses;
+    Button newOffense, showOffenses, showMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +19,7 @@ public class userMenu extends AppCompatActivity {
 
         newOffense = (Button) findViewById(R.id.btn_newOffense);
         showOffenses = (Button) findViewById(R.id.btn_db_offenses);
+        showMap = (Button) findViewById(R.id.btn_map);
 
         newOffense.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,6 +34,15 @@ public class userMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(userMenu.this, showOffenses.class);
+                startActivity(intent);
+            }
+        });
+
+
+        showMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(userMenu.this, map.class);
                 startActivity(intent);
             }
         });

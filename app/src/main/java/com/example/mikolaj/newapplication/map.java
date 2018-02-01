@@ -18,12 +18,14 @@ package com.example.mikolaj.newapplication;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -41,9 +43,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -78,8 +82,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private Marker curreLocationMarker;
     public static final int REQUEST_LOCATION_CODE = 99;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +102,15 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map); // pobranie tej klasy w widoku
         mapFragment.getMapAsync(this); // pobranie async tej mapy
+
+
+        // Zoom in the Google Map
+//        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+//        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(latLng, 5);
+//        mMap.animateCamera();
+
+
+
     }
 
 
@@ -157,6 +168,12 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 //                polygon.setFillColor(0x800000FF);
                 String description=null;
                 int counter=0;
+
+                int PRZEKLINANIE=0;
+                int PORAWANIE = 0;
+                int ZABOJSTWO = 0;
+                int PRZEMOC_DOMOWA=0;
+
                 for (int i = 0; i < DownloadDataBase.districts.size(); i++) {
                         if (DownloadDataBase.districts.get(i).getPolygon().equals(polygon)) {
                             description = DownloadDataBase.districts.get(i).getDistrictName();
@@ -167,10 +184,34 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                         counter++;
                     }
                 }
+
+                for (int i = 0; i < DownloadDataBase.glosne_przeklinanie.size(); i++) {
+                    if (DownloadDataBase.glosne_przeklinanie.get(i).getDistrict().equals(description)) {
+                        PRZEKLINANIE++;
+                    }
+                }
+
+                for (int i = 0; i < DownloadDataBase.porwanie.size(); i++) {
+                    if (DownloadDataBase.porwanie.get(i).getDistrict().equals(description)) {
+                        PORAWANIE++;
+                    }
+                }
+                for (int i = 0; i < DownloadDataBase.zabojstwo.size(); i++) {
+                    if (DownloadDataBase.zabojstwo.get(i).getDistrict().equals(description)) {
+                        ZABOJSTWO++;
+                    }
+                }
+                for (int i = 0; i < DownloadDataBase.przemoc_domowa.size(); i++) {
+                    if (DownloadDataBase.przemoc_domowa.get(i).getDistrict().equals(description)) {
+                        PRZEMOC_DOMOWA++;
+                    }
+                }
+
+
                     android.support.v7.app.AlertDialog.Builder adb = new android.support.v7.app.AlertDialog.Builder(
                             map.this);
                     adb.setTitle(description);
-                    adb.setMessage("Zanotowano "+ counter + " wykroczeń" + " w dzielnicy " + description);
+                    adb.setMessage("Zanotowano "+ counter + " wykroczeń" + "\nPrzeklinanie: " + PRZEKLINANIE + "\n Porwania: " + PORAWANIE + "\n Zabójstwa: " + ZABOJSTWO + "\n Przemoc domowa: " + PRZEMOC_DOMOWA);
                     adb.setPositiveButton("Ok", null);
                     adb.show();
 
@@ -270,6 +311,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                     int color = 0;
                     String dName=null;
                     int dCounter;
+
                     for(int i=0; i<DownloadDataBase.districts.size(); i++) {
                         PolygonOptions opts = new PolygonOptions();
                         //Polygon polygon = mMap.addPolygon(opts);
@@ -287,6 +329,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                             }
 
                         }
+
+
+
                         if(dCounter==0){
                             color = COLOR_GREEN;
                         }else if(dCounter>=1 && dCounter<=3){
