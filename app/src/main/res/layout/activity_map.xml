@@ -16,7 +16,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    >
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"
@@ -29,10 +31,12 @@
 
     <Button
         android:id="@+id/B_morderstwa"
+        android:textColor="@android:color/background_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/B_przeklinanie"
         android:layout_alignParentStart="true"
+        android:background="@drawable/mybutton"
         android:onClick="onClick"
         android:text="Morderstwa" />
 
@@ -41,6 +45,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/B_clear"
+        android:textColor="@android:color/background_light"
+
+        android:background="@drawable/mybutton"
         android:layout_alignParentEnd="true"
         android:onClick="onClick"
         android:text="Koloruj mape" />
@@ -48,9 +55,12 @@
     <Button
         android:id="@+id/B_porwania"
         android:layout_width="wrap_content"
+        android:background="@drawable/mybutton"
         android:layout_height="wrap_content"
         android:layout_above="@+id/B_przemoc"
         android:layout_centerHorizontal="true"
+        android:textColor="@android:color/background_light"
+
         android:onClick="onClick"
         android:text="porwania" />
 
@@ -58,6 +68,8 @@
         android:id="@+id/B_przeklinanie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/mybutton"
+        android:textColor="@android:color/background_light"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:onClick="onClick"
@@ -68,6 +80,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/B_porwania"
+        android:background="@drawable/mybutton"
+        android:textColor="@android:color/background_light"
+
         android:layout_below="@+id/B_showD"
         android:onClick="onClick"
         android:text="Przemoc" />
@@ -77,6 +92,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@drawable/mybutton"
+        android:textColor="@android:color/background_light"
         android:layout_alignStart="@+id/B_showD"
         android:onClick="onClick"
         android:text="Wyczysc" />
