@@ -40,9 +40,9 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class addOffense extends AppCompatActivity implements AsyncResponse, View.OnClickListener {
-    EditText etID, etName, etSurname, etAddress, etDescription, etCount, etNrD,etLatitude, etLongitude;
+    EditText etID, etName, etSurname, etAddress, etDescription, etCount,etLatitude, etLongitude;
     Button btnAdd, btnLoc;
-    Spinner sDistrict, sType;
+    Spinner sDistrict, sType,etNrD;
     String temp1,temp2;
     Double dTemp1, dTemp2;
     SharedPreferences sharedpreferences;
@@ -60,7 +60,7 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
         etLongitude = (EditText) findViewById(R.id.poz_y);
         etDescription = (EditText) findViewById(R.id.input_description);
         etCount = (EditText) findViewById(R.id.signup_input_count);
-        etNrD = (EditText) findViewById(R.id.signup_input_dyspozytor);
+        etNrD = (Spinner) findViewById(R.id.signup_input_dyspozytor);
         btnAdd = (Button) findViewById(R.id.btn_signup);
         sDistrict = (Spinner) findViewById(R.id.spinner3);
         sType = (Spinner) findViewById(R.id.spinner4);
@@ -106,7 +106,7 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
                 postData.put("txtAddress", etAddress.getText().toString());
                 postData.put("txtDescription", etDescription.getText().toString());
                 postData.put("txtCount", etCount.getText().toString());
-                postData.put("txtNrD", etNrD.getText().toString());
+                postData.put("txtNrD", etNrD.getSelectedItem().toString());
                 postData.put("txtDistrict", sDistrict.getSelectedItem().toString());
                 postData.put("txtType", sType.getSelectedItem().toString());
 
@@ -136,6 +136,7 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
         if (result.equals("success")) {
             Toast.makeText(this, "Zgłoszenie zostało dodane", Toast.LENGTH_LONG).show();
             Intent in = new Intent(this, userMenu.class);
+            finish();
             startActivity(in);
         } else {
             Toast.makeText(this, "Register Failed", Toast.LENGTH_LONG).show();

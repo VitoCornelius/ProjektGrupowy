@@ -19,6 +19,15 @@ public class offense {
     private double position_longitude;  //dlugosc_geograficzna
     private double position_latitude;  //dlugosc_geograficzna
 
+    @Override
+    public String toString() {
+        return
+                "Data zgłoszenia:'" + date + '\'' +
+                ", \nDzielnica:'" + district + '\'' +
+                ", \nLiczba poszkodowanych:" + victims +
+                ", \nOpis zdarzenia:'" + description + '\'' +
+                ", \nStatus zgłoszenia:'" + getStatusConverted() + '\'';
+    }
 
 
     public offense(int offenseId, int officerId, String date, String type,
@@ -63,6 +72,25 @@ public class offense {
 
     public String getType() {
         return type;
+    }
+
+    public String getTypeConverted() {
+        String typeConverted = null;
+        switch (type){
+            case "1":
+                typeConverted = "Głośne przeklinanie";
+                break;
+            case "2":
+                typeConverted = "Porwanie";
+                break;
+            case "3":
+                typeConverted = "Zabojstwo";
+                break;
+            case "4":
+                typeConverted = "Przemoc domowa";
+                break;
+        }
+        return typeConverted;
     }
 
     public void setType(String type) {
@@ -112,7 +140,21 @@ public class offense {
     public String getStatus() {
         return status;
     }
-
+    public String getStatusConverted(){
+        String statusConverted = null;
+        switch (status){
+            case "0":
+                statusConverted = "Nierozpatrzone";
+                break;
+            case "1":
+                statusConverted = "Przyjęte";
+                break;
+            case "2":
+                statusConverted = "Rozpatrzone";
+                break;
+        }
+        return statusConverted;
+    }
     public void setStatus(String status) {
         this.status = status;
     }

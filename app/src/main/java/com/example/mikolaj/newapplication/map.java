@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -34,8 +35,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.maps.android.PolyUtil;
 import com.google.android.gms.common.ConnectionResult;
@@ -93,6 +97,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private boolean isPressedB_przeklenstwa = false;
 
     public static final int REQUEST_LOCATION_CODE = 99;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -301,17 +306,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         }
 
 
-//        mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-//            public void onPolygonClick(Polygon polygon) {
-//
-//                //mClusterManager = new ClusterManager<MyItem>(getApplicationContext(), map());
-//                //map().setOnCameraChangeListener(mClusterManager);
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mMap.getCameraPosition().target, mMap.getCameraPosition().zoom));
-//
-//
-//
-//            }
-//        });
         customOffenses.clear();
         mMap.clear();
         if(isPressedB_zabojstwo)
@@ -339,7 +333,36 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         for (offense sthHappened : customOffenses) {
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(sthHappened.getPosition_longitude(), sthHappened.getPosition_latitude()))
-                    .title(sthHappened.getDescription()));
+                    .title(sthHappened.getTypeConverted()+" nr: "+sthHappened.getOffenseId()).snippet(sthHappened.toString()));
+            mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+                @Override
+                public View getInfoWindow(Marker arg0) {
+                    return null;
+                }
+
+                @Override
+                public View getInfoContents(Marker marker) {
+
+                    LinearLayout info = new LinearLayout(getApplicationContext());
+                    info.setOrientation(LinearLayout.VERTICAL);
+
+                    TextView title = new TextView(getApplicationContext());
+                    title.setTextColor(Color.BLACK);
+                    title.setGravity(Gravity.CENTER);
+                    title.setTypeface(null, Typeface.BOLD);
+                    title.setText(marker.getTitle());
+
+                    TextView snippet = new TextView(getApplicationContext());
+                    snippet.setTextColor(Color.GRAY);
+                    snippet.setText(marker.getSnippet());
+
+                    info.addView(title);
+                    info.addView(snippet);
+
+                    return info;
+                }
+            });
         }
         if(isMapColor)
             colorMap();
@@ -359,7 +382,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             customOffenses.add(sthHappened);
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
-                    .title(sthHappened.getDescription()));
+                    .title(sthHappened.getTypeConverted()).snippet(sthHappened.toString()));
         }
     }
 
@@ -458,7 +481,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         curreLocationMarker = mMap.addMarker(markerOptions);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
+        mMap.animateCamera(CameraUpdateFactory.zoomBy(5));
 
         if(client!=null)
         {
