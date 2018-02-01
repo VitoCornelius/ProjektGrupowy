@@ -59,7 +59,7 @@ public class login extends AppCompatActivity implements AsyncResponse, View.OnCl
         postData.put("txtPassword", etPassword.getText().toString());
 
         PostResponseAsyncTask task = new PostResponseAsyncTask(this, postData);
-        task.execute("http://wilki.kylos.pl/PSI/login.php");
+        task.execute("http://wilki.kylos.pl/PSI/_login.php");
 
 
     }

@@ -90,7 +90,7 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
 
 
                 PostResponseAsyncTask task = new PostResponseAsyncTask(this, postData);
-                task.execute("http://wilki.kylos.pl/PSI/addOffense.php");
+                task.execute("http://wilki.kylos.pl/PSI/_addOffense.php");
                 break;
         }
 
@@ -139,9 +139,9 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
             try{
                 String address = strings[0];
                 HttpDataHandler http = new HttpDataHandler();
-                 String url = String.format("https://maps.googleapis.com/maps/api/geocode/json?address=%S", address);
-                 response = http.getHTTPData(url);
-                 return response;
+                String url = String.format("https://maps.googleapis.com/maps/api/geocode/json?address=%S", address);
+                response = http.getHTTPData(url);
+                return response;
             }catch(Exception e){
                 e.printStackTrace();
             }

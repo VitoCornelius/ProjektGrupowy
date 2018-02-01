@@ -16,31 +16,14 @@
 
 package com.example.mikolaj.newapplication;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
-
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-//import android.location.LocationListener;
-//import com.google.android.gms.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -49,26 +32,35 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.app.PendingIntent.getActivity;
+
+//import android.location.LocationListener;
+//import com.google.android.gms.location.LocationListener;
 
 /**
  * This shows how to create a simple activity with a map and a marker on the map.
@@ -78,13 +70,14 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-
+    private ArrayList<Polygon> polygonList = new ArrayList<>();
     private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastLocation;
     private Marker curreLocationMarker;
     public static final int REQUEST_LOCATION_CODE = 99;
+
 
 
     @Override
@@ -108,6 +101,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map); // pobranie tej klasy w widoku
         mapFragment.getMapAsync(this); // pobranie async tej mapy
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -144,6 +139,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        //mMap.setOnMapClickListener(this);
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)
                 ==PackageManager.PERMISSION_GRANTED)
         {
@@ -151,23 +147,48 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             mMap.setMyLocationEnabled(true);
         }
 
+        mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+            @Override
+            public void onPolygonClick(Polygon polygon) {
+                // Flip the red, green and blue components of the polygon's stroke color.
+//                polygon.setStrokeColor(polygon.getStrokeColor() ^ 0x00ffffff);
+//                polygon.setFillColor(polygon.getFillColor()^ 0x00ffffff);
+//                polygon.setStrokeColor(0x800000FF);
+//                polygon.setFillColor(0x800000FF);
+                String description=null;
+                int counter=0;
+                for (int i = 0; i < DownloadDataBase.districts.size(); i++) {
+                        if (DownloadDataBase.districts.get(i).getPolygon().equals(polygon)) {
+                            description = DownloadDataBase.districts.get(i).getDistrictName();
+                        }
+                    }
+                for (int i = 0; i < DownloadDataBase.offenses.size(); i++) {
+                    if (DownloadDataBase.offenses.get(i).getDistrict().equals(description)) {
+                        counter++;
+                    }
+                }
+                    android.support.v7.app.AlertDialog.Builder adb = new android.support.v7.app.AlertDialog.Builder(
+                            map.this);
+                    adb.setTitle(description);
+                    adb.setMessage("Zanotowano "+ counter + " wykroczeń" + " w dzielnicy " + description);
+                    adb.setPositiveButton("Ok", null);
+                    adb.show();
 
 
+            }
 
-
-//        for (offense sthHappened: DownloadDataBase.offenses) {
-//            googleMap.addMarker(new MarkerOptions()
-//                    .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
-//                    .title(sthHappened.getDescription()));
-//        }
+        });
+        //googleMap.setOnMapClickListener(this);
 
 
     }
 
-        public void onClick(View view)
+    public void onClick(View view)
+    {
+        switch (view.getId())
         {
-            if(view.getId()==R.id.B_search)
-            {
+            case R.id.B_search:
+                {
                 EditText tf_location = (EditText)findViewById(R.id.TF_location);
                 String location = tf_location.getText().toString();
                 List<Address> addressList = null;
@@ -195,32 +216,111 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                     }
 
                 }
-            }else if(view.getId()==R.id.B_show){
+                break;
+                }
+        case R.id.B_clear:
+                {
                 mMap.clear();
-                for (offense sthHappened: DownloadDataBase.offenses) {
+                break;
+                }
+
+        case R.id.B_morderstwa:
+                {
+                for (offense sthHappened: DownloadDataBase.zabojstwo) {
                     mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
                             .title(sthHappened.getDescription()));
                 }
-            }
-            else if(view.getId()==R.id.B_showD){
-                mMap.clear();
-                for(int i=0; i<DownloadDataBase.districts.size(); i++) {
-                    PolygonOptions opts = new PolygonOptions();
-
-                    for (LatLng location : DownloadDataBase.districts.get(i).getList()) {
-                        opts.add(location);
-                    }
-                    Polygon polygon = mMap.addPolygon(opts
-                            .strokeColor(Color.RED)
-                            .fillColor(0x7F00FF00)     //przezroczystosc trza ustawic!
-                            .strokeWidth(1)
-                    );
+                break;
                 }
-            }
+
+        case R.id.B_porwania:
+                {
+                for (offense sthHappened: DownloadDataBase.porwanie) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
+                            .title(sthHappened.getDescription()));
+                }
+                break;
+                }
+        case R.id.B_przeklinanie:
+                {
+                for (offense sthHappened: DownloadDataBase.glosne_przeklinanie) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
+                            .title(sthHappened.getDescription()));
+                }
+                break;
+                }
+        case R.id.B_przemoc:
+                {
+                    for (offense sthHappened: DownloadDataBase.przemoc_domowa) {
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
+                                .title(sthHappened.getDescription()));
+                    }
+                    break;
+                }
+        case R.id.B_showD:
+                {
+                    final int COLOR_GREEN = 0x80009900;
+                    final int COLOR_YELLOW = 0x80FFFF00;
+                    final int COLOR_ORANGE = 0x80FFF800;
+                    final int COLOR_RED = 0x80CC0000;
+                    int color = 0;
+                    String dName=null;
+                    int dCounter;
+                    for(int i=0; i<DownloadDataBase.districts.size(); i++) {
+                        PolygonOptions opts = new PolygonOptions();
+                        //Polygon polygon = mMap.addPolygon(opts);
+
+                        for (LatLng location : DownloadDataBase.districts.get(i).getList())
+                        {
+                            opts.add(location);
+                        }
+
+                        dName = DownloadDataBase.districts.get(i).getDistrictName();
+                        dCounter = 0;
+                        for (int j = 0; j < DownloadDataBase.offenses.size(); j++) {
+                            if (DownloadDataBase.offenses.get(j).getDistrict().equals(dName)) {
+                                dCounter++;
+                            }
+
+                        }
+                        if(dCounter==0){
+                            color = COLOR_GREEN;
+                        }else if(dCounter>=1 && dCounter<=3){
+                            color = COLOR_YELLOW;
+                        }else if(dCounter>3 && dCounter<=6){
+                            color = COLOR_ORANGE;
+                        }else if(dCounter>6){
+                            color = COLOR_RED;
+                        }
+                        Polygon polygon = mMap.addPolygon(opts
+                                .strokeColor(Color.RED)
+                                .fillColor(color)     //przezroczystosc trza ustawic!
+                                .strokeWidth(1)
+                        );
+                        DownloadDataBase.districts.get(i).addPolygon(polygon);
+                        polygon.setClickable(true);
+                        polygonList.add(polygon);
+                    }
+                break;
+                }
         }
 
-
+//        mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+//            public void onPolygonClick(Polygon polygon) {
+//
+//                //mClusterManager = new ClusterManager<MyItem>(getApplicationContext(), map());
+//                //map().setOnCameraChangeListener(mClusterManager);
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mMap.getCameraPosition().target, mMap.getCameraPosition().zoom));
+//
+//
+//
+//            }
+//        });
+    }
         /*////////////////////////do usuniecia
         LatLng gdansk = new LatLng(54.22,18.38);
 
@@ -324,5 +424,11 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
 
 }

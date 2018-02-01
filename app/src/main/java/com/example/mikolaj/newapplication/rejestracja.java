@@ -22,7 +22,7 @@ public class rejestracja extends AppCompatActivity implements AsyncResponse, Vie
     Spinner spDistrict;
     Button btnLogin;
     SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "username";
+    public static final String MyPREFERENCES = "user_name";
     public static final String Name = "nameKey";
     public static String sUsername, sName, sSurname;
     public static myAccount account;
@@ -73,7 +73,7 @@ public class rejestracja extends AppCompatActivity implements AsyncResponse, Vie
 
 
         PostResponseAsyncTask task = new PostResponseAsyncTask(this, postData);
-        task.execute("http://wilki.kylos.pl/PSI/register.php");
+        task.execute("http://wilki.kylos.pl/PSI/_register.php");
 
 
     }

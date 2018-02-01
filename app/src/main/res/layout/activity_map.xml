@@ -43,20 +43,57 @@
         android:text="Dodaj pineskę" />
 
     <Button
-        android:id="@+id/B_show"
+        android:id="@+id/B_morderstwa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/map"
         android:onClick="onClick"
-        android:text="Pokaz wyrkoczenia" />
+        android:text="Morderstwa" />
 
     <Button
         android:id="@+id/B_showD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/B_search"
+        android:layout_alignParentEnd="true"
         android:layout_below="@+id/map"
         android:onClick="onClick"
-        android:text="Pokaz dzielnice" />
+        android:text="Koloruj mape" />
+
+    <Button
+        android:id="@+id/B_porwania"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/map"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick"
+        android:text="porwania" />
+
+    <Button
+        android:id="@+id/B_przeklinanie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/B_morderstwa"
+        android:onClick="onClick"
+        android:text="przeklinanie" />
+
+    <Button
+        android:id="@+id/B_przemoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/B_porwania"
+        android:layout_below="@+id/B_showD"
+        android:onClick="onClick"
+        android:text="Przemoc" />
+
+    <Button
+        android:id="@+id/B_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/B_showD"
+        android:layout_below="@+id/B_showD"
+        android:onClick="onClick"
+        android:text="Wyczysc" />
+
 </RelativeLayout>

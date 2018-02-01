@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,9 +22,9 @@ import java.util.List;
 
 public class DownloadDataBase {
 
-    static String address = "http://wilki.kylos.pl/PSI/showOffenses.php";
-    static String URLDistriction = "http://wilki.kylos.pl/PSI/addDistrict.php";
-    static String URLborderPoints= "http://wilki.kylos.pl/PSI/addBorderPoints.php";
+    static String address = "http://wilki.kylos.pl/PSI/_showOffenses.php";
+    static String URLDistriction = "http://wilki.kylos.pl/PSI/_addDistrict.php";
+    static String URLborderPoints= "http://wilki.kylos.pl/PSI/_addBorderPoints.php";
 
     static List<offense> offenses = new ArrayList<>();
     static List<Districts> districts = new ArrayList<>();
@@ -31,7 +32,6 @@ public class DownloadDataBase {
     static List<offense> porwanie = new ArrayList<>();
     static List<offense> zabojstwo = new ArrayList<>();
     static List<offense> przemoc_domowa = new ArrayList<>();
-
     static private String[] data;
 
     static InputStream inputStream = null;
@@ -108,49 +108,48 @@ public class DownloadDataBase {
             data =  new String[jsonArray.length()];
 
             switch (address) {
-                case "http://wilki.kylos.pl/PSI/showOffenses.php":{
-            for(int i=0;i<jsonArray.length();i++){
-                jsonObject = jsonArray.getJSONObject(i);
-                offenses.add(new offense(
-                        Integer.parseInt(jsonObject.getString("id_zgloszenia")),
-                        Integer.parseInt(jsonObject.getString("id_funkcjonariusza")),
-                        jsonObject.getString("data_zgloszenia"),
-                        jsonObject.getString("id_typ_zgloszenia"),
-                        jsonObject.getString("id_dzielnica"),
-                        Integer.parseInt(jsonObject.getString("liczba_poszkodowanych")),
-                        jsonObject.getString("opis_zdarzenia"),
-                        jsonObject.getString("id_dyspozytora"),
-                        "Anonim",
-                        jsonObject.getString("id_status_zgloszenia"),
-                        Double.parseDouble(jsonObject.getString("pozycja_gps_x")),
-                        Double.parseDouble(jsonObject.getString("pozycja_gps_y"))));
-                                            }
-                                            break;
-                        }
-                case "http://wilki.kylos.pl/PSI/addDistrict.php":{
+                case "http://wilki.kylos.pl/PSI/_showOffenses.php":{
+                    for(int i=0;i<jsonArray.length();i++){
+                        jsonObject = jsonArray.getJSONObject(i);
+                        offenses.add(new offense(
+                                Integer.parseInt(jsonObject.getString("report_id")),
+                                Integer.parseInt(jsonObject.getString("officer_id")),
+                                jsonObject.getString("date"),
+                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("district_name"),
+                                Integer.parseInt(jsonObject.getString("victims_number")),
+                                jsonObject.getString("description"),
+                                jsonObject.getString("dispatcher_id"),
+                                "Anonim",
+                                jsonObject.getString("report_type_id"),
+                                Double.parseDouble(jsonObject.getString("longitude")),
+                                Double.parseDouble(jsonObject.getString("latitude"))));
+                    }
+                    break;
+                }
+                case "http://wilki.kylos.pl/PSI/_addDistrict.php":{
                     for(int i=0;i<jsonArray.length();i++){
                         jsonObject = jsonArray.getJSONObject(i);
                         districts.add(new Districts(
-                                (jsonObject.getString("nazwa_dzielnicy")
+                                (jsonObject.getString("district_name")
                                         //TODO  reszta atrybutow dzielnic, które sa w bazie
                                 )));
 
                     }
                     break;
                 }
-                case "http://wilki.kylos.pl/PSI/addBorderPoints.php":{
+                case "http://wilki.kylos.pl/PSI/_addBorderPoints.php":{
                     for(int i=0;i<jsonArray.length();i++){
                         jsonObject = jsonArray.getJSONObject(i);
 
                         for(int j=0; j<districts.size();j++)
                         {
-                            if(districts.get(j).getDistrictName().equals(jsonObject.getString("nazwa_dzielnicy")))
+                            if(districts.get(j).getDistrictName().equals(jsonObject.getString("district_name")))
                             {
 
-
                                 districts.get(j).addListPoints(new LatLng(
-                                        Double.parseDouble(jsonObject.getString("wsp_y")),
-                                        Double.parseDouble(jsonObject.getString("wsp_x")))
+                                        Double.parseDouble(jsonObject.getString("latitude")),
+                                        Double.parseDouble(jsonObject.getString("longitude")))
                                 );
                                 break;
                             }
@@ -159,7 +158,7 @@ public class DownloadDataBase {
                     }
                     break;
                 }
-             }
+            }
 
 
 

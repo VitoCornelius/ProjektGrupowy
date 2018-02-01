@@ -3,9 +3,11 @@ package com.example.mikolaj.newapplication;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -24,7 +26,7 @@ public class showOffenses extends AppCompatActivity {
 
     ListView listView;
     ArrayAdapter<String> adapter;
-    String address = "http://wilki.kylos.pl/PSI/showOffenses.php";
+    String address = "http://wilki.kylos.pl/PSI/_showOffenses.php";
     InputStream inputStream = null;
     String line = null;
     String result = null;
@@ -40,6 +42,26 @@ public class showOffenses extends AppCompatActivity {
         getData();
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long rowId) {
+
+
+                AlertDialog.Builder adb = new AlertDialog.Builder(
+                        showOffenses.this);
+                adb.setTitle("List");
+                adb.setMessage(" selected Item is="
+                        +parent.getItemAtPosition(position));
+                adb.setPositiveButton("Ok", null);
+                adb.show();
+
+            }
+
+        });
+
     }
 
 
@@ -79,7 +101,7 @@ public class showOffenses extends AppCompatActivity {
                 jsonObject = jsonArray.getJSONObject(i);
                 String type = null;
 
-                switch (jsonObject.getString("id_typ_zgloszenia"))
+                switch (jsonObject.getString("report_type_id"))
                 {
                     case "1":
                         type = "Głośne przeklinanie";
@@ -94,13 +116,12 @@ public class showOffenses extends AppCompatActivity {
                         type = "Przemoc domowa";
                         break;
                 }
-                data[i]="ID: " + jsonObject.getString("id_zgloszenia")
-                +
-                        ", Data zgłoszenia: " + jsonObject.getString("data_zgloszenia") +", Typ zgłoszenia: " + type
-                        +
-                        ", Opis: "+ jsonObject.getString("opis_zdarzenia")
-                        + ", Status zgłoszenia: "+ jsonObject.getString("id_status_zgloszenia") +
-                                ", Adres: " + jsonObject.getString("adres");
+                data[i]="ID: " + jsonObject.getString("report_id")
+                        +", Data zgłoszenia: " + jsonObject.getString("date")
+                        +", Typ zgłoszenia: " + type
+                        +", Opis: "+ jsonObject.getString("description")
+                        + ", Status zgłoszenia: "+ jsonObject.getString("report_status")
+                        +", Adres: " + jsonObject.getString("address");
             }
 
 
