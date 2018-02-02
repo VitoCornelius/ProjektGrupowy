@@ -38,6 +38,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -90,7 +91,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private LocationRequest locationRequest;
     private Location lastLocation;
     private Marker curreLocationMarker;
-
+    Button bMorderstwa,bPorwania, bPrzeklinanie, bPrzemoc,bShow;
     private boolean isMapColor = false;
     private boolean isPressedB_zabojstwo = false;
     private boolean isPressedB_porwania = false;
@@ -109,6 +110,11 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         DownloadDataBase.getData1(DownloadDataBase.URLDistriction);
         DownloadDataBase.getData1(DownloadDataBase.URLborderPoints);
         DownloadDataBase.splitOffenseData(DownloadDataBase.offenses);
+        bMorderstwa = (Button) findViewById(R.id.B_morderstwa);
+        bPorwania = (Button) findViewById(R.id.B_porwania);
+        bPrzeklinanie = (Button) findViewById(R.id.B_przeklinanie);
+        bPrzemoc = (Button) findViewById(R.id.B_przemoc);
+        bShow = (Button) findViewById(R.id.B_showD);
 
         if(MainActivity.goToStatistics)
         {
@@ -268,8 +274,10 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             case R.id.B_morderstwa: {
                 if (isPressedB_zabojstwo) {
                     isPressedB_zabojstwo = false;
+                    //bMorderstwa.setBackgroundColor(0xF51B5);
                 } else {
                     isPressedB_zabojstwo = true;
+
                 }
                 break;
             }

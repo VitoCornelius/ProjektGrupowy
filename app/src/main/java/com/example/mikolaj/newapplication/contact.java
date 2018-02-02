@@ -24,9 +24,6 @@ public class contact extends AppCompatActivity {
         btnSendContactForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final EditText nameField = (EditText) findViewById(R.id.EditTextName);
-                String name = nameField.getText().toString();
-
                 final EditText emailField = (EditText) findViewById(R.id.EditTextEmail);
                 String email = emailField.getText().toString();
 

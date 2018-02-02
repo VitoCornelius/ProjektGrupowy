@@ -11,6 +11,7 @@ import android.widget.Button;
  */
 public class userMenu extends AppCompatActivity {
     Button newOffense, showOffenses, showMap;
+    public static boolean goToStatistics=false;
     public static boolean goToAddOffense=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +53,10 @@ public class userMenu extends AppCompatActivity {
         showMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(userMenu.this, map.class);
-                startActivity(intent);
+                Intent toy = new Intent(userMenu.this, map.class);
+                goToStatistics=false;
+                userMenu.goToAddOffense=false;
+                startActivity(toy);
             }
         });
 

@@ -27,15 +27,7 @@
             android:text="Zgłoszenie"
             android:textSize="10pt"></TextView>
 
-        <EditText
-            android:id="@+id/EditTextName"
-            android:layout_width="fill_parent"
-            android:textColor="@android:color/background_light"
-            android:textColorHint="@android:color/background_light"
 
-            android:layout_height="wrap_content"
-            android:hint="@string/feedbackname"
-            android:inputType="textPersonName"></EditText>
 
         <EditText
             android:id="@+id/EditTextEmail"

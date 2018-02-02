@@ -21,13 +21,17 @@
     >
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/map"
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_above="@+id/B_morderstwa"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        map:cameraTargetLat="54.428427"
+        map:cameraTargetLng="18.566489"
+        map:cameraZoom="10"/>
 
     <Button
         android:id="@+id/B_morderstwa"
