@@ -50,7 +50,7 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
     public static final String Name = "nameKey";
     public static String DistrictName;
 
-    private String findDistrict(double latitude, double longitude, List<Districts> listOfDistricts){
+    public static String findDistrict(double latitude, double longitude, List<Districts> listOfDistricts){
 
         LatLng point = new LatLng(latitude,longitude);
 
@@ -106,21 +106,9 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
                 lokalizacja = etAddress.getText().toString();
                 new Coordinates().execute(lokalizacja.replace(" ","+"));
                 break;
-            case R.id.btn_district:
-                boolean inside;
-                List<LatLng> list = new ArrayList<>();
-                DownloadDataBase.getData1(DownloadDataBase.URLborderPoints);
-                Toast.makeText(this, "succes", Toast.LENGTH_LONG).show();
-                for(int i=0;i<DownloadDataBase.districts.size();i++){
-                    list = DownloadDataBase.districts.get(i).getList();
-                    inside = PolyUtil.containsLocation(new LatLng(dTemp1,dTemp2), list, true);
-                    if(inside){
-                        String dName = DownloadDataBase.districts.get(i).getDistrictName();
-                        Toast.makeText(this, dName, Toast.LENGTH_LONG).show();
-                    }
-                }
-                String foundDistrict = this.findDistrict(dTemp1,dTemp2, DownloadDataBase.districts);
-                etCount.setText( foundDistrict );
+            case R.id.xxx:
+//                String foundDistrict = this.findDistrict(dTemp1,dTemp2, DownloadDataBase.districts);
+//                etCount.setText( foundDistrict );
                 break;
             case R.id.btn_signup:
                 Calendar c = Calendar.getInstance();
@@ -211,6 +199,8 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
                 temp2 = lon;
                 dTemp2 = Double.parseDouble(temp2);
 
+                String foundDistrict = addOffense.findDistrict(dTemp1,dTemp2, DownloadDataBase.districts);
+                etCount.setText( foundDistrict );
                 if(dialog.isShowing()){
                     dialog.dismiss();
                 }

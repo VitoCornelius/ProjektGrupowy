@@ -7,8 +7,13 @@ android:gravity="center"
 android:orientation="vertical"
 android:padding="10dp"
 tools:context="com.example.mikolaj.newapplication.addOffense">
+    <FrameLayout
+        android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerVertical="true"
+    >
 
-    <LinearLayout
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -66,14 +71,22 @@ tools:context="com.example.mikolaj.newapplication.addOffense">
             android:hint="poz_y" />
 
 
-        <Button
-            android:id="@+id/btn_district"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@color/colorPrimaryDark"
-            android:text="Znajdz dzielnice"
-            android:textColor="@android:color/white" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            android:clickable="true">
+
+
+            <Button
+                android:id="@+id/xxx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="102dp"
+                android:text="Button" />
+        </RelativeLayout>
+
         <Spinner
             android:id="@+id/spinner4"
             android:layout_width="match_parent"
@@ -130,4 +143,5 @@ tools:context="com.example.mikolaj.newapplication.addOffense">
             android:text="Dodaj zgłoszenie"
             android:textColor="@android:color/white" />
     </LinearLayout>
+    </FrameLayout>
 </ScrollView>
