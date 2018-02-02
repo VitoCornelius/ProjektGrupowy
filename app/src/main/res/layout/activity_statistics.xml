@@ -4,7 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
+    android:background="@android:color/white"
     tools:context="com.example.mikolaj.newapplication.statistics">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="150dp"
+        android:layout_height="41dp"
+        android:textColor="@color/colorPrimary"
+        android:text="Hello World!"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="54dp" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        >
+
+
+    </com.github.mikephil.charting.charts.PieChart>
 </android.support.constraint.ConstraintLayout>
