@@ -34,8 +34,7 @@ public class userMenu extends AppCompatActivity {
         newOffense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toy = new Intent(userMenu.this, map.class);
-                goToAddOffense=true;
+                Intent toy = new Intent(userMenu.this, addOffense.class);
                 startActivity(toy);
             }
         });
@@ -54,8 +53,6 @@ public class userMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent toy = new Intent(userMenu.this, map.class);
-                goToStatistics=false;
-                userMenu.goToAddOffense=false;
                 startActivity(toy);
             }
         });

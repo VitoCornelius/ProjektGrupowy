@@ -106,27 +106,13 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         super.onCreate(savedInstanceState);
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
 
-        DownloadDataBase.getData1(DownloadDataBase.address);
-        DownloadDataBase.getData1(DownloadDataBase.URLDistriction);
-        DownloadDataBase.getData1(DownloadDataBase.URLborderPoints);
-        DownloadDataBase.splitOffenseData(DownloadDataBase.offenses);
         bMorderstwa = (Button) findViewById(R.id.B_morderstwa);
         bPorwania = (Button) findViewById(R.id.B_porwania);
         bPrzeklinanie = (Button) findViewById(R.id.B_przeklinanie);
         bPrzemoc = (Button) findViewById(R.id.B_przemoc);
         bShow = (Button) findViewById(R.id.B_showD);
 
-        if(MainActivity.goToStatistics)
-        {
-            Intent toy = new Intent(map.this, statistics.class);
-            startActivity(toy);
-        }
 
-        if(userMenu.goToAddOffense)
-        {
-            Intent toy = new Intent(map.this, addOffense.class);
-            startActivity(toy);
-        }
 
 
         setContentView(R.layout.activity_map); // ustawienie widoku na jakiś taki z xml
@@ -147,7 +133,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
 
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
