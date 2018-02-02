@@ -48,6 +48,21 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "offense";
     public static final String Name = "nameKey";
+    public static String DistrictName;
+
+    private String findDistrict(double latitude, double longitude, List<Districts> listOfDistricts){
+
+        LatLng point = new LatLng(latitude,longitude);
+
+        for (Districts x : listOfDistricts)
+        {
+            if (Districts.isPointInPolygon(point,x.getList())){
+                addOffense.DistrictName= x.districtName;
+                return x.districtName;
+            }
+        }
+        return null;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +86,18 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
 
     }
 
+    private int getIndex(Spinner spinner, String myString){
+
+        int index = 0;
+
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).equals(myString)){
+                index = i;
+            }
+        }
+        return index;
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -90,9 +117,10 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
                     if(inside){
                         String dName = DownloadDataBase.districts.get(i).getDistrictName();
                         Toast.makeText(this, dName, Toast.LENGTH_LONG).show();
-
                     }
                 }
+                String foundDistrict = this.findDistrict(dTemp1,dTemp2, DownloadDataBase.districts);
+                etCount.setText( foundDistrict );
                 break;
             case R.id.btn_signup:
                 Calendar c = Calendar.getInstance();
@@ -107,7 +135,7 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
                 postData.put("txtDescription", etDescription.getText().toString());
                 postData.put("txtCount", etCount.getText().toString());
                 postData.put("txtNrD", etNrD.getSelectedItem().toString());
-                postData.put("txtDistrict", sDistrict.getSelectedItem().toString());
+                postData.put("txtDistrict", DistrictName);
                 postData.put("txtType", sType.getSelectedItem().toString());
 
 
@@ -118,7 +146,6 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
 
 
     }
-
 
     public void logout(View view) {
         SharedPreferences sharedpreferences = getSharedPreferences(login.MyPREFERENCES, Context.MODE_PRIVATE);

@@ -1,5 +1,9 @@
 package com.example.mikolaj.newapplication;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.List;
+
 /**
  * Created by Mikolaj on 19.12.2017.
  */
@@ -179,4 +183,5 @@ public class offense {
         // TODO - wysylanie obiektu do bazy danych
         return true;
     }
+
 }

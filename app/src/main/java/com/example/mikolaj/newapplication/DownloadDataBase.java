@@ -10,6 +10,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class DownloadDataBase {
     static String URLborderPoints= "http://wilki.kylos.pl/PSI/_addBorderPoints.php";
 
     static List<offense> offenses = new ArrayList<>();
-    static List<Districts> districts = new ArrayList<>();
+    public static ArrayList<Districts> districts = new ArrayList<>();
     static List<offense> glosne_przeklinanie = new ArrayList<>();
     static List<offense> porwanie = new ArrayList<>();
     static List<offense> zabojstwo = new ArrayList<>();
