@@ -311,7 +311,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                     mMap.clear();
                     isMapColor = false;
                 } else {
-                    colorMap();
+
                     isMapColor = true;
                 }
                 break;
@@ -340,7 +340,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
         drawEverything();
     }
-
     private void drawEverything() {
 
         for (offense sthHappened : customOffenses) {
@@ -404,7 +403,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
         final int COLOR_GREEN = 0x80009900;
         final int COLOR_YELLOW = 0x80FFFF00;
-        final int COLOR_ORANGE = 0x80FFF800;
+        final int COLOR_ORANGE = 0x80FFbf00;
         final int COLOR_RED = 0x80CC0000;
         int color = 0;
         String dName=null;
@@ -436,11 +435,11 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
             if(dCounter==0){
                 color = COLOR_GREEN;
-            }else if(dCounter>=1 && dCounter<=3){
+            }else if(dCounter>0 && dCounter<=2){
                 color = COLOR_YELLOW;
-            }else if(dCounter>3 && dCounter<=6){
+            }else if(dCounter>2 && dCounter<=4){
                 color = COLOR_ORANGE;
-            }else if(dCounter>6){
+            }else if(dCounter>=4){
                 color = COLOR_RED;
             }
 
