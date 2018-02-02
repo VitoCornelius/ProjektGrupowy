@@ -51,7 +51,9 @@ public class statistics extends AppCompatActivity {
         //DownloadDataBase.splitOffenseData(DownloadDataBase.offenses);
         add();
         setupPieChart();
-}
+
+        MainActivity.goToStatistics=false;
+    }
 
     private void setupPieChart() {
          List<PieEntry> pieEntryList = new ArrayList<>();

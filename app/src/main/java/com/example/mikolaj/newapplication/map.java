@@ -20,6 +20,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -109,6 +110,13 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         DownloadDataBase.getData1(DownloadDataBase.URLborderPoints);
         DownloadDataBase.splitOffenseData(DownloadDataBase.offenses);
 
+        if(MainActivity.goToStatistics)
+        {
+            Intent toy = new Intent(map.this, statistics.class);
+            startActivity(toy);
+        }
+
+
         setContentView(R.layout.activity_map); // ustawienie widoku na jakiś taki z xml
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -127,7 +135,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
 
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

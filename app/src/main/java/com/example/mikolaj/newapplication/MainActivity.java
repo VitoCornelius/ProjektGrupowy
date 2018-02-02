@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     public Button btnContact;
     public Button btnZaloguj;
     public Button btnZarejestruj;
-
+    public static boolean goToStatistics=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent toy = new Intent(MainActivity.this, map.class);
+                goToStatistics=false;
                 startActivity(toy);
             }
         });
@@ -39,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
         btnStatistics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 Intent toy = new Intent(MainActivity.this, statistics.class);
-                 startActivity(toy);
+                Intent toy = new Intent(MainActivity.this, map.class);
+                goToStatistics=true;
+                startActivity(toy);
             }
         });
 
