@@ -116,6 +116,12 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             startActivity(toy);
         }
 
+        if(userMenu.goToAddOffense)
+        {
+            Intent toy = new Intent(map.this, addOffense.class);
+            startActivity(toy);
+        }
+
 
         setContentView(R.layout.activity_map); // ustawienie widoku na jakiś taki z xml
 

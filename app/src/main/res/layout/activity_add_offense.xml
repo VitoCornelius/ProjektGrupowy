@@ -34,19 +34,11 @@ tools:context="com.example.mikolaj.newapplication.addOffense">
 
         </android.support.design.widget.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/spinner3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:entries="@array/dzielnice_gdanska"
-            android:prompt="@string/hint_dzielnica" />
-
         <Button
             android:id="@+id/btn_loc"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:background="@color/colorPrimaryDark"
             android:text="Znajdz lokalizacje"
             android:textColor="@android:color/white" />
@@ -64,16 +56,18 @@ tools:context="com.example.mikolaj.newapplication.addOffense">
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="poz_y" />
-
-
-        <Button
-            android:id="@+id/btn_district"
-            android:layout_width="fill_parent"
+        <EditText
+            android:id="@+id/dzielnica"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@color/colorPrimaryDark"
-            android:text="Znajdz dzielnice"
-            android:textColor="@android:color/white" />
+            android:ems="10"
+            android:hint="Dzielnica" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Typ zdarzenia" />
+
         <Spinner
             android:id="@+id/spinner4"
             android:layout_width="match_parent"
@@ -81,6 +75,7 @@ tools:context="com.example.mikolaj.newapplication.addOffense">
             android:layout_marginTop="10dp"
             android:entries="@array/typy_zgloszenia"
             android:prompt="@string/hint_zgloszenia" />
+
 
         <EditText
             android:id="@+id/input_description"

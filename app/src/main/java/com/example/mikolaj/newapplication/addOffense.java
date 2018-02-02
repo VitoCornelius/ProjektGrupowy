@@ -40,14 +40,30 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class addOffense extends AppCompatActivity implements AsyncResponse, View.OnClickListener {
-    EditText etID, etName, etSurname, etAddress, etDescription, etCount,etLatitude, etLongitude;
+    EditText etID, etName, etSurname, etAddress, etDescription, etCount,etLatitude, etLongitude,sDistrict;
     Button btnAdd, btnLoc;
-    Spinner sDistrict, sType,etNrD;
+    Spinner sType,etNrD;
     String temp1,temp2;
     Double dTemp1, dTemp2;
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "offense";
     public static final String Name = "nameKey";
+
+    public static String DistrictName;
+
+    public static String findDistrict(double latitude, double longitude, List<Districts> listOfDistricts){
+
+        LatLng point = new LatLng(latitude,longitude);
+
+        for (Districts x : listOfDistricts)
+        {
+            if (Districts.isPointInPolygon(point,x.getList())){
+                addOffense.DistrictName= x.districtName;
+                return x.districtName;
+            }
+        }
+        return null;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +78,7 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
         etCount = (EditText) findViewById(R.id.signup_input_count);
         etNrD = (Spinner) findViewById(R.id.signup_input_dyspozytor);
         btnAdd = (Button) findViewById(R.id.btn_signup);
-        sDistrict = (Spinner) findViewById(R.id.spinner3);
+        sDistrict = (EditText) findViewById(R.id.dzielnica);
         sType = (Spinner) findViewById(R.id.spinner4);
         btnLoc = (Button) findViewById(R.id.btn_loc);
         btnAdd.setOnClickListener(this);
@@ -79,21 +95,6 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
                 lokalizacja = etAddress.getText().toString();
                 new Coordinates().execute(lokalizacja.replace(" ","+"));
                 break;
-            case R.id.btn_district:
-                boolean inside;
-                List<LatLng> list = new ArrayList<>();
-                DownloadDataBase.getData1(DownloadDataBase.URLborderPoints);
-                Toast.makeText(this, "succes", Toast.LENGTH_LONG).show();
-                for(int i=0;i<DownloadDataBase.districts.size();i++){
-                    list = DownloadDataBase.districts.get(i).getList();
-                    inside = PolyUtil.containsLocation(new LatLng(dTemp1,dTemp2), list, true);
-                    if(inside){
-                        String dName = DownloadDataBase.districts.get(i).getDistrictName();
-                        Toast.makeText(this, dName, Toast.LENGTH_LONG).show();
-
-                    }
-                }
-                break;
             case R.id.btn_signup:
                 Calendar c = Calendar.getInstance();
                 System.out.println("Current time =&gt; "+c.getTime());
@@ -107,7 +108,7 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
                 postData.put("txtDescription", etDescription.getText().toString());
                 postData.put("txtCount", etCount.getText().toString());
                 postData.put("txtNrD", etNrD.getSelectedItem().toString());
-                postData.put("txtDistrict", sDistrict.getSelectedItem().toString());
+                postData.put("txtDistrict", sDistrict.getText().toString());
                 postData.put("txtType", sType.getSelectedItem().toString());
 
 
@@ -183,7 +184,8 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
                 dTemp1 = Double.parseDouble(temp1);
                 temp2 = lon;
                 dTemp2 = Double.parseDouble(temp2);
-
+                String foundDistrict = addOffense.findDistrict(dTemp1,dTemp2, DownloadDataBase.districts);
+                sDistrict.setText( foundDistrict );
                 if(dialog.isShowing()){
                     dialog.dismiss();
                 }
