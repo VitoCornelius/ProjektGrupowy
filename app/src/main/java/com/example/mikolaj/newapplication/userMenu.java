@@ -5,14 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * Menu dostępne jedynie po zalogowaniu
  */
 public class userMenu extends AppCompatActivity {
-    Button newOffense, showOffenses, showMap;
+    Button newOffense, showOffenses, showMap,btnLogout;
+    public Button btnStatistics;
     public static boolean goToStatistics=false;
     public static boolean goToAddOffense=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +25,8 @@ public class userMenu extends AppCompatActivity {
         newOffense = (Button) findViewById(R.id.btn_newOffense);
         showOffenses = (Button) findViewById(R.id.btn_db_offenses);
         showMap = (Button) findViewById(R.id.btn_map);
-
+        btnStatistics = (Button) findViewById(R.id.btn_statistics);
+        btnLogout = (Button) findViewById(R.id.btn_logout);
 //        newOffense.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -48,11 +52,28 @@ public class userMenu extends AppCompatActivity {
             }
         });
 
+        btnStatistics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toy = new Intent(userMenu.this, statistics.class);
+                startActivity(toy);
+            }
+        });
+
 
         showMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent toy = new Intent(userMenu.this, map.class);
+                startActivity(toy);
+            }
+        });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toy = new Intent(userMenu.this, MainActivity.class);
+                Toast.makeText(getApplicationContext(), "Wylogowano!", Toast.LENGTH_LONG).show();
                 startActivity(toy);
             }
         });

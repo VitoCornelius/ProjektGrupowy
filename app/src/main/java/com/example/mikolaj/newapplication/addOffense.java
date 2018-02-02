@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -135,7 +136,10 @@ public class addOffense extends AppCompatActivity implements AsyncResponse, View
     @Override
     public void processFinish(String result) {
         if (result.equals("success")) {
+            StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
             Toast.makeText(this, "Zgłoszenie zostało dodane", Toast.LENGTH_LONG).show();
+            DownloadDataBase.getData1(DownloadDataBase.address);
+            DownloadDataBase.splitOffenseData(DownloadDataBase.offenses);
             Intent in = new Intent(this, userMenu.class);
             finish();
             startActivity(in);

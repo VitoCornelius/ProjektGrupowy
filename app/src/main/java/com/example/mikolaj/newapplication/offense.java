@@ -143,7 +143,7 @@ public class offense {
     public String getStatusConverted(){
         String statusConverted = null;
         switch (status){
-            case "0":
+            case "0" :
                 statusConverted = "Nierozpatrzone";
                 break;
             case "1":
