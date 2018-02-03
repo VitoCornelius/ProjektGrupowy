@@ -55,7 +55,8 @@
             android:name=".map"
             android:label="@string/title_activity_map" />
         <activity android:name=".rejestracja" />
-        <activity android:name=".showOffenses"></activity>
+        <activity android:name=".showOffenses" />
+        <activity android:name=".SendMailActivity"></activity>
     </application>
 
 </manifest>

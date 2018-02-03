@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         btnContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toy = new Intent(MainActivity.this, contact.class);
+                Intent toy = new Intent(MainActivity.this, SendMailActivity.class);
                 startActivity(toy);
             }
         });

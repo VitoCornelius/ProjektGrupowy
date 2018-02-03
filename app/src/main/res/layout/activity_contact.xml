@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ScrollView01"
     android:layout_width="match_parent"
@@ -8,13 +8,25 @@
 
     android:scrollbars="vertical">
 
+    <Button
+        android:id="@+id/ButtonSendFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout"
+        android:layout_marginTop="53dp"
+        android:background="@drawable/mybutton"
+        android:text="@string/feedbackbutton"
+        android:textColor="@android:color/background_light"></Button>
+
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
         android:layout_margin="15dp"
         android:textColor="@android:color/background_light"
         android:background="@android:color/black"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/linearLayout">
 
 
         <!--Put form controls here-->
@@ -60,17 +72,7 @@
             android:inputType="textMultiLine"
             android:lines="5"></EditText>
 
-
-
-        <Button
-            android:id="@+id/ButtonSendFeedback"
-            android:background="@drawable/mybutton"
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:textColor="@android:color/background_light"
-
-            android:onClick="sendFeedback"
-            android:text="@string/feedbackbutton"></Button>
-
     </LinearLayout>
-</ScrollView>
+
+
+</RelativeLayout>

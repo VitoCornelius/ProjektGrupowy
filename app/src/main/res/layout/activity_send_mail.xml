@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="vertical"
+android:paddingLeft="20dp"
+android:paddingRight="20dp"
+android:paddingTop="30dp"
+tools:context="com.example.mikolaj.newapplication.SendMailActivity">
+
+
+<TextView
+    android:id="@+id/textView3"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:text="Email, na który zostanie wysłany mail" />
+
+<EditText
+    android:id="@+id/editText3"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:ems="10"
+    android:inputType="textEmailAddress"
+    android:padding="5dp"
+    android:textColor="#000000" />
+
+<TextView
+    android:id="@+id/textView4"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:text="Temat" />
+
+    <Spinner
+        android:id="@+id/editText4"
+        android:background="@drawable/mybutton"
+        android:textColor="@android:color/background_light"
+
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:entries="@array/feedbacktypelist"
+        android:prompt="@string/feedbacktype"></Spinner>
+
+<TextView
+    android:id="@+id/textView5"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:text="Treść" />
+
+<EditText
+    android:id="@+id/editText5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:ems="10"
+    android:inputType="textMultiLine"
+    android:padding="35dp"
+    android:textColor="#000000" />
+
+<Button
+    android:id="@+id/button1"
+    android:background="@drawable/mybutton"
+
+    android:layout_width="fill_parent"
+    android:layout_height="30"
+    android:text="Wyślij" />
+
+</LinearLayout>
