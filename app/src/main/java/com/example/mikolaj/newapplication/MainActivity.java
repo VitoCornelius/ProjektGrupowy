@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
         DownloadDataBase.getData1(DownloadDataBase.URLDistriction);
         DownloadDataBase.getData1(DownloadDataBase.URLborderPoints);
         DownloadDataBase.splitOffenseData(DownloadDataBase.offenses);
+        DownloadDataBase.getData1(DownloadDataBase.URLCivilians);
+        DownloadDataBase.getData1(DownloadDataBase.URLReportCivilianRecords);
+        DownloadDataBase.splitRecords();
 
 
         btnMap = (Button) findViewById(R.id.btn_map);

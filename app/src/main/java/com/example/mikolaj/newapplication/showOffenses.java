@@ -31,6 +31,8 @@ public class showOffenses extends AppCompatActivity {
     String line = null;
     String result = null;
     String[] data;
+    String[] data2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +41,8 @@ public class showOffenses extends AppCompatActivity {
         listView = findViewById(R.id.ListView1);
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
 
-        getData();
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data);
+        getData2();
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data2);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -62,6 +64,20 @@ public class showOffenses extends AppCompatActivity {
 
         });
 
+    }
+
+    private void getData2()
+    {
+        data2 =  new String[DownloadDataBase.offenses.size()];
+        for (int j=0; j<DownloadDataBase.offenses.size(); j++)
+              {
+                  data2[j]="ID: " + DownloadDataBase.offenses.get(j).getOffenseId()
+                          +", Data zgłoszenia: " + DownloadDataBase.offenses.get(j).getDate()
+                          +", Typ zgłoszenia: " + DownloadDataBase.offenses.get(j).getType()
+                          +", Opis: "+ DownloadDataBase.offenses.get(j).getDescription()
+                          + ", Status zgłoszenia: "+ DownloadDataBase.offenses.get(j).getStatus()
+                          +", Adres: " + DownloadDataBase.offenses.get(j).getAddress();
+        }
     }
 
 

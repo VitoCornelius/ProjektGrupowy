@@ -1,5 +1,8 @@
 package com.example.mikolaj.newapplication;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Mikolaj on 19.12.2017.
  */
@@ -18,6 +21,8 @@ public class offense {
     private String status; // status zgloszenia
     private double position_longitude;  //dlugosc_geograficzna
     private double position_latitude;  //dlugosc_geograficzna
+    private String address;  //
+    public List<ReportCivilianRecords> associatedCivilianRecords= new ArrayList<>();
 
     @Override
     public String toString() {
@@ -32,7 +37,8 @@ public class offense {
 
     public offense(int offenseId, int officerId, String date, String type,
                    String district, int victims, String description, String dispatcher,
-                   String reportingPerson, String status, double position_latitude, double position_longitude) {
+                   String reportingPerson, String status, double position_latitude, double position_longitude,
+                   String address) {
         this.offenseId = offenseId;
         this.officerId = officerId;
         this.date = date;
@@ -44,10 +50,19 @@ public class offense {
         this.status = status;
         this.position_latitude = position_latitude;
         this.position_longitude = position_longitude;
+        this.address=address;
     }
 
     public int getOffenseId() {
         return offenseId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setOffenseId(int offenseId) {
