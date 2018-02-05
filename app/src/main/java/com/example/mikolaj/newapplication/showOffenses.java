@@ -76,7 +76,8 @@ public class showOffenses extends AppCompatActivity {
                           +", Typ zgłoszenia: " + DownloadDataBase.offenses.get(j).getType()
                           +", Opis: "+ DownloadDataBase.offenses.get(j).getDescription()
                           + ", Status zgłoszenia: "+ DownloadDataBase.offenses.get(j).getStatus()
-                          +", Adres: " + DownloadDataBase.offenses.get(j).getAddress();
+                          +", Adres: " + DownloadDataBase.offenses.get(j).getAddress()
+                          + ", Powiązani: " + DownloadDataBase.offenses.get(j).civilanReportString();
         }
     }
 

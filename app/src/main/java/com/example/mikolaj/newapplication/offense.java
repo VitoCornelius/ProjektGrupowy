@@ -53,6 +53,20 @@ public class offense {
         this.address=address;
     }
 
+    public String civilanReportString()
+    {
+        String text="";
+        for (ReportCivilianRecords records: this.associatedCivilianRecords)
+         {
+             text = text + "\nID osoby: " + records.getCivilianID()
+                     + ", status: " + records.getCivilianStatus()
+                     + ", Imie: " + DownloadDataBase.civilians.get(records.getCivilianID()).getName()
+                     +", Nazwisko: " + DownloadDataBase.civilians.get(records.getCivilianID()).getSurname()
+                     +", Adres:  " + DownloadDataBase.civilians.get(records.getCivilianID()).getAddress();
+        }
+        return text;
+    }
+
     public int getOffenseId() {
         return offenseId;
     }

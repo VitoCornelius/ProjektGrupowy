@@ -7,8 +7,8 @@ package com.example.mikolaj.newapplication;
 public class ReportCivilianRecords {
 
     private int rcrID;  // id zgloszenia
-    private int reportID;  // id funkcjonariusza
-    private int civilianID;  // id funkcjonariusza
+    private int reportID;  // id
+    private int civilianID;  // id
     private String civilianStatus;    // data - do zmiany na format date
     private String description;    // typ zgloszenia
 
@@ -19,6 +19,16 @@ public class ReportCivilianRecords {
         this.civilianStatus = civilianStatus;
         this.description = description;
     }
+
+    /*public String getCivilianNameByID()
+    {
+        for (Civilians civilians: DownloadDataBase.civilians
+             ) {
+            if(civilianID==civilians.getCivilianID())
+                return civilians.getName()
+        }
+
+    }*/
 
     public int getRcrID() {
         return rcrID;
