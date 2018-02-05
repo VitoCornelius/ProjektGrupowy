@@ -32,6 +32,13 @@ public class MainActivity extends AppCompatActivity {
         DownloadDataBase.splitOffenseData(DownloadDataBase.offenses);
         DownloadDataBase.getData1(DownloadDataBase.URLCivilians);
         DownloadDataBase.getData1(DownloadDataBase.URLReportCivilianRecords);
+        DownloadDataBase.getData1(DownloadDataBase.sortByDateASC);
+        DownloadDataBase.getData1(DownloadDataBase.sortByDateDESC);
+        DownloadDataBase.getData1(DownloadDataBase.sortByTypeASC);
+        DownloadDataBase.getData1(DownloadDataBase.sortByTypeDESC);
+        DownloadDataBase.getData1(DownloadDataBase.sortByVictimsASC);
+        DownloadDataBase.getData1(DownloadDataBase.sortByVictimsDESC);
+
         DownloadDataBase.splitRecords();
 
 

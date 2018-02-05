@@ -4,7 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mikolaj.newapplication.showOffenses">
+    tools:context="com.example.mikolaj.newapplication.showOffenses"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sortowanie zdarzeń:" />
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <Button android:id="@+id/sort1"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:text="Data"
+            android:background="@color/colorPrimaryDark"
+            android:onClick="showDate"
+            android:textColor="@android:color/white"/>
+        <Button android:id="@+id/sort2"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:text="Poszkodowani"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@android:color/white"
+            android:onClick="showVictims"
+            />
+        <Button android:id="@+id/sort3"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:onClick="showType"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@android:color/white"/>
+
+
+    </LinearLayout>
+
+
 
     <ListView
         android:id="@+id/ListView1"
@@ -15,5 +51,4 @@
         android:divider="#f00"
         android:dividerHeight="2dp"
         android:listSelector="@color/colorAccent"></ListView>
-
 </LinearLayout>

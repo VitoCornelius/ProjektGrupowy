@@ -1,13 +1,14 @@
 package com.example.mikolaj.newapplication;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by Mikolaj on 19.12.2017.
  */
 
-public class offense {
+public class offense{
 
     private int offenseId;  // id zgloszenia
     private int officerId;  // id funkcjonariusza
@@ -52,6 +53,7 @@ public class offense {
         this.position_longitude = position_longitude;
         this.address=address;
     }
+
 
     public String civilanReportString()
     {

@@ -27,8 +27,22 @@ public class DownloadDataBase {
     static String URLReportCivilianRecords = "http://wilki.kylos.pl/PSI/_showCivilianRecords.php";
     static String URLDistriction = "http://wilki.kylos.pl/PSI/_addDistrict.php";
     static String URLborderPoints= "http://wilki.kylos.pl/PSI/_addBorderPoints.php";
+    static String sortByDateASC = "http://wilki.kylos.pl/PSI/_showOffensesByDateASC.php";
+    static String sortByDateDESC = "http://wilki.kylos.pl/PSI/_showOffensesByDateDESC.php";
+    static String sortByVictimsASC = "http://wilki.kylos.pl/PSI/_showOffensesByVictimsASC.php";
+    static String sortByVictimsDESC = "http://wilki.kylos.pl/PSI/_showOffensesByVictimsDESC.php";
+    static String sortByTypeASC = "http://wilki.kylos.pl/PSI/_showOffensesByStatusASC.php";
+    static String sortByTypeDESC = "http://wilki.kylos.pl/PSI/_showOffensesByStatusDESC.php";
 
     static List<offense> offenses = new ArrayList<>();
+
+    static List<offense> offensesByDateASC = new ArrayList<>();
+    static List<offense> offensesByDateDESC = new ArrayList<>();
+    static List<offense> offensesByVictimsASC = new ArrayList<>();
+    static List<offense> offensesByVictimsDESC = new ArrayList<>();
+    static List<offense> offensesByTypeASC = new ArrayList<>();
+    static List<offense> offensesByTypeDESC = new ArrayList<>();
+
     static List<Civilians> civilians = new ArrayList<>();
     static List<ReportCivilianRecords> reportCivilianRecords= new ArrayList<>();
     static List<Districts> districts = new ArrayList<>();
@@ -145,6 +159,133 @@ public class DownloadDataBase {
                     }
                     break;
                 }
+
+                case "http://wilki.kylos.pl/PSI/_showOffensesByDateASC.php":{
+                    for(int i=0;i<jsonArray.length();i++){
+                        jsonObject = jsonArray.getJSONObject(i);
+                        offensesByDateASC.add(new offense(
+                                Integer.parseInt(jsonObject.getString("report_id")),
+                                Integer.parseInt(jsonObject.getString("officer_id")),
+                                jsonObject.getString("date"),
+                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("district_name"),
+                                Integer.parseInt(jsonObject.getString("victims_number")),
+                                jsonObject.getString("description"),
+                                jsonObject.getString("dispatcher_id"),
+                                "Anonim",
+                                jsonObject.getString("report_type_id"),
+                                Double.parseDouble(jsonObject.getString("longitude")),
+                                Double.parseDouble(jsonObject.getString("latitude")),
+                                jsonObject.getString("address")));
+                    }
+                    break;
+                }
+
+                case "http://wilki.kylos.pl/PSI/_showOffensesByDateDESC.php":{
+                    for(int i=0;i<jsonArray.length();i++){
+                        jsonObject = jsonArray.getJSONObject(i);
+                        offensesByDateDESC.add(new offense(
+                                Integer.parseInt(jsonObject.getString("report_id")),
+                                Integer.parseInt(jsonObject.getString("officer_id")),
+                                jsonObject.getString("date"),
+                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("district_name"),
+                                Integer.parseInt(jsonObject.getString("victims_number")),
+                                jsonObject.getString("description"),
+                                jsonObject.getString("dispatcher_id"),
+                                "Anonim",
+                                jsonObject.getString("report_type_id"),
+                                Double.parseDouble(jsonObject.getString("longitude")),
+                                Double.parseDouble(jsonObject.getString("latitude")),
+                                jsonObject.getString("address")));
+                    }
+                    break;
+                }
+                case "http://wilki.kylos.pl/PSI/_showOffensesByVictimsASC.php":{
+                    for(int i=0;i<jsonArray.length();i++){
+                        jsonObject = jsonArray.getJSONObject(i);
+                        offensesByVictimsASC.add(new offense(
+                                Integer.parseInt(jsonObject.getString("report_id")),
+                                Integer.parseInt(jsonObject.getString("officer_id")),
+                                jsonObject.getString("date"),
+                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("district_name"),
+                                Integer.parseInt(jsonObject.getString("victims_number")),
+                                jsonObject.getString("description"),
+                                jsonObject.getString("dispatcher_id"),
+                                "Anonim",
+                                jsonObject.getString("report_type_id"),
+                                Double.parseDouble(jsonObject.getString("longitude")),
+                                Double.parseDouble(jsonObject.getString("latitude")),
+                                jsonObject.getString("address")));
+                    }
+                    break;
+                }
+                case "http://wilki.kylos.pl/PSI/_showOffensesByVictimsDESC.php":{
+                    for(int i=0;i<jsonArray.length();i++){
+                        jsonObject = jsonArray.getJSONObject(i);
+                        offensesByVictimsDESC.add(new offense(
+                                Integer.parseInt(jsonObject.getString("report_id")),
+                                Integer.parseInt(jsonObject.getString("officer_id")),
+                                jsonObject.getString("date"),
+                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("district_name"),
+                                Integer.parseInt(jsonObject.getString("victims_number")),
+                                jsonObject.getString("description"),
+                                jsonObject.getString("dispatcher_id"),
+                                "Anonim",
+                                jsonObject.getString("report_type_id"),
+                                Double.parseDouble(jsonObject.getString("longitude")),
+                                Double.parseDouble(jsonObject.getString("latitude")),
+                                jsonObject.getString("address")));
+                    }
+                    break;
+                }
+
+                case "http://wilki.kylos.pl/PSI/_showOffensesByStatusASC.php":{
+                    for(int i=0;i<jsonArray.length();i++){
+                        jsonObject = jsonArray.getJSONObject(i);
+                        offensesByTypeASC.add(new offense(
+                                Integer.parseInt(jsonObject.getString("report_id")),
+                                Integer.parseInt(jsonObject.getString("officer_id")),
+                                jsonObject.getString("date"),
+                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("district_name"),
+                                Integer.parseInt(jsonObject.getString("victims_number")),
+                                jsonObject.getString("description"),
+                                jsonObject.getString("dispatcher_id"),
+                                "Anonim",
+                                jsonObject.getString("report_type_id"),
+                                Double.parseDouble(jsonObject.getString("longitude")),
+                                Double.parseDouble(jsonObject.getString("latitude")),
+                                jsonObject.getString("address")));
+                    }
+                    break;
+                }
+                case "http://wilki.kylos.pl/PSI/_showOffensesByStatusDESC.php":{
+                    for(int i=0;i<jsonArray.length();i++){
+                        jsonObject = jsonArray.getJSONObject(i);
+                        offensesByTypeDESC.add(new offense(
+                                Integer.parseInt(jsonObject.getString("report_id")),
+                                Integer.parseInt(jsonObject.getString("officer_id")),
+                                jsonObject.getString("date"),
+                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("district_name"),
+                                Integer.parseInt(jsonObject.getString("victims_number")),
+                                jsonObject.getString("description"),
+                                jsonObject.getString("dispatcher_id"),
+                                "Anonim",
+                                jsonObject.getString("report_type_id"),
+                                Double.parseDouble(jsonObject.getString("longitude")),
+                                Double.parseDouble(jsonObject.getString("latitude")),
+                                jsonObject.getString("address")));
+                    }
+                    break;
+                }
+
+
+
+
                 case "http://wilki.kylos.pl/PSI/_showCivilians.php":{
                     for(int i=0;i<jsonArray.length();i++){
                         jsonObject = jsonArray.getJSONObject(i);
