@@ -129,7 +129,7 @@ public class showOffenses extends AppCompatActivity implements AsyncResponse {
                             public void onClick(DialogInterface dialog, int id) {
                                 HashMap postData = new HashMap();
                                 postData.put("txtID", iID);
-                                PostResponseAsyncTask task = new PostResponseAsyncTask(showOffenses.this, postData);
+                                PostResponseAsyncTask task = new PostResponseAsyncTask((AsyncResponse) getApplicationContext(), postData);
                                 task.execute("http://wilki.kylos.pl/PSI/_updateOffense.php");
                             }
                         });
@@ -288,11 +288,15 @@ public class showOffenses extends AppCompatActivity implements AsyncResponse {
 
     @Override
     public void processFinish(String s) {
+<<<<<<< HEAD
         if (result.equals("success")) {
             Toast.makeText(this, "Register Successfully", Toast.LENGTH_LONG).show();
             Intent in = new Intent(this, userMenu.class);
         }else{
             Toast.makeText(this, "Register Failed!", Toast.LENGTH_LONG).show();
         }
+=======
+
+>>>>>>> 80d94a16f63905be106c9528f1b438f174423c29
     }
 }

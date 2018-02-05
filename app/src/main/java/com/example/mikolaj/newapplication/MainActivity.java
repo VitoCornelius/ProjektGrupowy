@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             DownloadDataBase.getData1(DownloadDataBase.sortByVictimsDESC);
             DownloadDataBase.splitRecords();
         }
-        
+
         btnMap = (Button) findViewById(R.id.btn_map);
         btnStatistics = (Button) findViewById(R.id.btn_statistics);
         btnContact = (Button) findViewById(R.id.btn_contact);

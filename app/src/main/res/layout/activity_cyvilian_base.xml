@@ -17,7 +17,7 @@
             android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
-            android:onClick="showDate"
+            android:onClick="itemClicked"
             android:text="Dodaj osobę"
             android:textColor="@android:color/white" />
 
@@ -26,7 +26,6 @@
             android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
-            android:onClick="showType"
             android:text="Przypisz osobę"
             android:textColor="@android:color/white" />
 
