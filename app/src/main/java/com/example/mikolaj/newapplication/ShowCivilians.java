@@ -37,7 +37,6 @@ public class ShowCivilians extends AppCompatActivity {
         setContentView(R.layout.activity_cyvilian_base);
         listView = findViewById(R.id.ListView1);
         btnDate = (Button) findViewById(R.id.sort1);
-        btnType = (Button) findViewById(R.id.sort3);
         btnVictims = (Button) findViewById(R.id.sort2);
 
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
