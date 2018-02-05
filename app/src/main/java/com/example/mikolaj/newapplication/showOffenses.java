@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -29,7 +30,7 @@ public class showOffenses extends AppCompatActivity{
     ListView listView;
     ArrayAdapter<String> adapter;
     String address = "http://wilki.kylos.pl/PSI/_showOffenses.php";
-    Button btnDate, btnVictims, btnType;
+    Button btnDate, btnVictims, btnType, search;
 
     InputStream inputStream = null;
     String line = null;
@@ -41,7 +42,7 @@ public class showOffenses extends AppCompatActivity{
     int iID = 0;
     String description, adres, repPers, sType, sStatus;
     boolean datePressed, victimsPressed, typePressed;
-
+    CheckBox hide;
 
 
     @Override
@@ -51,7 +52,8 @@ public class showOffenses extends AppCompatActivity{
         listView = findViewById(R.id.ListView1);
         btnDate = (Button) findViewById(R.id.sort1);
         btnVictims = (Button) findViewById(R.id.sort2);
-
+        hide = (CheckBox) findViewById(R.id.hide);
+        search = (Button) findViewById(R.id.search);
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
 
         getData2(0);
@@ -114,9 +116,13 @@ public class showOffenses extends AppCompatActivity{
             case 0:
                 for (int j=0; j<DownloadDataBase.offenses.size(); j++)
                 {
-                    data2[j]="ID: " + DownloadDataBase.offenses.get(j).getOffenseId()
-                            +", Data: " + DownloadDataBase.offenses.get(j).getDate()
-                            + ", Poszkodowani: " + DownloadDataBase.offenses.get(j).getVictims();
+                    if(!(DownloadDataBase.offensesByDateASC.get(j).getStatus().equals("2") && hide.isChecked())) {
+                        data2[j] = "ID: " + DownloadDataBase.offenses.get(j).getOffenseId()
+                                + ", Data: " + DownloadDataBase.offenses.get(j).getDate()
+                                + ", Poszkodowani: " + DownloadDataBase.offenses.get(j).getVictims();
+                    }else {
+                        data2[j]=" ";
+                    }
                 }
 
                 show();
@@ -124,40 +130,55 @@ public class showOffenses extends AppCompatActivity{
             case 1:
                 for (int j=0; j<DownloadDataBase.offensesByDateASC.size(); j++)
                 {
-                    data2[j]="ID: " + DownloadDataBase.offensesByDateASC.get(j).getOffenseId()
-                            +", Data: " + DownloadDataBase.offensesByDateASC.get(j).getDate()
-                            + ", Poszkodowani: " + DownloadDataBase.offensesByDateASC.get(j).getVictims();
-
+                    if(!(DownloadDataBase.offensesByDateASC.get(j).getStatus().equals("2") && hide.isChecked())) {
+                        data2[j] = "ID: " + DownloadDataBase.offensesByDateASC.get(j).getOffenseId()
+                                + ", Data: " + DownloadDataBase.offensesByDateASC.get(j).getDate()
+                                + ", Poszkodowani: " + DownloadDataBase.offensesByDateASC.get(j).getVictims();
+                    }else{
+                        data2[j]=" ";
+                    }
                 }
                 show();
                 break;
             case 2:
                 for (int j=0; j<DownloadDataBase.offensesByDateDESC.size(); j++)
                 {
-                    data2[j]="ID: " + DownloadDataBase.offensesByDateDESC.get(j).getOffenseId()
-                            +", Data: " + DownloadDataBase.offensesByDateDESC.get(j).getDate()
-                    + ", Poszkodowani: " + DownloadDataBase.offensesByDateDESC.get(j).getVictims();
+                    if(!(DownloadDataBase.offensesByDateDESC.get(j).getStatus().equals("2") && hide.isChecked())) {
 
+                        data2[j] = "ID: " + DownloadDataBase.offensesByDateDESC.get(j).getOffenseId()
+                                + ", Data: " + DownloadDataBase.offensesByDateDESC.get(j).getDate()
+                                + ", Poszkodowani: " + DownloadDataBase.offensesByDateDESC.get(j).getVictims();
+                    }else{
+                        data2[j]=" ";
+                    }
                 }
                 show();
                 break;
             case 5:
                 for (int j=0; j<DownloadDataBase.offensesByVictimsASC.size(); j++)
                 {
-                    data2[j]="ID: " + DownloadDataBase.offensesByVictimsASC.get(j).getOffenseId()
-                            +", Data: " + DownloadDataBase.offensesByVictimsASC.get(j).getDate()
-                            + ", Poszkodowani: " + DownloadDataBase.offensesByVictimsASC.get(j).getVictims();
+                    if(!(DownloadDataBase.offensesByVictimsASC.get(j).getStatus().equals("2") && hide.isChecked())) {
 
+                        data2[j] = "ID: " + DownloadDataBase.offensesByVictimsASC.get(j).getOffenseId()
+                                + ", Data: " + DownloadDataBase.offensesByVictimsASC.get(j).getDate()
+                                + ", Poszkodowani: " + DownloadDataBase.offensesByVictimsASC.get(j).getVictims();
+                    }else{
+                        data2[j]=" ";
+                    }
                 }
                 show();
                 break;
             case 6:
                 for (int j=0; j<DownloadDataBase.offensesByVictimsDESC.size(); j++)
                 {
-                    data2[j]="ID: " + DownloadDataBase.offensesByVictimsDESC.get(j).getOffenseId()
-                            +", Data: " + DownloadDataBase.offensesByVictimsDESC.get(j).getDate()
-                    + ", Poszkodowani: " + DownloadDataBase.offensesByVictimsDESC.get(j).getVictims();
+                    if(!(DownloadDataBase.offensesByVictimsDESC.get(j).getStatus().equals("2") && hide.isChecked())) {
 
+                        data2[j] = "ID: " + DownloadDataBase.offensesByVictimsDESC.get(j).getOffenseId()
+                                + ", Data: " + DownloadDataBase.offensesByVictimsDESC.get(j).getDate()
+                                + ", Poszkodowani: " + DownloadDataBase.offensesByVictimsDESC.get(j).getVictims();
+                    }else{
+                        data2[j]=" ";
+                    }
                 }
                 show();
                 break;
@@ -165,7 +186,34 @@ public class showOffenses extends AppCompatActivity{
 
     }
 
-
+    public void itemClicked(View v) {
+        if(!victimsPressed && !datePressed){
+            getData2(0);
+            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data2);
+            listView.setAdapter(adapter);
+        }
+        else if(victimsPressed){
+            getData2(6);
+            victimsPressed=false;
+            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data2);
+            listView.setAdapter(adapter);
+        }else if(!victimsPressed){
+            getData2(5);
+            victimsPressed=true;
+            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data2);
+            listView.setAdapter(adapter);
+        }else if(datePressed){
+            getData2(2);
+            datePressed = false;
+            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data2);
+            listView.setAdapter(adapter);
+        }else if(!datePressed){
+            getData2(1);
+            datePressed = true;
+            adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data2);
+            listView.setAdapter(adapter);
+        }
+    }
     public void showVictims(View view) {
         data2 = null;
         if(victimsPressed){

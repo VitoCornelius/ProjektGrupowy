@@ -32,11 +32,25 @@
 
 
     </LinearLayout>
-    <CheckBox
-        android:id="@+id/hide"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:text="Ukryj rozpatrzone"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <CheckBox
+            android:id="@+id/hide"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:text="Ukryj rozpatrzone"
+            />
+        <Button android:id="@+id/search"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Szukaj"
+            android:onClick="itemClicked"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@android:color/white"
+            />
+    </LinearLayout>
+
 
 
     <ListView
