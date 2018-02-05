@@ -26,22 +26,25 @@ public class MainActivity extends AppCompatActivity {
 
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
 
-        DownloadDataBase.getData1(DownloadDataBase.address);
-        DownloadDataBase.getData1(DownloadDataBase.URLDistriction);
-        DownloadDataBase.getData1(DownloadDataBase.URLborderPoints);
-        DownloadDataBase.splitOffenseData(DownloadDataBase.offenses);
-        DownloadDataBase.getData1(DownloadDataBase.URLCivilians);
-        DownloadDataBase.getData1(DownloadDataBase.URLReportCivilianRecords);
-        DownloadDataBase.getData1(DownloadDataBase.sortByDateASC);
-        DownloadDataBase.getData1(DownloadDataBase.sortByDateDESC);
-        DownloadDataBase.getData1(DownloadDataBase.sortByTypeASC);
-        DownloadDataBase.getData1(DownloadDataBase.sortByTypeDESC);
-        DownloadDataBase.getData1(DownloadDataBase.sortByVictimsASC);
-        DownloadDataBase.getData1(DownloadDataBase.sortByVictimsDESC);
-
-        DownloadDataBase.splitRecords();
 
 
+        if(DownloadDataBase.offenses.size()==0)
+        {
+            DownloadDataBase.getData1(DownloadDataBase.address);
+            DownloadDataBase.getData1(DownloadDataBase.URLDistriction);
+            DownloadDataBase.getData1(DownloadDataBase.URLborderPoints);
+            DownloadDataBase.splitOffenseData(DownloadDataBase.offenses);
+            DownloadDataBase.getData1(DownloadDataBase.URLCivilians);
+            DownloadDataBase.getData1(DownloadDataBase.URLReportCivilianRecords);
+            DownloadDataBase.getData1(DownloadDataBase.sortByDateASC);
+            DownloadDataBase.getData1(DownloadDataBase.sortByDateDESC);
+            DownloadDataBase.getData1(DownloadDataBase.sortByTypeASC);
+            DownloadDataBase.getData1(DownloadDataBase.sortByTypeDESC);
+            DownloadDataBase.getData1(DownloadDataBase.sortByVictimsASC);
+            DownloadDataBase.getData1(DownloadDataBase.sortByVictimsDESC);
+            DownloadDataBase.splitRecords();
+        }
+        
         btnMap = (Button) findViewById(R.id.btn_map);
         btnStatistics = (Button) findViewById(R.id.btn_statistics);
         btnContact = (Button) findViewById(R.id.btn_contact);

@@ -152,7 +152,7 @@ public class DownloadDataBase {
                                 jsonObject.getString("description"),
                                 jsonObject.getString("dispatcher_id"),
                                 "Anonim",
-                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("report_status"),
                                 Double.parseDouble(jsonObject.getString("longitude")),
                                 Double.parseDouble(jsonObject.getString("latitude")),
                                 jsonObject.getString("address")));
@@ -173,7 +173,7 @@ public class DownloadDataBase {
                                 jsonObject.getString("description"),
                                 jsonObject.getString("dispatcher_id"),
                                 "Anonim",
-                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("report_status"),
                                 Double.parseDouble(jsonObject.getString("longitude")),
                                 Double.parseDouble(jsonObject.getString("latitude")),
                                 jsonObject.getString("address")));
@@ -194,7 +194,7 @@ public class DownloadDataBase {
                                 jsonObject.getString("description"),
                                 jsonObject.getString("dispatcher_id"),
                                 "Anonim",
-                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("report_status"),
                                 Double.parseDouble(jsonObject.getString("longitude")),
                                 Double.parseDouble(jsonObject.getString("latitude")),
                                 jsonObject.getString("address")));
@@ -214,7 +214,7 @@ public class DownloadDataBase {
                                 jsonObject.getString("description"),
                                 jsonObject.getString("dispatcher_id"),
                                 "Anonim",
-                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("report_status"),
                                 Double.parseDouble(jsonObject.getString("longitude")),
                                 Double.parseDouble(jsonObject.getString("latitude")),
                                 jsonObject.getString("address")));
@@ -234,7 +234,7 @@ public class DownloadDataBase {
                                 jsonObject.getString("description"),
                                 jsonObject.getString("dispatcher_id"),
                                 "Anonim",
-                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("report_status"),
                                 Double.parseDouble(jsonObject.getString("longitude")),
                                 Double.parseDouble(jsonObject.getString("latitude")),
                                 jsonObject.getString("address")));
@@ -255,7 +255,7 @@ public class DownloadDataBase {
                                 jsonObject.getString("description"),
                                 jsonObject.getString("dispatcher_id"),
                                 "Anonim",
-                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("report_status"),
                                 Double.parseDouble(jsonObject.getString("longitude")),
                                 Double.parseDouble(jsonObject.getString("latitude")),
                                 jsonObject.getString("address")));
@@ -275,7 +275,7 @@ public class DownloadDataBase {
                                 jsonObject.getString("description"),
                                 jsonObject.getString("dispatcher_id"),
                                 "Anonim",
-                                jsonObject.getString("report_type_id"),
+                                jsonObject.getString("report_status"),
                                 Double.parseDouble(jsonObject.getString("longitude")),
                                 Double.parseDouble(jsonObject.getString("latitude")),
                                 jsonObject.getString("address")));
