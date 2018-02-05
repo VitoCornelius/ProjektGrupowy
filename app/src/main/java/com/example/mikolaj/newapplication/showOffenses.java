@@ -1,6 +1,7 @@
 package com.example.mikolaj.newapplication;
 
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.kosalgeek.asynctask.AsyncResponse;
+import com.kosalgeek.asynctask.PostResponseAsyncTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,9 +28,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 
-public class showOffenses extends AppCompatActivity{
+public class showOffenses extends AppCompatActivity implements AsyncResponse {
 
     ListView listView;
     ArrayAdapter<String> adapter;
@@ -113,6 +119,25 @@ public class showOffenses extends AppCompatActivity{
                     adb.setMessage("Adres: " + adres + "\nOpis: " + description + "\nStatus: " + sStatus);
                 }
                 adb.setPositiveButton("Ok", null);
+                adb.setNeutralButton("Ustawienia", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        AlertDialog.Builder adb2 = new AlertDialog.Builder(
+                                showOffenses.this);
+                        adb2.setTitle("Ustawienia zdarzenia " + iID);
+                        adb2.setMessage("Czy ustawic rozpatrzone?");
+                        adb2.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                HashMap postData = new HashMap();
+                                postData.put("txtID", iID);
+                                PostResponseAsyncTask task = new PostResponseAsyncTask((AsyncResponse) getApplicationContext(), postData);
+                                task.execute("http://wilki.kylos.pl/PSI/_updateOffense.php");
+
+                            }
+                        });
+                        adb2.setNegativeButton("No",null);
+                        adb2.show();
+                    }
+                });
                 adb.show();
 
             }
@@ -262,4 +287,8 @@ public class showOffenses extends AppCompatActivity{
     }
 
 
+    @Override
+    public void processFinish(String s) {
+
+    }
 }
