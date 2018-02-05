@@ -11,7 +11,7 @@ import android.widget.Toast;
  * Menu dostępne jedynie po zalogowaniu
  */
 public class userMenu extends AppCompatActivity {
-    Button newOffense, showOffenses, showMap,btnLogout;
+    Button newOffense, showOffenses, showMap,btnLogout, btnCivilians;
     public Button btnStatistics;
     public static boolean goToStatistics=false;
     public static boolean goToAddOffense=false;
@@ -27,6 +27,7 @@ public class userMenu extends AppCompatActivity {
         showMap = (Button) findViewById(R.id.btn_map);
         btnStatistics = (Button) findViewById(R.id.btn_statistics);
         btnLogout = (Button) findViewById(R.id.btn_logout);
+        btnCivilians = (Button) findViewById(R.id.btn_db_cyvils);
 //        newOffense.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -48,6 +49,14 @@ public class userMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(userMenu.this, showOffenses.class);
+                startActivity(intent);
+            }
+        });
+
+        btnCivilians.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(userMenu.this, ShowCivilians.class);
                 startActivity(intent);
             }
         });
