@@ -57,7 +57,7 @@
         <activity android:name=".rejestracja" />
         <activity android:name=".showOffenses" />
         <activity android:name=".ShowCivilians" />
-        <activity android:name=".SendMailActivity"></activity>
+        <activity android:name=".SendMailActivity" />
     </application>
 
 </manifest>

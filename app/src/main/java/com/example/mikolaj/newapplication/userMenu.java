@@ -11,7 +11,7 @@ import android.widget.Toast;
  * Menu dostępne jedynie po zalogowaniu
  */
 public class userMenu extends AppCompatActivity {
-    Button newOffense, showOffenses, showMap,btnLogout, btnCivilians;
+    Button newOffense, showOffenses, showMap,btnLogout, btnCivilians, btnProfile;
     public Button btnStatistics;
     public static boolean goToStatistics=false;
     public static boolean goToAddOffense=false;

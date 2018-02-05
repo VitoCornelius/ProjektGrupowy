@@ -40,7 +40,7 @@ public class showOffenses extends AppCompatActivity{
     String sID = null;
     String sID2= null;
     int iID = 0;
-    String description, adres, repPers, sType, sStatus;
+    String description, adres, repPers, sType, sStatus, sCivilianStatus, sCivilianDescription;
     boolean datePressed, victimsPressed, typePressed;
     CheckBox hide;
 
@@ -89,17 +89,29 @@ public class showOffenses extends AppCompatActivity{
                 repPers=null;
                 sType=null;
                 sStatus = null;
+                sCivilianStatus=null;
+                sCivilianDescription=null;
                 for(int i = 0;i<DownloadDataBase.offenses.size();i++){
                     if(DownloadDataBase.offenses.get(i).getOffenseId()==iID){
                         description = DownloadDataBase.offenses.get(i).getDescription();
                         adres = DownloadDataBase.offenses.get(i).getAddress();
                         sType = DownloadDataBase.offenses.get(i).getTypeConverted();
                         sStatus = DownloadDataBase.offenses.get(i).getStatusConverted();
+                        for(int j=0;j<DownloadDataBase.reportCivilianRecords.size();j++) {
+                            if (DownloadDataBase.reportCivilianRecords.get(j).getReportID() == iID) {
+                                sCivilianStatus = DownloadDataBase.reportCivilianRecords.get(j).getCivilianStatus();
+                                sCivilianDescription = DownloadDataBase.reportCivilianRecords.get(j).getDescription();
+                            }
+                        }
                     }
                 }
 
                 adb.setTitle(sType);
-                adb.setMessage("Adres: " + adres + "\nOpis: " + description + "\nStatus: " +  sStatus);
+                if(sCivilianStatus!=null && sCivilianDescription!=null) {
+                    adb.setMessage("Adres: " + adres + "\nOpis: " + description + "\nStatus: " + sStatus + "\n" + sCivilianStatus + ": " + sCivilianDescription);
+                }else{
+                    adb.setMessage("Adres: " + adres + "\nOpis: " + description + "\nStatus: " + sStatus);
+                }
                 adb.setPositiveButton("Ok", null);
                 adb.show();
 
