@@ -1,5 +1,6 @@
 package com.example.mikolaj.newapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
@@ -20,7 +21,7 @@ public class ShowCivilians extends AppCompatActivity {
 
     ListView listView;
     ArrayAdapter<String> adapter;
-    Button btnDate, btnVictims, btnType;
+    Button btnDate, btnVictims, btnType, btnAddCivilian;
 
     InputStream inputStream = null;
     String line = null;
@@ -38,6 +39,7 @@ public class ShowCivilians extends AppCompatActivity {
         listView = findViewById(R.id.ListView1);
         btnDate = (Button) findViewById(R.id.sort1);
         btnVictims = (Button) findViewById(R.id.sort2);
+        btnAddCivilian = (Button) findViewById(R.id.addPerson);
 
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
 
@@ -67,16 +69,24 @@ public class ShowCivilians extends AppCompatActivity {
     }
 
 
+    public void itemClicked(View view)
+    {
+        Intent toy = new Intent(ShowCivilians.this, addCivil.class);
+        startActivity(toy);
+    }
+
+
+
     private void getData2()
     {
         data2 =  new String[DownloadDataBase.civilians.size()];
-                for (int j=0; j<DownloadDataBase.civilians.size(); j++)
-                {
-                    data2[j] = "\nID: " + DownloadDataBase.civilians.get(j).getCivilianID()
-                            + ", status: " + DownloadDataBase.civilians.get(j).getGender()
-                            + ", Imie: " + DownloadDataBase.civilians.get(j).getName()
-                            +", Nazwisko: " + DownloadDataBase.civilians.get(j).getSurname()
-                            +", Adres:  " + DownloadDataBase.civilians.get(j).getAddress();
-                }
+        for (int j=0; j<DownloadDataBase.civilians.size(); j++)
+        {
+            data2[j] = "\nID: " + DownloadDataBase.civilians.get(j).getCivilianID()
+                    + ", status: " + DownloadDataBase.civilians.get(j).getGender()
+                    + ", Imie: " + DownloadDataBase.civilians.get(j).getName()
+                    +", Nazwisko: " + DownloadDataBase.civilians.get(j).getSurname()
+                    +", Adres:  " + DownloadDataBase.civilians.get(j).getAddress();
+        }
     }
 }
