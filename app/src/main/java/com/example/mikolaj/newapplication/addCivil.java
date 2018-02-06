@@ -54,7 +54,8 @@ public class addCivil extends AppCompatActivity implements AsyncResponse, View.O
             sAddress = etAddress.getText().toString();
             sName = etName.getText().toString();
             sSurname = etSurname.getText().toString();
-            DownloadDataBase.civilians.add(new Civilians(DownloadDataBase.civilians.size()+1,
+            DownloadDataBase.civilians.add(new Civilians(DownloadDataBase.civilians
+                    .get(DownloadDataBase.civilians.size()-1).getCivilianID()+1,
                     sName,sSurname,sGender,sAddress));
 
             startActivity(in);

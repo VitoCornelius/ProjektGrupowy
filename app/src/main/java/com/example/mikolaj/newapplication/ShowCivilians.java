@@ -96,6 +96,12 @@ public class ShowCivilians extends AppCompatActivity {
         startActivity(toy);
     }
 
+    public void itemClicked2(View view)
+    {
+        Intent toy = new Intent(ShowCivilians.this, addCivilianRecords.class);
+        startActivity(toy);
+    }
+
 
 
     private void getData2()

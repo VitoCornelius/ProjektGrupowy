@@ -46,6 +46,11 @@
     <string name="hint_address">Adres</string>
     <string name="username">Nick</string>
 
+    <string name="description">Opis zdarzenia</string>
+    <string name="connected_person_id">Opis zdarzenia</string>
+    <string name="connected_report_id">Opis zdarzenia</string>
+    <string name="save">Zapisz</string>
+
 
     <string-array name="typy_zgloszenia">
         <item>Głośne przeklinanie</item>
@@ -58,6 +63,11 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+    </string-array>
+    <string-array name="civilian_status">
+        <item>Świadek</item>
+        <item>Oskarżony</item>
+        <item>Poszkodowany</item>
     </string-array>
     <string-array name="gender">
         <item>Mężczyzna</item>

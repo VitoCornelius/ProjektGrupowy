@@ -59,6 +59,7 @@
         <activity android:name=".ShowCivilians" />
         <activity android:name=".addCivil" />
         <activity android:name=".SendMailActivity" />
+        <activity android:name=".addCivilianRecords" />
     </application>
 
 </manifest>

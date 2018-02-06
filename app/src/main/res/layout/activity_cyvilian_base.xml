@@ -26,6 +26,7 @@
             android:layout_width="125dp"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
+            android:onClick="itemClicked2"
             android:text="Przypisz osobę"
             android:textColor="@android:color/white" />
 
