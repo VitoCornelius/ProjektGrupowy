@@ -50,7 +50,7 @@ public class addCivil extends AppCompatActivity implements AsyncResponse, View.O
         if (result.equals("success")) {
             Toast.makeText(this, "Register Successfully", Toast.LENGTH_LONG).show();
             Intent in = new Intent(this, userMenu.class);
-            sGender = spGender.toString();
+            sGender = spGender.getSelectedItem().toString();
             sAddress = etAddress.getText().toString();
             sName = etName.getText().toString();
             sSurname = etSurname.getText().toString();

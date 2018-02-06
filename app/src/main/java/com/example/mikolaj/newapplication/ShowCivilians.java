@@ -34,6 +34,8 @@ public class ShowCivilians extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,23 @@ public class ShowCivilians extends AppCompatActivity {
         btnDate = (Button) findViewById(R.id.sort1);
         btnVictims = (Button) findViewById(R.id.sort2);
         btnAddCivilian = (Button) findViewById(R.id.addPerson);
+
+        if(DownloadDataBase.offenses.size()==0)
+        {
+            DownloadDataBase.getData1(DownloadDataBase.address);
+            DownloadDataBase.getData1(DownloadDataBase.URLDistriction);
+            DownloadDataBase.getData1(DownloadDataBase.URLborderPoints);
+            DownloadDataBase.splitOffenseData(DownloadDataBase.offenses);
+            DownloadDataBase.getData1(DownloadDataBase.URLCivilians);
+            DownloadDataBase.getData1(DownloadDataBase.URLReportCivilianRecords);
+            DownloadDataBase.getData1(DownloadDataBase.sortByDateASC);
+            DownloadDataBase.getData1(DownloadDataBase.sortByDateDESC);
+            DownloadDataBase.getData1(DownloadDataBase.sortByTypeASC);
+            DownloadDataBase.getData1(DownloadDataBase.sortByTypeDESC);
+            DownloadDataBase.getData1(DownloadDataBase.sortByVictimsASC);
+            DownloadDataBase.getData1(DownloadDataBase.sortByVictimsDESC);
+            DownloadDataBase.splitRecords();
+        }
 
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
 
@@ -85,7 +104,7 @@ public class ShowCivilians extends AppCompatActivity {
         for (int j=0; j<DownloadDataBase.civilians.size(); j++)
         {
             data2[j] = "\nID: " + DownloadDataBase.civilians.get(j).getCivilianID()
-                    + ", status: " + DownloadDataBase.civilians.get(j).getGender()
+                    + ", Płeć: " + DownloadDataBase.civilians.get(j).getGender()
                     + ", Imie: " + DownloadDataBase.civilians.get(j).getName()
                     +", Nazwisko: " + DownloadDataBase.civilians.get(j).getSurname()
                     +", Adres:  " + DownloadDataBase.civilians.get(j).getAddress();

@@ -288,15 +288,11 @@ public class showOffenses extends AppCompatActivity implements AsyncResponse {
 
     @Override
     public void processFinish(String s) {
-<<<<<<< HEAD
         if (result.equals("success")) {
             Toast.makeText(this, "Register Successfully", Toast.LENGTH_LONG).show();
             Intent in = new Intent(this, userMenu.class);
         }else{
             Toast.makeText(this, "Register Failed!", Toast.LENGTH_LONG).show();
         }
-=======
-
->>>>>>> 80d94a16f63905be106c9528f1b438f174423c29
     }
 }
