@@ -30,21 +30,31 @@
                 android:hint="@string/description" />
         </android.support.design.widget.TextInputLayout>
 
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ID zdarzenia"/>
         <Spinner
             android:id="@+id/reportId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:prompt="@string/connected_report_id" />
-
+            android:entries="@array/connected_report_id" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ID Osoby"/>
         <Spinner
             android:id="@+id/civilian_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:prompt="@string/connected_person_id" />
-
+            android:entries="@array/connected_report_id"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status osoby"/>
         <Spinner
             android:id="@+id/civilian_status"
             android:layout_width="match_parent"
@@ -58,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:background="@color/colorPrimaryDark"
-            android:onClick="OnClick"
+            android:onClick="save"
             android:text="@string/save"
             android:textColor="@android:color/white" />
 

@@ -119,24 +119,6 @@ public class showOffenses extends AppCompatActivity implements AsyncResponse {
                     adb.setMessage("Adres: " + adres + "\nOpis: " + description + "\nStatus: " + sStatus);
                 }
                 adb.setPositiveButton("Ok", null);
-                adb.setNeutralButton("Ustawienia", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        AlertDialog.Builder adb2 = new AlertDialog.Builder(
-                                showOffenses.this);
-                        adb2.setTitle("Ustawienia zdarzenia " + iID);
-                        adb2.setMessage("Czy ustawic rozpatrzone?");
-                        adb2.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                HashMap postData = new HashMap();
-                                postData.put("txtID", iID);
-                                PostResponseAsyncTask task = new PostResponseAsyncTask((AsyncResponse) getApplicationContext(), postData);
-                                task.execute("http://wilki.kylos.pl/PSI/_updateOffense.php");
-                            }
-                        });
-                        adb2.setNegativeButton("No",null);
-                        adb2.show();
-                    }
-                });
                 adb.show();
 
             }

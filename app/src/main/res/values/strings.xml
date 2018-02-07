@@ -48,9 +48,10 @@
 
     <string name="description">Opis zdarzenia</string>
     <string name="connected_person_id">Opis zdarzenia</string>
-    <string name="connected_report_id">Opis zdarzenia</string>
     <string name="save">Zapisz</string>
-
+    <string-array name="connected_report_id">
+        <item>Opis</item>
+    </string-array>
 
     <string-array name="typy_zgloszenia">
         <item>Głośne przeklinanie</item>

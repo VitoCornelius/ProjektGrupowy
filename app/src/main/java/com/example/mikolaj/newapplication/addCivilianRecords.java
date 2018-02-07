@@ -24,7 +24,7 @@ import java.util.List;
  * Created by Tomek on 2018-02-06.
  */
 
-public class addCivilianRecords extends AppCompatActivity implements AsyncResponse, View.OnClickListener {
+public class addCivilianRecords extends AppCompatActivity implements AsyncResponse {
 
     EditText etDescription;
     Spinner spReportID, spCivilID, spCivilStatus;
@@ -43,11 +43,12 @@ public class addCivilianRecords extends AppCompatActivity implements AsyncRespon
 
         getReportIDs();
         getCivilIDs();
-        setContentView(R.layout.activity_add_civil);
+        setContentView(R.layout.activity_add_civilian_records);
         etDescription = (EditText) findViewById(R.id.rcr_description);
         spCivilID = (Spinner) findViewById(R.id.civilian_id);
         spReportID = (Spinner) findViewById(R.id.reportId);
         spCivilStatus = (Spinner) findViewById(R.id.civilian_status);
+        btnLogin = (Button) findViewById(R.id.btn_signup_civilian_report);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         //Adapters
@@ -81,8 +82,7 @@ public class addCivilianRecords extends AppCompatActivity implements AsyncRespon
         }
     }
 
-    @Override
-    public void onClick(View view) {
+    public void save(View view){
         HashMap postData = new HashMap();
         //postData.put("mobile", "android");
         postData.put("txtReportID", spReportID.getSelectedItem().toString());

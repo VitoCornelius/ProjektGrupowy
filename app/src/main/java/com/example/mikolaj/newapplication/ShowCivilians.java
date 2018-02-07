@@ -31,7 +31,10 @@ public class ShowCivilians extends AppCompatActivity {
     String[] data;
     String[] data2;
     boolean datePressed, victimsPressed, typePressed;
-
+    int iID =0;
+    String name, surname,address,gender;
+    String sID;
+    String sID2;
 
 
 
@@ -68,24 +71,50 @@ public class ShowCivilians extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data2);
         listView.setAdapter(adapter);
 
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long rowId) {
 
-
-                AlertDialog.Builder adb = new AlertDialog.Builder(
+                sID = null;
+                sID2 = null;
+                final AlertDialog.Builder adb = new AlertDialog.Builder(
                         ShowCivilians.this);
-                adb.setTitle("List");
-                adb.setMessage(" selected Item is="
-                        +parent.getItemAtPosition(position));
+                sID = parent.getItemAtPosition(position).toString();
+                sID2 = Character.toString(sID.charAt(5));
+                if(!Character.toString(sID.charAt(6)).equals(",")){
+                    sID2+=Character.toString(sID.charAt(6));
+                    if(!Character.toString(sID.charAt(7)).equals(",")){
+                        sID2+=Character.toString(sID.charAt(7));
+                    }
+                }
+                iID = Integer.parseInt(sID2);
+                name=null;
+                address=null;
+                surname=null;
+                gender=null;
+
+                for(int i = 0;i<DownloadDataBase.civilians.size();i++){
+                    if(DownloadDataBase.civilians.get(i).getCivilianID()==iID){
+                        name = DownloadDataBase.civilians.get(i).getName();
+                        address = DownloadDataBase.civilians.get(i).getAddress();
+                        surname = DownloadDataBase.civilians.get(i).getSurname();
+                        gender = DownloadDataBase.civilians.get(i).getGender();
+                    }
+                }
+
+                adb.setTitle(gender);
+                adb.setMessage("Imię: " + name + "\nNazwisko: " + surname + "\nAdres: " + address);
                 adb.setPositiveButton("Ok", null);
                 adb.show();
 
             }
 
         });
+
+
 
     }
 
@@ -110,10 +139,8 @@ public class ShowCivilians extends AppCompatActivity {
         for (int j=0; j<DownloadDataBase.civilians.size(); j++)
         {
             data2[j] = "\nID: " + DownloadDataBase.civilians.get(j).getCivilianID()
-                    + ", Płeć: " + DownloadDataBase.civilians.get(j).getGender()
                     + ", Imie: " + DownloadDataBase.civilians.get(j).getName()
-                    +", Nazwisko: " + DownloadDataBase.civilians.get(j).getSurname()
-                    +", Adres:  " + DownloadDataBase.civilians.get(j).getAddress();
+                    +", Nazwisko: " + DownloadDataBase.civilians.get(j).getSurname();
         }
     }
 }
