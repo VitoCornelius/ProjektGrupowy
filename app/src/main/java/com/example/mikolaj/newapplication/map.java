@@ -28,6 +28,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -36,6 +37,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +45,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -64,11 +68,18 @@ import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.maps.android.geometry.Point;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+
+
+
 
 import static android.app.PendingIntent.getActivity;
 
@@ -100,6 +111,12 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     public static final int REQUEST_LOCATION_CODE = 99;
 
+    private MarkerOptions[] policeman={
+            new MarkerOptions().position(new LatLng(54.5056,18.4911)).title("Policjant 1"),
+            new MarkerOptions().position(new LatLng(54.4744,18.4966)).title("Policjant 2"),
+            new MarkerOptions().position(new LatLng(54.4449,18.5254)).title("Policjant 3"),
+            new MarkerOptions().position(new LatLng(54.4057,18.5791)).title("Policjant 4"),
+            new MarkerOptions().position(new LatLng(54.4160,18.5510)).title("Policjant 5")};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,6 +258,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
+
+
+
     public void onClick(View view) {
 
         switch (view.getId()) {
@@ -333,12 +353,76 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
         drawEverything();
     }
+
+    private String  getMapsApiDirectionsUrl(LatLng origin,LatLng dest) {
+        // Origin of route
+        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+
+        // Destination of route
+        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+
+        // Building the parameters to the web service
+        String parameters = str_origin+"&"+str_dest+"&"+sensor;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
+
+
+        return url;
+
+    }
+
+    private class ReadTask extends AsyncTask<String, Void , String> {
+
+        @Override
+        protected String doInBackground(String... url) {
+            // TODO Auto-generated method stub
+            String data = "";
+            try {
+                MapHttpConnection http = new MapHttpConnection();
+                data = http.readUr(url[0]);
+
+
+            } catch (Exception e) {
+                // TODO: handle exception
+                Log.d("Background Task", e.toString());
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            new ParserTask().execute(result);
+        }
+
+    }
+
+
+
+
     private void drawEverything() {
+
+
+        for(int i=0; i<policeman.length; i++)
+        {
+            mMap.addMarker(policeman[i]);
+        }
 
         for (offense sthHappened : customOffenses) {
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(sthHappened.getPosition_longitude(), sthHappened.getPosition_latitude()))
                     .title(sthHappened.getTypeConverted()+" nr: "+sthHappened.getOffenseId()).snippet(sthHappened.toString()));
+
+
+
             mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
                 @Override
@@ -368,7 +452,19 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                     return info;
                 }
             });
+            for(int i=0; i<policeman.length; i++) {
+                String url = getMapsApiDirectionsUrl(
+                        new LatLng(sthHappened.getPosition_longitude(),
+                                sthHappened.getPosition_latitude()),
+                        new LatLng((policeman[i].getPosition().longitude),
+                                (policeman[i].getPosition().latitude)));
+                ReadTask downloadTask = new ReadTask();
+                // Start downloading json data from Google Directions API
+                downloadTask.execute(url);
+            }
         }
+
+
         if(isMapColor)
             colorMap();
     }
@@ -558,4 +654,50 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     }
 
 
+    private class ParserTask extends AsyncTask<String,Integer, List<List<HashMap<String , String >>>> {
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(
+                String... jsonData) {
+            // TODO Auto-generated method stub
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                PathJSONParser parser = new PathJSONParser();
+                routes = parser.parse(jObject);
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> routes) {
+            ArrayList<LatLng> points = null;
+            PolylineOptions polyLineOptions = null;
+
+            // traversing through routes
+            for (int i = 0; i < routes.size(); i++) {
+                points = new ArrayList<LatLng>();
+                polyLineOptions = new PolylineOptions();
+                List<HashMap<String, String>> path = routes.get(i);
+
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+
+                    points.add(position);
+                }
+
+                polyLineOptions.addAll(points);
+                polyLineOptions.width(4);
+                polyLineOptions.color(Color.BLUE);
+            }
+        }
+    }
 }
