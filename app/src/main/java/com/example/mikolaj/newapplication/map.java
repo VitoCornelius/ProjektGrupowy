@@ -46,6 +46,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 import com.google.android.gms.common.ConnectionResult;
@@ -75,6 +79,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 
@@ -108,20 +113,31 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private boolean isPressedB_porwania = false;
     private boolean isPressedB_przemoc = false;
     private boolean isPressedB_przeklenstwa = false;
+    private ArrayList<PolylineOptions> polylinesToAdd=new ArrayList<>();
 
     public static final int REQUEST_LOCATION_CODE = 99;
 
-    private MarkerOptions[] policeman={
-            new MarkerOptions().position(new LatLng(54.5056,18.4911)).title("Policjant 1"),
-            new MarkerOptions().position(new LatLng(54.4744,18.4966)).title("Policjant 2"),
-            new MarkerOptions().position(new LatLng(54.4449,18.5254)).title("Policjant 3"),
-            new MarkerOptions().position(new LatLng(54.4057,18.5791)).title("Policjant 4"),
-            new MarkerOptions().position(new LatLng(54.4160,18.5510)).title("Policjant 5")};
+    private PolylineOptions shortestDistance = new PolylineOptions();
+    private Double shortestRoute = 100000000d;
+
+    private MarkerOptions[] policeman= {
+            new MarkerOptions().position(new LatLng(54.505612,18.491115)).title("Policjant 1"),
+            new MarkerOptions().position(new LatLng(54.439377,18.567191)).title("Policjant 2"),
+            new MarkerOptions().position(new LatLng(54.405890,18.601477)).title("Policjant 3"),
+            new MarkerOptions().position(new LatLng(54.389201,18.588173)).title("Policjant 4"),
+            new MarkerOptions().position(new LatLng(54.500359,18.507902)).title("Policjant 5")};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
+
+
+        MapsInitializer.initialize(getApplicationContext());
+        BitmapDescriptorFactory bitmapDescriptorFactory;
+        for(int i=0; i<policeman.length;i++) {
+            policeman[i].icon(BitmapDescriptorFactory.defaultMarker(215));
+        }
 
         bMorderstwa = (Button) findViewById(R.id.B_morderstwa);
         bPorwania = (Button) findViewById(R.id.B_porwania);
@@ -258,9 +274,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
-
-
-
     public void onClick(View view) {
 
         switch (view.getId()) {
@@ -352,14 +365,17 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         }
 
         drawEverything();
+
     }
 
     private String  getMapsApiDirectionsUrl(LatLng origin,LatLng dest) {
         // Origin of route
-        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+        //String originStreet = getCompleteAddressString(origin.latitude, origin.longitude);
+        String str_origin = "origin="+origin.longitude+","+origin.latitude;
 
         // Destination of route
-        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+        //String destinationStreet=getCompleteAddressString(dest.latitude, dest.longitude);
+        String str_dest = "destination="+dest.longitude+","+dest.latitude;
 
 
         // Sensor enabled
@@ -374,10 +390,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         // Building the url to the web service
         String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
 
-
         return url;
-
     }
+
 
     private class ReadTask extends AsyncTask<String, Void , String> {
 
@@ -405,23 +420,46 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
-
-
-
     private void drawEverything() {
 
-
-        for(int i=0; i<policeman.length; i++)
-        {
+        for(int i=0; i<policeman.length;i++) {
             mMap.addMarker(policeman[i]);
         }
-
         for (offense sthHappened : customOffenses) {
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(sthHappened.getPosition_longitude(), sthHappened.getPosition_latitude()))
                     .title(sthHappened.getTypeConverted()+" nr: "+sthHappened.getOffenseId()).snippet(sthHappened.toString()));
 
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    //mMap.clear();
+
+                    polylinesToAdd.clear();
+
+                    for(int i=0; i<policeman.length;i++)
+                    {
+                        if(marker.getPosition().equals(policeman[i].getPosition()))
+                        {
+                            break;
+                        }
+                        else {
+                            String url = getMapsApiDirectionsUrl(
+                                    new LatLng(marker.getPosition().longitude,
+                                            marker.getPosition().latitude),
+                                    new LatLng((policeman[i].getPosition().longitude),
+                                            (policeman[i].getPosition().latitude)));
+                            ReadTask downloadTask = new ReadTask();
+                            // Start downloading json data from Google Directions API
+                            downloadTask.execute(url);
+                        }
+                    }
+                    return false;
+                }
+
+
+            });
 
             mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
@@ -449,20 +487,21 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                     info.addView(title);
                     info.addView(snippet);
 
+
                     return info;
                 }
             });
-            for(int i=0; i<policeman.length; i++) {
-                String url = getMapsApiDirectionsUrl(
-                        new LatLng(sthHappened.getPosition_longitude(),
-                                sthHappened.getPosition_latitude()),
-                        new LatLng((policeman[i].getPosition().longitude),
-                                (policeman[i].getPosition().latitude)));
-                ReadTask downloadTask = new ReadTask();
-                // Start downloading json data from Google Directions API
-                downloadTask.execute(url);
-            }
+
+            mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    marker.hideInfoWindow();
+                }
+            });
+
+
         }
+
 
 
         if(isMapColor)
@@ -653,6 +692,23 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
+    protected float calculateMiles(List<LatLng> points) {
+        float totalDistance = 0;
+
+        for(int i = 1; i < points.size(); i++) {
+            Location currLocation = new Location("this");
+            currLocation.setLatitude(points.get(i).latitude);
+            currLocation.setLongitude(points.get(i).longitude);
+
+            Location lastLocation = new Location("this");
+            currLocation.setLatitude(points.get(i-1).latitude);
+            currLocation.setLongitude(points.get(i-1).longitude);
+
+            totalDistance += lastLocation.distanceTo(currLocation);
+        }
+        return totalDistance;
+    }
+
 
     private class ParserTask extends AsyncTask<String,Integer, List<List<HashMap<String , String >>>> {
         @Override
@@ -662,10 +718,11 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             JSONObject jObject;
             List<List<HashMap<String, String>>> routes = null;
             try {
+
+
                 jObject = new JSONObject(jsonData[0]);
                 PathJSONParser parser = new PathJSONParser();
                 routes = parser.parse(jObject);
-
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -677,7 +734,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         protected void onPostExecute(List<List<HashMap<String, String>>> routes) {
             ArrayList<LatLng> points = null;
             PolylineOptions polyLineOptions = null;
-
             // traversing through routes
             for (int i = 0; i < routes.size(); i++) {
                 points = new ArrayList<LatLng>();
@@ -686,17 +742,27 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
                 for (int j = 0; j < path.size(); j++) {
                     HashMap<String, String> point = path.get(j);
-
                     double lat = Double.parseDouble(point.get("lat"));
                     double lng = Double.parseDouble(point.get("lng"));
                     LatLng position = new LatLng(lat, lng);
-
                     points.add(position);
                 }
 
                 polyLineOptions.addAll(points);
                 polyLineOptions.width(4);
                 polyLineOptions.color(Color.BLUE);
+
+                double distance = calculateMiles(points);
+
+
+                polylinesToAdd.add(polyLineOptions);
+                //mMap.addPolyline(polyLineOptions);
+                if(polylinesToAdd.size()==policeman.length)
+                {
+                    for (int g = 0; g < polylinesToAdd.size(); g++) {
+                        mMap.addPolyline(polylinesToAdd.get(g));
+                    }
+                }
             }
         }
     }
