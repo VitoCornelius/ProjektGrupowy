@@ -103,6 +103,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private Set<offense> customOffenses = new HashSet<>();
     //private Set<offense> custom = new HashSet<>();
     private GoogleMap mMap;
+    private GoogleMap mMapTemp;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastLocation;
@@ -115,10 +116,13 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private boolean isPressedB_przeklenstwa = false;
     private ArrayList<PolylineOptions> polylinesToAdd=new ArrayList<>();
 
+    private int counter=0;
+    public int tempCounter=0;
+
     public static final int REQUEST_LOCATION_CODE = 99;
 
     private PolylineOptions shortestDistance = new PolylineOptions();
-    private Double shortestRoute = 100000000d;
+    private Double shortestRoute = 100000000000000000d;
 
     private MarkerOptions[] policeman= {
             new MarkerOptions().position(new LatLng(54.505612,18.491115)).title("Policjant 1"),
@@ -435,7 +439,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                 @Override
                 public boolean onMarkerClick(Marker marker) {
                     //mMap.clear();
-
+                    counter=0;
+                    shortestRoute=100000000000000000d;
                     polylinesToAdd.clear();
 
                     for(int i=0; i<policeman.length;i++)
@@ -734,6 +739,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         protected void onPostExecute(List<List<HashMap<String, String>>> routes) {
             ArrayList<LatLng> points = null;
             PolylineOptions polyLineOptions = null;
+
             // traversing through routes
             for (int i = 0; i < routes.size(); i++) {
                 points = new ArrayList<LatLng>();
@@ -748,21 +754,35 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                     points.add(position);
                 }
 
+
                 polyLineOptions.addAll(points);
                 polyLineOptions.width(4);
                 polyLineOptions.color(Color.BLUE);
 
                 double distance = calculateMiles(points);
 
+                //int minorCounter=0;
+                if(distance<shortestRoute)
+                {
+                    shortestRoute=distance;
+                    tempCounter=counter;
+                }
 
                 polylinesToAdd.add(polyLineOptions);
                 //mMap.addPolyline(polyLineOptions);
                 if(polylinesToAdd.size()==policeman.length)
                 {
                     for (int g = 0; g < polylinesToAdd.size(); g++) {
+                        if(g==tempCounter)
+                        {
+                            mMap.addPolyline(polylinesToAdd.get(g).width(8).color(Color.RED));
+                        }else
                         mMap.addPolyline(polylinesToAdd.get(g));
                     }
+                    counter=0;
+                    tempCounter=0;
                 }
+                counter++;
             }
         }
     }
