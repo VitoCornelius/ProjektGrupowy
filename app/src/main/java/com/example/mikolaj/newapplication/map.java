@@ -125,11 +125,11 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private Double shortestRoute = 100000000000000000d;
 
     private MarkerOptions[] policeman= {
-            new MarkerOptions().position(new LatLng(54.505612,18.491115)).title("Policjant 1"),
-            new MarkerOptions().position(new LatLng(54.439377,18.567191)).title("Policjant 2"),
-            new MarkerOptions().position(new LatLng(54.405890,18.601477)).title("Policjant 3"),
-            new MarkerOptions().position(new LatLng(54.389201,18.588173)).title("Policjant 4"),
-            new MarkerOptions().position(new LatLng(54.500359,18.507902)).title("Policjant 5")};
+            new MarkerOptions().position(new LatLng(54.505612,18.491115)).title("Policjant: Nash Bridges Tel: 123456789"),
+            new MarkerOptions().position(new LatLng(54.439377,18.567191)).title("Policjant: Jackie Chan Tel: 123456789"),
+            new MarkerOptions().position(new LatLng(54.405890,18.601477)).title("Policjant: Komisarz Rex Tel: 123456789"),
+            new MarkerOptions().position(new LatLng(54.389201,18.588173)).title("Policjant: Ojciec Mateusz Tel: 123456789"),
+            new MarkerOptions().position(new LatLng(54.500359,18.507902)).title("Policjant: Detektyw Cobretti Tel: 123456789")};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
