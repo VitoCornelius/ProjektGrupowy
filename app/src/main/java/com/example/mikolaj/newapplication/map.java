@@ -28,6 +28,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -108,7 +109,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private LocationRequest locationRequest;
     private Location lastLocation;
     private Marker curreLocationMarker;
-    Button bMorderstwa,bPorwania, bPrzeklinanie, bPrzemoc,bShow;
+    Button bMorderstwa,bPorwania, bPrzeklinanie, bPrzemoc,bShow, bCall;
     private boolean isMapColor = false;
     private boolean isPressedB_zabojstwo = false;
     private boolean isPressedB_porwania = false;
@@ -116,6 +117,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private boolean isPressedB_przeklenstwa = false;
     private ArrayList<PolylineOptions> polylinesToAdd=new ArrayList<>();
 
+    private int tempChosenCap = 100000;
     private int counter=0;
     public int tempCounter=0;
 
@@ -124,12 +126,15 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private PolylineOptions shortestDistance = new PolylineOptions();
     private Double shortestRoute = 100000000000000000d;
 
-    private MarkerOptions[] policeman= {
-            new MarkerOptions().position(new LatLng(54.505612,18.491115)).title("Policjant: Nash Bridges Tel: 123456789"),
+    private ArrayList<MarkerOptions> policeman = new ArrayList<>();/*= {
+            new MarkerOptions().position(new LatLng(DownloadDataBase.policemanList.get(0)
+                    .position_latitude,DownloadDataBase.policemanList.get(0).position_longitude))
+                    .title(DownloadDataBase.policemanList.get(0).name+" Tel:"+
+                    DownloadDataBase.policemanList.get(0).phoneNumber),
             new MarkerOptions().position(new LatLng(54.439377,18.567191)).title("Policjant: Jackie Chan Tel: 123456789"),
             new MarkerOptions().position(new LatLng(54.405890,18.601477)).title("Policjant: Komisarz Rex Tel: 123456789"),
             new MarkerOptions().position(new LatLng(54.389201,18.588173)).title("Policjant: Ojciec Mateusz Tel: 123456789"),
-            new MarkerOptions().position(new LatLng(54.500359,18.507902)).title("Policjant: Detektyw Cobretti Tel: 123456789")};
+            new MarkerOptions().position(new LatLng(54.500359,18.507902)).title("Policjant: Detektyw Cobretti Tel: 123456789")};*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,8 +144,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
         MapsInitializer.initialize(getApplicationContext());
         BitmapDescriptorFactory bitmapDescriptorFactory;
-        for(int i=0; i<policeman.length;i++) {
-            policeman[i].icon(BitmapDescriptorFactory.defaultMarker(215));
+        createPolicemanMarkers();
+        for(int i=0; i<policeman.size();i++) {
+            policeman.get(i).icon(BitmapDescriptorFactory.defaultMarker(215));
         }
 
         bMorderstwa = (Button) findViewById(R.id.B_morderstwa);
@@ -148,6 +154,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         bPrzeklinanie = (Button) findViewById(R.id.B_przeklinanie);
         bPrzemoc = (Button) findViewById(R.id.B_przemoc);
         bShow = (Button) findViewById(R.id.B_showD);
+        bCall = (Button) findViewById(R.id.B_zadzwon);
 
 
 
@@ -190,6 +197,17 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                 }
         }
 
+    }
+
+    private void createPolicemanMarkers()
+    {
+        for (int i=0; i<DownloadDataBase.policemanList.size(); i++)
+        {
+            policeman.add(new MarkerOptions().position(new LatLng(DownloadDataBase.policemanList.get(i)
+                    .position_latitude,DownloadDataBase.policemanList.get(i).position_longitude))
+                    .title(DownloadDataBase.policemanList.get(i).name+" Tel:"+
+                            DownloadDataBase.policemanList.get(i).phoneNumber));
+        }
     }
 
     /**
@@ -346,6 +364,21 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                 }
                 break;
             }
+            case R.id.B_zadzwon: {
+                if (tempChosenCap<100000) {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:"+DownloadDataBase.policemanList.get(tempChosenCap).phoneNumber));
+                    startActivity(callIntent);
+                    if (ActivityCompat.checkSelfPermission(this,
+                            Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+
+                } else {
+
+                }
+                break;
+            }
         }
 
 
@@ -426,8 +459,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     private void drawEverything() {
 
-        for(int i=0; i<policeman.length;i++) {
-            mMap.addMarker(policeman[i]);
+        for(int i=0; i<policeman.size();i++) {
+            mMap.addMarker(policeman.get(i));
         }
         for (offense sthHappened : customOffenses) {
             mMap.addMarker(new MarkerOptions()
@@ -443,18 +476,19 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                     shortestRoute=100000000000000000d;
                     polylinesToAdd.clear();
 
-                    for(int i=0; i<policeman.length;i++)
+                    for(int i=0; i<policeman.size();i++)
                     {
-                        if(marker.getPosition().equals(policeman[i].getPosition()))
+                        if(marker.getPosition().equals(policeman.get(i).getPosition()))
                         {
+                            tempChosenCap = i;
                             break;
                         }
                         else {
                             String url = getMapsApiDirectionsUrl(
                                     new LatLng(marker.getPosition().longitude,
                                             marker.getPosition().latitude),
-                                    new LatLng((policeman[i].getPosition().longitude),
-                                            (policeman[i].getPosition().latitude)));
+                                    new LatLng((policeman.get(i).getPosition().longitude),
+                                            (policeman.get(i).getPosition().latitude)));
                             ReadTask downloadTask = new ReadTask();
                             // Start downloading json data from Google Directions API
                             downloadTask.execute(url);
@@ -501,6 +535,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                 @Override
                 public void onInfoWindowClick(Marker marker) {
                     marker.hideInfoWindow();
+                    tempChosenCap = 100000;
+
                 }
             });
 
@@ -770,7 +806,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
                 polylinesToAdd.add(polyLineOptions);
                 //mMap.addPolyline(polyLineOptions);
-                if(polylinesToAdd.size()==policeman.length)
+                if(polylinesToAdd.size()==policeman.size())
                 {
                     for (int g = 0; g < polylinesToAdd.size(); g++) {
                         if(g==tempCounter)

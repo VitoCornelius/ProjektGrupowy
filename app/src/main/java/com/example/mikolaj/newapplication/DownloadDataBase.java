@@ -43,6 +43,10 @@ public class DownloadDataBase {
     static List<offense> offensesByTypeASC = new ArrayList<>();
     static List<offense> offensesByTypeDESC = new ArrayList<>();
 
+    static List<Policeman> policemanList = new ArrayList<>();
+
+
+
     static List<Civilians> civilians = new ArrayList<>();
     static List<ReportCivilianRecords> reportCivilianRecords= new ArrayList<>();
     static List<Districts> districts = new ArrayList<>();
@@ -55,6 +59,13 @@ public class DownloadDataBase {
     static InputStream inputStream = null;
     static String line = null;
     static String result = null;
+    static {
+        policemanList.add(new Policeman("Nash Bridghes", 691342810, 54.505612,18.491115));
+        policemanList.add(new Policeman("Jackie Chan", 123456789, 54.439377,18.567191));
+        policemanList.add(new Policeman("Komisarz Rex", 123456789, 54.405890,18.601477));
+        policemanList.add(new Policeman("Ojciec Mateusz", 123456789, 54.389201,18.588173));
+        policemanList.add(new Policeman("Detektyw Cobretti", 123456789, 54.500359,18.507902));
+    }
 
     public static void splitRecords()
     {
@@ -105,6 +116,9 @@ public class DownloadDataBase {
 
 
     public static void getData1(String address){
+
+
+
         try {
             URL url = new URL(address);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -321,7 +335,7 @@ public class DownloadDataBase {
 
                     }
                     break;
-                }
+            }
                 case "http://wilki.kylos.pl/PSI/_addBorderPoints.php":{
                     for(int i=0;i<jsonArray.length();i++){
                         jsonObject = jsonArray.getJSONObject(i);
