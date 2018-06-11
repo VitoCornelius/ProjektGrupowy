@@ -156,7 +156,20 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         bShow = (Button) findViewById(R.id.B_showD);
         bCall = (Button) findViewById(R.id.B_zadzwon);
 
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+        {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CALL_PHONE)) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CALL_PHONE}, 1);
+            } else
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CALL_PHONE}, 1);
+            }
 
+        }
 
 
         setContentView(R.layout.activity_map); // ustawienie widoku na jakiś taki z xml
@@ -183,8 +196,11 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             case REQUEST_LOCATION_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //permission granted
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
+                    if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED)
+                    &&(ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.CALL_PHONE)==PackageManager.PERMISSION_GRANTED))
+                    {
                         if (client == null) {
                             buildGoogleApiClient();
                         }
