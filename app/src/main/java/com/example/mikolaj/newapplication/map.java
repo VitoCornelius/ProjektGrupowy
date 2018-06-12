@@ -27,6 +27,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -58,9 +59,14 @@ import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import com.kosalgeek.asynctask.AsyncResponse;
+import com.kosalgeek.asynctask.PostResponseAsyncTask;
+
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -72,7 +78,7 @@ import java.util.Set;
 public class map extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener, AsyncResponse {
 
     private ArrayList<Polygon> polygonList = new ArrayList<>();
     private Set<offense> customOffenses = new HashSet<>();
@@ -101,15 +107,10 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private PolylineOptions shortestDistance = new PolylineOptions();
     private Double shortestRoute = 100000000000000000d;
 
-    private ArrayList<MarkerOptions> policeman = new ArrayList<>();/*= {
-            new MarkerOptions().position(new LatLng(DownloadDataBase.policemanList.get(0)
-                    .position_latitude,DownloadDataBase.policemanList.get(0).position_longitude))
-                    .title(DownloadDataBase.policemanList.get(0).name+" Tel:"+
-                    DownloadDataBase.policemanList.get(0).phoneNumber),
-            new MarkerOptions().position(new LatLng(54.439377,18.567191)).title("Policjant: Jackie Chan Tel: 123456789"),
-            new MarkerOptions().position(new LatLng(54.405890,18.601477)).title("Policjant: Komisarz Rex Tel: 123456789"),
-            new MarkerOptions().position(new LatLng(54.389201,18.588173)).title("Policjant: Ojciec Mateusz Tel: 123456789"),
-            new MarkerOptions().position(new LatLng(54.500359,18.507902)).title("Policjant: Detektyw Cobretti Tel: 123456789")};*/
+    private ArrayList<MarkerOptions> policeman = new ArrayList<>();
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +144,19 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.CALL_PHONE}, 1);
             }
-
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+        {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_PHONE_STATE)) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
+            } else
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
+            }
         }
 
 
@@ -167,7 +180,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                     if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED)
                     &&(ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.CALL_PHONE)==PackageManager.PERMISSION_GRANTED))
+                            Manifest.permission.CALL_PHONE)==PackageManager.PERMISSION_GRANTED)
+                    &&(ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.READ_PHONE_STATE)==PackageManager.PERMISSION_GRANTED))
                     {
                         if (client == null) {
                             buildGoogleApiClient();
@@ -202,6 +217,13 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
+        if(curreLocationMarker!=null)
+        {
+            trackMyLocation(new LatLng(curreLocationMarker.getPosition().longitude
+                    ,curreLocationMarker.getPosition().latitude));
+        }
+
+
 
         mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             @Override
@@ -368,6 +390,12 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
 
         return url;
+    }
+
+
+    @Override
+    public void processFinish(String s) {
+
     }
 
 
@@ -583,6 +611,27 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         {
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
         }
+
+        if(curreLocationMarker!=null)
+        {
+            trackMyLocation(new LatLng(location.getLongitude()
+                    ,location.getLatitude()));
+        }
+    }
+
+    public void trackMyLocation(LatLng location)
+    {
+        String android_id = Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
+        HashMap postData = new HashMap();
+//                postData.put("txtID", etID.getText().toString());
+        postData.put("txtPhoneID", android_id);
+        postData.put("txtLatitude", String.valueOf(location.latitude));
+        postData.put("txtLongitute", String.valueOf(location.longitude));
+
+        PostResponseAsyncTask task = new PostResponseAsyncTask(this, postData);
+        task.execute("http://wilki.kylos.pl/PSI/_addPolicemanLocation.php");
     }
 
     @Override
@@ -598,6 +647,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                 .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(client, locationRequest, this);
+    //        trackMyLocation(this.lastLocation);
         }
     }
 
