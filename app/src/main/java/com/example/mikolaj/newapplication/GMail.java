@@ -1,19 +1,16 @@
 package com.example.mikolaj.newapplication;
 
+import android.util.Log;
+
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import android.util.Log;
-import android.widget.Toast;
 
 public class GMail {
 
@@ -51,8 +48,7 @@ public class GMail {
         Log.i("GMail", "Mail server properties set.");
     }
 
-    public MimeMessage createEmailMessage() throws AddressException,
-            MessagingException, UnsupportedEncodingException {
+    public MimeMessage createEmailMessage() throws MessagingException, UnsupportedEncodingException {
 
         mailSession = Session.getDefaultInstance(emailProperties, null);
         emailMessage = new MimeMessage(mailSession);
@@ -70,7 +66,7 @@ public class GMail {
         return emailMessage;
     }
 
-    public void sendEmail() throws AddressException, MessagingException {
+    public void sendEmail() throws MessagingException {
 
         Transport transport = mailSession.getTransport("smtp");
         transport.connect(emailHost, fromEmail, fromPassword);

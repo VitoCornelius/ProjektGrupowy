@@ -15,9 +15,7 @@ import android.widget.Toast;
 import com.kosalgeek.asynctask.AsyncResponse;
 import com.kosalgeek.asynctask.PostResponseAsyncTask;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 /**
@@ -31,9 +29,7 @@ public class addCivilianRecords extends AppCompatActivity implements AsyncRespon
     Button btnLogin;
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "user_name";
-    public static final String Name = "nameKey";
     public static String sDescription, sReportID, sCivilID, sCivilStatus;
-    public static myAccount account;
     public static Integer[] civilianIDs;//List<Integer>  civilianIDs = new ArrayList<>();
     public static Integer[] reportIDs;//List<Integer>  reportIDs = new ArrayList<>();
 
@@ -44,11 +40,11 @@ public class addCivilianRecords extends AppCompatActivity implements AsyncRespon
         getReportIDs();
         getCivilIDs();
         setContentView(R.layout.activity_add_civilian_records);
-        etDescription = (EditText) findViewById(R.id.rcr_description);
-        spCivilID = (Spinner) findViewById(R.id.civilian_id);
-        spReportID = (Spinner) findViewById(R.id.reportId);
-        spCivilStatus = (Spinner) findViewById(R.id.civilian_status);
-        btnLogin = (Button) findViewById(R.id.btn_signup_civilian_report);
+        etDescription = findViewById(R.id.rcr_description);
+        spCivilID = findViewById(R.id.civilian_id);
+        spReportID = findViewById(R.id.reportId);
+        spCivilStatus = findViewById(R.id.civilian_status);
+        btnLogin = findViewById(R.id.btn_signup_civilian_report);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         //Adapters
@@ -78,7 +74,6 @@ public class addCivilianRecords extends AppCompatActivity implements AsyncRespon
             startActivity(in);
         } else {
             Toast.makeText(this, "Register Failed", Toast.LENGTH_LONG).show();
-
         }
     }
 

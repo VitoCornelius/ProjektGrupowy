@@ -11,10 +11,12 @@ import android.widget.Toast;
  * Menu dostępne jedynie po zalogowaniu
  */
 public class userMenu extends AppCompatActivity {
-    Button newOffense, showOffenses, showMap,btnLogout, btnCivilians, btnProfile;
+    Button newOffense;
+    Button showOffenses;
+    Button showMap;
+    Button btnLogout;
+    Button btnCivilians;
     public Button btnStatistics;
-    public static boolean goToStatistics=false;
-    public static boolean goToAddOffense=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,19 +24,12 @@ public class userMenu extends AppCompatActivity {
         setContentView(R.layout.activity_user_menu);
         getSupportActionBar().hide();
 
-        newOffense = (Button) findViewById(R.id.btn_newOffense);
-        showOffenses = (Button) findViewById(R.id.btn_db_offenses);
-        showMap = (Button) findViewById(R.id.btn_map);
-        btnStatistics = (Button) findViewById(R.id.btn_statistics);
-        btnLogout = (Button) findViewById(R.id.btn_logout);
-        btnCivilians = (Button) findViewById(R.id.btn_db_cyvils);
-//        newOffense.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(userMenu.this, addOffense.class);
-//                startActivity(intent);
-//            }
-//        });
+        newOffense = findViewById(R.id.btn_newOffense);
+        showOffenses = findViewById(R.id.btn_db_offenses);
+        showMap = findViewById(R.id.btn_map);
+        btnStatistics = findViewById(R.id.btn_statistics);
+        btnLogout = findViewById(R.id.btn_logout);
+        btnCivilians = findViewById(R.id.btn_db_cyvils);
 
         newOffense.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +38,6 @@ public class userMenu extends AppCompatActivity {
                 startActivity(toy);
             }
         });
-
 
         showOffenses.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +63,6 @@ public class userMenu extends AppCompatActivity {
             }
         });
 
-
         showMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +79,5 @@ public class userMenu extends AppCompatActivity {
                 startActivity(toy);
             }
         });
-
-
     }
 }

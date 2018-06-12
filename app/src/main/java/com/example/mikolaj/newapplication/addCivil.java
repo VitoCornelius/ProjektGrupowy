@@ -19,30 +19,31 @@ import java.util.HashMap;
 /**
  * Created by Tomek on 2018-02-05.
  */
-
 public class addCivil extends AppCompatActivity implements AsyncResponse, View.OnClickListener {
 
-    EditText etAddress, etName, etSurname, etPassword,etRank;
+    EditText etAddress;
+    EditText etName;
+    EditText etSurname;
     Spinner spGender;
     Button btnLogin;
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "user_name";
-    public static final String Name = "nameKey";
-    public static String sUsername, sName, sSurname, sAddress, sGender;
-    public static myAccount account;
+    public static String sName;
+    public static String sSurname;
+    public static String sAddress;
+    public static String sGender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_civil);
-        etName = (EditText) findViewById(R.id.signup_input_person_name);
-        etSurname = (EditText) findViewById(R.id.signup_input_person_surname);
-        etAddress = (EditText) findViewById(R.id.signup_input_person_address);
-        spGender = (Spinner) findViewById(R.id.spinner2);
-        btnLogin = (Button) findViewById(R.id.btn_signup_person);
+        etName = findViewById(R.id.signup_input_person_name);
+        etSurname = findViewById(R.id.signup_input_person_surname);
+        etAddress = findViewById(R.id.signup_input_person_address);
+        spGender = findViewById(R.id.spinner2);
+        btnLogin = findViewById(R.id.btn_signup_person);
         btnLogin.setOnClickListener(this);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-
     }
 
     @Override
@@ -54,10 +55,8 @@ public class addCivil extends AppCompatActivity implements AsyncResponse, View.O
             sAddress = etAddress.getText().toString();
             sName = etName.getText().toString();
             sSurname = etSurname.getText().toString();
-            DownloadDataBase.civilians.add(new Civilians(DownloadDataBase.civilians
-                    .get(DownloadDataBase.civilians.size()-1).getCivilianID()+1,
+            DownloadDataBase.civilians.add(new Civilians(DownloadDataBase.civilians.get(DownloadDataBase.civilians.size()-1).getCivilianID()+1,
                     sName,sSurname,sGender,sAddress));
-
             startActivity(in);
         } else {
             Toast.makeText(this, "Register Failed", Toast.LENGTH_LONG).show();
@@ -68,7 +67,6 @@ public class addCivil extends AppCompatActivity implements AsyncResponse, View.O
     @Override
     public void onClick(View view) {
         HashMap postData = new HashMap();
-        //postData.put("mobile", "android");
         postData.put("txtName", etName.getText().toString());
         postData.put("txtSurname", etSurname.getText().toString());
         postData.put("txtGender", spGender.getSelectedItem().toString());

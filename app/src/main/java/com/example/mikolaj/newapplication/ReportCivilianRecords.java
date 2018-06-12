@@ -20,16 +20,6 @@ public class ReportCivilianRecords {
         this.description = description;
     }
 
-    /*public String getCivilianNameByID()
-    {
-        for (Civilians civilians: DownloadDataBase.civilians
-             ) {
-            if(civilianID==civilians.getCivilianID())
-                return civilians.getName()
-        }
-
-    }*/
-
     public int getRcrID() {
         return rcrID;
     }

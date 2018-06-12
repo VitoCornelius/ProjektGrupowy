@@ -1,20 +1,20 @@
 package com.example.mikolaj.newapplication;
 
-        import android.content.Context;
-        import android.content.Intent;
-        import android.content.SharedPreferences;
-        import android.os.Bundle;
-        import android.support.v7.app.AppCompatActivity;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.EditText;
-        import android.widget.Spinner;
-        import android.widget.Toast;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-        import com.kosalgeek.asynctask.AsyncResponse;
-        import com.kosalgeek.asynctask.PostResponseAsyncTask;
+import com.kosalgeek.asynctask.AsyncResponse;
+import com.kosalgeek.asynctask.PostResponseAsyncTask;
 
-        import java.util.HashMap;
+import java.util.HashMap;
 
 public class rejestracja extends AppCompatActivity implements AsyncResponse, View.OnClickListener {
 
@@ -40,7 +40,6 @@ public class rejestracja extends AppCompatActivity implements AsyncResponse, Vie
         btnLogin = (Button) findViewById(R.id.btn_signup);
         btnLogin.setOnClickListener(this);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-
     }
 
     @Override
@@ -55,7 +54,6 @@ public class rejestracja extends AppCompatActivity implements AsyncResponse, Vie
             startActivity(in);
         } else {
             Toast.makeText(this, "Register Failed", Toast.LENGTH_LONG).show();
-
         }
     }
 
@@ -69,13 +67,8 @@ public class rejestracja extends AppCompatActivity implements AsyncResponse, Vie
         postData.put("txtPassword", etPassword.getText().toString());
         postData.put("txtRank", etRank.getText().toString());
         postData.put("txtDistrict", spDistrict.getSelectedItem().toString());
-
-
-
         PostResponseAsyncTask task = new PostResponseAsyncTask(this, postData);
         task.execute("http://wilki.kylos.pl/PSI/_register.php");
-
-
     }
 
     public void login(View view) {

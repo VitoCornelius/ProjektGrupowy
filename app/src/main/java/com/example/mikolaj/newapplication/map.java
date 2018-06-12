@@ -17,17 +17,11 @@
 package com.example.mikolaj.newapplication;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -42,27 +36,18 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.android.PolyUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -71,26 +56,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.maps.android.geometry.Point;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
-
-
-
-
-
-import static android.app.PendingIntent.getActivity;
-
-//import android.location.LocationListener;
-//import com.google.android.gms.location.LocationListener;
 
 /**
  * This shows how to create a simple activity with a map and a marker on the map.
@@ -102,9 +76,10 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     private ArrayList<Polygon> polygonList = new ArrayList<>();
     private Set<offense> customOffenses = new HashSet<>();
-    //private Set<offense> custom = new HashSet<>();
+
     private GoogleMap mMap;
     private GoogleMap mMapTemp;
+
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastLocation;
@@ -149,12 +124,12 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             policeman.get(i).icon(BitmapDescriptorFactory.defaultMarker(215));
         }
 
-        bMorderstwa = (Button) findViewById(R.id.B_morderstwa);
-        bPorwania = (Button) findViewById(R.id.B_porwania);
-        bPrzeklinanie = (Button) findViewById(R.id.B_przeklinanie);
-        bPrzemoc = (Button) findViewById(R.id.B_przemoc);
-        bShow = (Button) findViewById(R.id.B_showD);
-        bCall = (Button) findViewById(R.id.B_zadzwon);
+        bMorderstwa = findViewById(R.id.B_morderstwa);
+        bPorwania = findViewById(R.id.B_porwania);
+        bPrzeklinanie = findViewById(R.id.B_przeklinanie);
+        bPrzemoc = findViewById(R.id.B_przemoc);
+        bShow = findViewById(R.id.B_showD);
+        bCall = findViewById(R.id.B_zadzwon);
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
@@ -182,13 +157,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map); // pobranie tej klasy w widoku
         mapFragment.getMapAsync(this); // pobranie async tej mapy
 
-
-        // Zoom in the Google Map
-//        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-//        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(latLng, 5);
-//        mMap.animateCamera();
-
-
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -206,7 +174,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                         }
                         mMap.setMyLocationEnabled(true);
                     }
-                } else    //permission denied
+                } else
                 {
                     Toast.makeText(this, "Permission Denied!", Toast.LENGTH_LONG)
                             .show();
@@ -226,15 +194,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         }
     }
 
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we
-     * just add a marker near Africa.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        //mMap.setOnMapClickListener(this);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             buildGoogleApiClient();
@@ -244,11 +206,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             @Override
             public void onPolygonClick(Polygon polygon) {
-                // Flip the red, green and blue components of the polygon's stroke color.
-//                polygon.setStrokeColor(polygon.getStrokeColor() ^ 0x00ffffff);
-//                polygon.setFillColor(polygon.getFillColor()^ 0x00ffffff);
-//                polygon.setStrokeColor(0x800000FF);
-//                polygon.setFillColor(0x800000FF);
                 String description = null;
                 int counter = 0;
 
@@ -302,14 +259,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                         + PRZEMOC_DOMOWA);
                 adb.setPositiveButton("Ok", null);
                 adb.show();
-
-
             }
 
         });
-        //googleMap.setOnMapClickListener(this);
-
-
     }
 
     public void onClick(View view) {
@@ -328,46 +280,19 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             }
 
             case R.id.B_morderstwa: {
-                if (isPressedB_zabojstwo) {
-                    isPressedB_zabojstwo = false;
-                    //bMorderstwa.setBackgroundColor(0xF51B5);
-                } else {
-                    isPressedB_zabojstwo = true;
-
-                }
+                isPressedB_zabojstwo = !isPressedB_zabojstwo;
                 break;
             }
-
             case R.id.B_porwania: {
-                if (isPressedB_porwania) {
-                    isPressedB_porwania = false;
-                } else {
-                    isPressedB_porwania = true;
-                }
+                isPressedB_porwania = !isPressedB_porwania;
                 break;
             }
             case R.id.B_przeklinanie: {
-                if (isPressedB_przeklenstwa) {
-                    isPressedB_przeklenstwa = false;
-                } else {
-                    isPressedB_przeklenstwa = true;
-                }
-
-                    /*for (offense sthHappened: DownloadDataBase.glosne_przeklinanie) {
-                    customOffenses.add(sthHappened);
-
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
-                            .title(sthHappened.getDescription()));
-                }*/
+                isPressedB_przeklenstwa = !isPressedB_przeklenstwa;
                 break;
             }
             case R.id.B_przemoc: {
-                if (isPressedB_przemoc) {
-                    isPressedB_przemoc = false;
-                } else {
-                    isPressedB_przemoc = true;
-                }
+                isPressedB_przemoc = !isPressedB_przemoc;
                 break;
             }
             case R.id.B_showD: {
@@ -429,7 +354,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         // Destination of route
         //String destinationStreet=getCompleteAddressString(dest.latitude, dest.longitude);
         String str_dest = "destination="+dest.longitude+","+dest.latitude;
-
 
         // Sensor enabled
         String sensor = "sensor=false";
@@ -555,12 +479,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
                 }
             });
-
-
         }
-
-
-
         if(isMapColor)
             colorMap();
     }
@@ -572,20 +491,18 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         }
     }
 
-
-    private void showEvent(List<offense> accidentList)
-    {
-        for (offense sthHappened: accidentList) {
-            customOffenses.add(sthHappened);
-            mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
-                    .title(sthHappened.getTypeConverted()).snippet(sthHappened.toString()));
-        }
-    }
+//    private void showEvent(List<offense> accidentList)
+//    {
+//        for (offense sthHappened: accidentList) {
+//            customOffenses.add(sthHappened);
+//            mMap.addMarker(new MarkerOptions()
+//                    .position(new LatLng(sthHappened.getPosition_longitude(),sthHappened.getPosition_latitude() ))
+//                    .title(sthHappened.getTypeConverted()).snippet(sthHappened.toString()));
+//        }
+//    }
 
     private void colorMap()
     {
-
         final int COLOR_GREEN = 0x80009900;
         final int COLOR_YELLOW = 0x80FFFF00;
         final int COLOR_ORANGE = 0x80FFbf00;
@@ -596,7 +513,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
         for(int i=0; i<DownloadDataBase.districts.size(); i++) {
             PolygonOptions opts = new PolygonOptions();
-            //Polygon polygon = mMap.addPolygon(opts);
 
             for (LatLng location : DownloadDataBase.districts.get(i).getList())
             {
@@ -605,12 +521,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
             dName = DownloadDataBase.districts.get(i).getDistrictName();
             dCounter = 0;
-                        /*for (int j = 0; j < DownloadDataBase.offenses.size(); j++) {
-                            if (DownloadDataBase.offenses.get(j).getDistrict().equals(dName)) {
-                                dCounter++;
-                            }
-
-                        }*/
             for (offense chosenOffense: customOffenses
                     ) {
                 if (chosenOffense.getDistrict().equals(dName)) {
@@ -640,15 +550,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
-        /*////////////////////////do usuniecia
-        LatLng gdansk = new LatLng(54.22,18.38);
-
-        mMap.addMarker(new MarkerOptions().position(gdansk).title("Marker")); // dodanie nowego markera
-        // tutaj tak samo mozna dodawać listenery do mapy
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(gdansk));
-        ////////////////////////az dotad.**/
-
-
     protected synchronized void buildGoogleApiClient() {
         client = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -669,14 +570,12 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         }
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Location");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
         curreLocationMarker = mMap.addMarker(markerOptions);
-
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomBy(5));
 
@@ -684,10 +583,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         {
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
         }
-
     }
-
-
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -697,18 +593,10 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat
                 .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             LocationServices.FusedLocationApi.requestLocationUpdates(client, locationRequest, this);
         }
     }
@@ -775,7 +663,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             JSONObject jObject;
             List<List<HashMap<String, String>>> routes = null;
             try {
-
 
                 jObject = new JSONObject(jsonData[0]);
                 PathJSONParser parser = new PathJSONParser();

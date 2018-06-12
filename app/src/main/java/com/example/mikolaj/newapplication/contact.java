@@ -2,19 +2,14 @@ package com.example.mikolaj.newapplication;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.kosalgeek.asynctask.PostResponseAsyncTask;
-
-import java.util.HashMap;
 
 public class contact extends AppCompatActivity {
     public Button btnSendContactForm;
@@ -25,15 +20,10 @@ public class contact extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_contact);
-
-        feedbackField = (EditText) findViewById(R.id.EditTextFeedbackBody);
-        emailField = (EditText) findViewById(R.id.EditTextEmail);
-        feedbackSpinner = (Spinner) findViewById(R.id.SpinnerFeedbackType);
-        btnSendContactForm = (Button) findViewById(R.id.ButtonSendFeedback);
-
-
-
-
+        feedbackField = findViewById(R.id.EditTextFeedbackBody);
+        emailField = findViewById(R.id.EditTextEmail);
+        feedbackSpinner = findViewById(R.id.SpinnerFeedbackType);
+        btnSendContactForm = findViewById(R.id.ButtonSendFeedback);
     }
 
     public void onClick(View view) {
@@ -50,14 +40,11 @@ public class contact extends AppCompatActivity {
         Log.i("Send email", "");
 
         String[] TO = {"mikolajkrol93@gmail.com"};
-        //String[] CC = {"xyz@gmail.com"};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setType("text/plain");
 
-
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        //emailIntent.putExtra(Intent.EXTRA_CC, CC);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, feedbackType);
         emailIntent.putExtra(Intent.EXTRA_TEXT, feedback);
 

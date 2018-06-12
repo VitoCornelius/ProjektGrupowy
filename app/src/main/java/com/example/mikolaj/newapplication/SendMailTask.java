@@ -4,14 +4,10 @@ package com.example.mikolaj.newapplication;
  * Created by Mikolaj on 03.02.2018.
  */
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 public class SendMailTask extends AsyncTask {
 
@@ -20,7 +16,6 @@ public class SendMailTask extends AsyncTask {
 
     public SendMailTask(Activity activity) {
         sendMailActivity = activity;
-
     }
 
     protected void onPreExecute() {

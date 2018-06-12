@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
 
-
-
         if(DownloadDataBase.offenses.size()==0)
         {
             DownloadDataBase.getData1(DownloadDataBase.address);
@@ -45,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
             DownloadDataBase.splitRecords();
         }
 
-        btnMap = (Button) findViewById(R.id.btn_map);
-        btnStatistics = (Button) findViewById(R.id.btn_statistics);
-        btnContact = (Button) findViewById(R.id.btn_contact);
-        btnZaloguj = (Button) findViewById(R.id.btn_zaloguj);
-        btnZarejestruj = (Button) findViewById(R.id.btn_zarejestruj);
+        btnMap = findViewById(R.id.btn_map);
+        btnStatistics = findViewById(R.id.btn_statistics);
+        btnContact = findViewById(R.id.btn_contact);
+        btnZaloguj = findViewById(R.id.btn_zaloguj);
+        btnZarejestruj = findViewById(R.id.btn_zarejestruj);
 
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,8 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(toy);
             }
         });
-
-
     }
 
 }

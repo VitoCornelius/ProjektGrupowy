@@ -21,16 +21,15 @@ public class login extends AppCompatActivity implements AsyncResponse, View.OnCl
     Button btnLogin;
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "username";
-    public static final String Name = "nameKey";
     public static String sUsername;
     public myAccount account;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        etUsername = (EditText) findViewById(R.id.etUsername);
-        etPassword = (EditText) findViewById(R.id.etPassword);
-        btnLogin = (Button) findViewById(R.id.btnLogin);
+        etUsername = findViewById(R.id.etUsername);
+        etPassword = findViewById(R.id.etPassword);
+        btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
@@ -61,8 +60,6 @@ public class login extends AppCompatActivity implements AsyncResponse, View.OnCl
 
         PostResponseAsyncTask task = new PostResponseAsyncTask(this, postData);
         task.execute("http://wilki.kylos.pl/PSI/_login.php");
-
-
     }
 
     public void login(View view) {

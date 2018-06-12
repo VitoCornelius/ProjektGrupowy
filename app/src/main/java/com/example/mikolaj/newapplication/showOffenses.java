@@ -1,12 +1,9 @@
 package com.example.mikolaj.newapplication;
 
-import android.app.ListActivity;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,38 +13,23 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.kosalgeek.asynctask.AsyncResponse;
-import com.kosalgeek.asynctask.PostResponseAsyncTask;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
 
 public class showOffenses extends AppCompatActivity implements AsyncResponse {
 
     ListView listView;
     ArrayAdapter<String> adapter;
-    String address = "http://wilki.kylos.pl/PSI/_showOffenses.php";
-    Button btnDate, btnVictims, btnType, search;
+    Button btnDate;
+    Button btnVictims;
+    Button search;
 
-    InputStream inputStream = null;
-    String line = null;
     String result = null;
-    String[] data;
     String[] data2;
     String sID = null;
     String sID2= null;
     int iID = 0;
     String description, adres, repPers, sType, sStatus, sCivilianStatus, sCivilianDescription;
-    boolean datePressed, victimsPressed, typePressed;
+    boolean datePressed;
+    boolean victimsPressed;
     CheckBox hide;
 
 
@@ -56,20 +38,18 @@ public class showOffenses extends AppCompatActivity implements AsyncResponse {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_offenses);
         listView = findViewById(R.id.ListView1);
-        btnDate = (Button) findViewById(R.id.sort1);
-        btnVictims = (Button) findViewById(R.id.sort2);
-        hide = (CheckBox) findViewById(R.id.hide);
-        search = (Button) findViewById(R.id.search);
+        btnDate = findViewById(R.id.sort1);
+        btnVictims = findViewById(R.id.sort2);
+        hide = findViewById(R.id.hide);
+        search = findViewById(R.id.search);
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
 
         getData2(0);
         show();
-
-
     }
 
     private void show(){
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data2);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data2);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -77,7 +57,6 @@ public class showOffenses extends AppCompatActivity implements AsyncResponse {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long rowId) {
-
 
                 final AlertDialog.Builder adb = new AlertDialog.Builder(
                         showOffenses.this);
@@ -120,15 +99,12 @@ public class showOffenses extends AppCompatActivity implements AsyncResponse {
                 }
                 adb.setPositiveButton("Ok", null);
                 adb.show();
-
             }
-
         });
     }
 
     private void getData2(int n)
     {
-
         data2 =  new String[DownloadDataBase.offenses.size()];
         switch (n){
             case 0:
@@ -267,12 +243,10 @@ public class showOffenses extends AppCompatActivity implements AsyncResponse {
         }
     }
 
-
     @Override
     public void processFinish(String s) {
         if (result.equals("success")) {
             Toast.makeText(this, "Register Successfully", Toast.LENGTH_LONG).show();
-            Intent in = new Intent(this, userMenu.class);
         }else{
             Toast.makeText(this, "Register Failed!", Toast.LENGTH_LONG).show();
         }

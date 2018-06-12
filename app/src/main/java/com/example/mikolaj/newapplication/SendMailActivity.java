@@ -19,7 +19,7 @@ public class SendMailActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_mail);
-        final Button send = (Button) this.findViewById(R.id.button1);
+        final Button send = this.findViewById(R.id.button1);
 
         send.setOnClickListener(new View.OnClickListener() {
 

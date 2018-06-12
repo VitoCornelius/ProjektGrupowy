@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -45,8 +44,6 @@ public class DownloadDataBase {
 
     static List<Policeman> policemanList = new ArrayList<>();
 
-
-
     static List<Civilians> civilians = new ArrayList<>();
     static List<ReportCivilianRecords> reportCivilianRecords= new ArrayList<>();
     static List<Districts> districts = new ArrayList<>();
@@ -59,6 +56,7 @@ public class DownloadDataBase {
     static InputStream inputStream = null;
     static String line = null;
     static String result = null;
+
     static {
         policemanList.add(new Policeman("Nash Bridghes", 691342810, 54.505612,18.491115));
         policemanList.add(new Policeman("Jackie Chan", 123456789, 54.439377,18.567191));
@@ -116,16 +114,12 @@ public class DownloadDataBase {
 
 
     public static void getData1(String address){
-
-
-
         try {
             URL url = new URL(address);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             inputStream = new BufferedInputStream(connection.getInputStream());
-
-        }catch(Exception e){
+        } catch(Exception e){
             e.printStackTrace();
         }
 
@@ -142,10 +136,7 @@ public class DownloadDataBase {
         }catch(Exception e){
             e.printStackTrace();
         }
-
-
         //PARSE JSON DATA
-
         try{
             JSONArray jsonArray = new JSONArray(result);
             JSONObject jsonObject = null;
@@ -297,9 +288,6 @@ public class DownloadDataBase {
                     break;
                 }
 
-
-
-
                 case "http://wilki.kylos.pl/PSI/_showCivilians.php":{
                     for(int i=0;i<jsonArray.length();i++){
                         jsonObject = jsonArray.getJSONObject(i);
@@ -312,6 +300,7 @@ public class DownloadDataBase {
                     }
                     break;
                 }
+
                 case "http://wilki.kylos.pl/PSI/_showCivilianRecords.php":{
                     for(int i=0;i<jsonArray.length();i++){
                         jsonObject = jsonArray.getJSONObject(i);
@@ -335,7 +324,8 @@ public class DownloadDataBase {
 
                     }
                     break;
-            }
+                }
+
                 case "http://wilki.kylos.pl/PSI/_addBorderPoints.php":{
                     for(int i=0;i<jsonArray.length();i++){
                         jsonObject = jsonArray.getJSONObject(i);

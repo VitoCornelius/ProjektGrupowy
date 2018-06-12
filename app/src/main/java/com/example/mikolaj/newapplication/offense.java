@@ -1,7 +1,6 @@
 package com.example.mikolaj.newapplication;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -55,19 +54,19 @@ public class offense{
     }
 
 
-    public String civilanReportString()
-    {
-        String text="";
-        for (ReportCivilianRecords records: this.associatedCivilianRecords)
-         {
-             text = text + "\nID osoby: " + records.getCivilianID()
-                     + ", status: " + records.getCivilianStatus()
-                     + ", Imie: " + DownloadDataBase.civilians.get(records.getCivilianID()).getName()
-                     +", Nazwisko: " + DownloadDataBase.civilians.get(records.getCivilianID()).getSurname()
-                     +", Adres:  " + DownloadDataBase.civilians.get(records.getCivilianID()).getAddress();
-        }
-        return text;
-    }
+//    public String civilanReportString()
+//    {
+//        String text="";
+//        for (ReportCivilianRecords records: this.associatedCivilianRecords)
+//         {
+//             text = text + "\nID osoby: " + records.getCivilianID()
+//                     + ", status: " + records.getCivilianStatus()
+//                     + ", Imie: " + DownloadDataBase.civilians.get(records.getCivilianID()).getName()
+//                     +", Nazwisko: " + DownloadDataBase.civilians.get(records.getCivilianID()).getSurname()
+//                     +", Adres:  " + DownloadDataBase.civilians.get(records.getCivilianID()).getAddress();
+//        }
+//        return text;
+//    }
 
     public int getOffenseId() {
         return offenseId;
@@ -204,10 +203,5 @@ public class offense{
 
     public void setPosition_latitude(double position_latitude) {
         this.position_latitude = position_latitude;
-    }
-
-    public boolean sendOffense() {
-        // TODO - wysylanie obiektu do bazy danych
-        return true;
     }
 }
