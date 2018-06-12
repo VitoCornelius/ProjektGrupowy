@@ -22,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -109,13 +110,31 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     private ArrayList<MarkerOptions> policeman = new ArrayList<>();
 
+    /**
+     * Manager lokalizacji
+     */
+    protected LocationManager mLocationManager;
 
-
+    /**
+     *  ustalenie lokalizacji - listener - nasłuchuje na zmiany lokalizacji
+     */
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            trackMyLocation(new LatLng(location.getLatitude(), location.getLongitude()));
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
+
+        /**
+         *  ustalenie lokalizacji
+         */
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, (android.location.LocationListener) mLocationListener);
 
 
         MapsInitializer.initialize(getApplicationContext());
@@ -222,8 +241,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             trackMyLocation(new LatLng(curreLocationMarker.getPosition().longitude
                     ,curreLocationMarker.getPosition().latitude));
         }
-
-
 
         mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             @Override
@@ -628,7 +645,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 //                postData.put("txtID", etID.getText().toString());
         postData.put("txtPhoneID", android_id);
         postData.put("txtLatitude", String.valueOf(location.latitude));
-        postData.put("txtLongitute", String.valueOf(location.longitude));
+        postData.put("txtLongitute", String.valueOf(location.longitude));robie
 
         PostResponseAsyncTask task = new PostResponseAsyncTask(this, postData);
         task.execute("http://wilki.kylos.pl/PSI/_addPolicemanLocation.php");
