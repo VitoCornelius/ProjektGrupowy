@@ -33,6 +33,10 @@ public class DownloadDataBase {
     static String sortByTypeASC = "http://wilki.kylos.pl/PSI/_showOffensesByStatusASC.php";
     static String sortByTypeDESC = "http://wilki.kylos.pl/PSI/_showOffensesByStatusDESC.php";
 
+    static String getPolicemenFromTheDatabase = "http://wilki.kylos.pl/PSI/_getPolicemen.php"; // TODO
+
+
+
     static List<offense> offenses = new ArrayList<>();
 
     static List<offense> offensesByDateASC = new ArrayList<>();
@@ -57,6 +61,7 @@ public class DownloadDataBase {
     static String line = null;
     static String result = null;
 
+    // TODO to be removed !
     static {
         policemanList.add(new Policeman("Nash Bridghes", 691342810, 54.505612,18.491115));
         policemanList.add(new Policeman("Jackie Chan", 123456789, 54.439377,18.567191));
@@ -162,6 +167,11 @@ public class DownloadDataBase {
                                 Double.parseDouble(jsonObject.getString("latitude")),
                                 jsonObject.getString("address")));
                     }
+                    break;
+                }
+
+                case "http://wilki.kylos.pl/PSI/_getPolicemen.php" :{
+
                     break;
                 }
 
@@ -347,11 +357,27 @@ public class DownloadDataBase {
                     break;
                 }
             }
-
-
-
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void updatePolicemenList(JSONArray jsonArray) {
+
+        for(int i=0;i<jsonArray.length();i++){
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        int phoneID = Integer.parseInt(jsonObject.getString("phoneID"));
+                        String name = jsonObject.getString("name");
+                        int poneNUmber = Integer.parseInt(jsonObject.getString("phone_number"));
+                        double longitude =  Double.parseDouble(jsonObject.getString("longitude"));
+                        double latitude = Double.parseDouble(jsonObject.getString("latitude"));
+
+                        policemanList.add(new Policeman(name, poneNUmber, latitude, longitude));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
     }

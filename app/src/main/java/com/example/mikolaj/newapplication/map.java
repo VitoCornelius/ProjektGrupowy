@@ -105,6 +105,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private int counter=0;
     public int tempCounter=0;
 
+    public Policeman myPoliceman;
+
     public static final int REQUEST_LOCATION_CODE = 99;
 
     private PolylineOptions shortestDistance = new PolylineOptions();
@@ -112,9 +114,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     private ArrayList<MarkerOptions> policeman = new ArrayList<>();
 
-    /**
-     * Manager lokalizacji
-     */
     protected LocationManager mLocationManager;
 
     @Override
@@ -122,12 +121,25 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         super.onCreate(savedInstanceState);
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
 
+        String name ;
+        if (login.sUsername == null){
+            name = "defaultname";
+        } else {
+            name = login.sUsername;
+        }
+        myPoliceman = new Policeman(name, 1295748, 0.0, 0.0); // create the fake policeman
 
+        /**
+         *  ustalenie lokalizacji
+         */
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, new android.location.LocationListener() {
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, new android.location.LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 trackMyLocation(new LatLng(location.getLatitude(), location.getLongitude()));
+
+                // ustawianie markerów dla policjantów za kazdym razem jak jest podana nowa lokalizacja
+                createPolicemanMarkers();
             }
 
             @Override
@@ -146,9 +158,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             }
         });
 
-        /**
-         *  ustalenie lokalizacji
-         */
         MapsInitializer.initialize(getApplicationContext());
         BitmapDescriptorFactory bitmapDescriptorFactory;
         createPolicemanMarkers();
@@ -231,8 +240,11 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
+    // TODO do zmieniany w przypadku nowych policjantow dynamicznych
     private void createPolicemanMarkers()
     {
+        DownloadDataBase.getData1(DownloadDataBase.getPolicemenFromTheDatabase);
+
         for (int i=0; i<DownloadDataBase.policemanList.size(); i++)
         {
             policeman.add(new MarkerOptions().position(new LatLng(DownloadDataBase.policemanList.get(i)
@@ -437,7 +449,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             try {
                 MapHttpConnection http = new MapHttpConnection();
                 data = http.readUr(url[0]);
-
 
             } catch (Exception e) {
                 // TODO: handle exception
@@ -650,8 +661,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                 Settings.Secure.ANDROID_ID);
 
         HashMap postData = new HashMap();
-//                postData.put("txtID", etID.getText().toString());
         postData.put("txtPhoneID", android_id);
+        //postData.put("name", myPoliceMan.name);
+        //postData.put("phone", myPoliceMan.phoneNumber);
         postData.put("txtLatitude", String.valueOf(location.latitude));
         postData.put("txtLongitute", String.valueOf(location.longitude));
 

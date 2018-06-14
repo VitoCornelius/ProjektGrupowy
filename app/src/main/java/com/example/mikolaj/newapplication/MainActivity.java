@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             DownloadDataBase.getData1(DownloadDataBase.sortByTypeDESC);
             DownloadDataBase.getData1(DownloadDataBase.sortByVictimsASC);
             DownloadDataBase.getData1(DownloadDataBase.sortByVictimsDESC);
+            DownloadDataBase.getData1(DownloadDataBase.getPolicemenFromTheDatabase);
             DownloadDataBase.splitRecords();
         }
 
