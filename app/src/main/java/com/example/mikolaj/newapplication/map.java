@@ -243,10 +243,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
-        if(curreLocationMarker!=null)
-        {
-            trackMyLocation(new LatLng(curreLocationMarker.getPosition().longitude
-                    ,curreLocationMarker.getPosition().latitude));
+        if (myLatLng != null) {
+            trackMyLocation(myLatLng);
         }
 
         mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
@@ -636,10 +634,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
         }
 
-        if(curreLocationMarker!=null)
-        {
-            trackMyLocation(new LatLng(location.getLongitude()
-                    ,location.getLatitude()));
+
+        if (myLatLng != null) {
+            trackMyLocation(myLatLng);
         }
     }
 
@@ -678,6 +675,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(client);
         if (mLastLocation != null) {
             myLatLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            trackMyLocation(myLatLng);
         }
     }
 
