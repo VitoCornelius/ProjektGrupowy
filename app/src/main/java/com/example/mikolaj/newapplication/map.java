@@ -67,7 +67,6 @@ import com.kosalgeek.asynctask.PostResponseAsyncTask;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -86,6 +85,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     private GoogleMap mMap;
     private GoogleMap mMapTemp;
+    public LatLng myLatLng;
+    Marker currLocationMarker;
 
     private GoogleApiClient client;
     private LocationRequest locationRequest;
@@ -133,8 +134,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         /**
          *  ustalenie lokalizacji
          */
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, (android.location.LocationListener) mLocationListener);
+
 
 
         MapsInitializer.initialize(getApplicationContext());
@@ -188,6 +188,13 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map); // pobranie tej klasy w widoku
         mapFragment.getMapAsync(this); // pobranie async tej mapy
+
+        //mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        //mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, (android.location.LocationListener) mLocationListener);
+
+
+
+
 
     }
     @Override
@@ -645,7 +652,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 //                postData.put("txtID", etID.getText().toString());
         postData.put("txtPhoneID", android_id);
         postData.put("txtLatitude", String.valueOf(location.latitude));
-        postData.put("txtLongitute", String.valueOf(location.longitude));robie
+        postData.put("txtLongitute", String.valueOf(location.longitude));
 
         PostResponseAsyncTask task = new PostResponseAsyncTask(this, postData);
         task.execute("http://wilki.kylos.pl/PSI/_addPolicemanLocation.php");
@@ -664,7 +671,13 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                 .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(client, locationRequest, this);
+
     //        trackMyLocation(this.lastLocation);
+        }
+
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(client);
+        if (mLastLocation != null) {
+            myLatLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
         }
     }
 
