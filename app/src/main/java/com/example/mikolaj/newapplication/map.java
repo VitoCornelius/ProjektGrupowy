@@ -662,8 +662,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
         HashMap postData = new HashMap();
         postData.put("txtPhoneID", android_id);
-        //postData.put("name", myPoliceMan.name);
-        //postData.put("phone", myPoliceMan.phoneNumber);
+        postData.put("name", myPoliceman.name);
+        postData.put("phone", myPoliceman.phoneNumber);
         postData.put("txtLatitude", String.valueOf(location.latitude));
         postData.put("txtLongitute", String.valueOf(location.longitude));
 
