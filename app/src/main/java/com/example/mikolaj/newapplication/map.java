@@ -17,6 +17,7 @@
 package com.example.mikolaj.newapplication;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -116,27 +117,38 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
      */
     protected LocationManager mLocationManager;
 
-    /**
-     *  ustalenie lokalizacji - listener - nasłuchuje na zmiany lokalizacji
-     */
-    private final LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            trackMyLocation(new LatLng(location.getLatitude(), location.getLongitude()));
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
 
+
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, new android.location.LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                trackMyLocation(new LatLng(location.getLatitude(), location.getLongitude()));
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        });
+
         /**
          *  ustalenie lokalizacji
          */
-
-
-
         MapsInitializer.initialize(getApplicationContext());
         BitmapDescriptorFactory bitmapDescriptorFactory;
         createPolicemanMarkers();
@@ -191,11 +203,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
         //mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         //mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, (android.location.LocationListener) mLocationListener);
-
-
-
-
-
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -618,7 +625,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         {
             curreLocationMarker.remove();
         }
-
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
@@ -633,8 +639,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         {
             LocationServices.FusedLocationApi.removeLocationUpdates(client, this);
         }
-
-
         if (myLatLng != null) {
             trackMyLocation(myLatLng);
         }
@@ -659,8 +663,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     public void onConnected(@Nullable Bundle bundle) {
         locationRequest = new LocationRequest();
 
-        locationRequest.setInterval(1000);
-        locationRequest.setFastestInterval(1000);
+        locationRequest.setInterval(1);
+        locationRequest.setFastestInterval(1);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
