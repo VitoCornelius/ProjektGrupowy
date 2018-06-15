@@ -238,6 +238,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     private void createPolicemanMarkers()
     {
+        DownloadDataBase.policemanList.clear();
+        policeman.clear();
 
         DownloadDataBase.getData1(DownloadDataBase.getPolicemenFromTheDatabase);
 
