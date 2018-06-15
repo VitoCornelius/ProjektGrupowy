@@ -93,17 +93,17 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private LocationRequest locationRequest;
     private Location lastLocation;
     private Marker curreLocationMarker;
-    Button bMorderstwa,bPorwania, bPrzeklinanie, bPrzemoc,bShow, bCall;
+    Button bMorderstwa, bPorwania, bPrzeklinanie, bPrzemoc, bShow, bCall;
     private boolean isMapColor = false;
     private boolean isPressedB_zabojstwo = false;
     private boolean isPressedB_porwania = false;
     private boolean isPressedB_przemoc = false;
     private boolean isPressedB_przeklenstwa = false;
-    private ArrayList<PolylineOptions> polylinesToAdd=new ArrayList<>();
+    private ArrayList<PolylineOptions> polylinesToAdd = new ArrayList<>();
 
     private int tempChosenCap = 100000;
-    private int counter=0;
-    public int tempCounter=0;
+    private int counter = 0;
+    public int tempCounter = 0;
 
     public static final int REQUEST_LOCATION_CODE = 99;
 
@@ -124,6 +124,10 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, new android.location.LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
