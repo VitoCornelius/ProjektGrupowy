@@ -801,7 +801,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
                 polylinesToAdd.add(polyLineOptions);
                 //mMap.addPolyline(polyLineOptions);
-                if(polylinesToAdd.size()==policeman.size())
+                if(polylinesToAdd.size()==policeman.size()-1)
                 {
                     for (int g = 0; g < polylinesToAdd.size(); g++) {
                         if(g==tempCounter)
