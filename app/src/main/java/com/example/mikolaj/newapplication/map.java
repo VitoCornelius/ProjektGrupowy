@@ -122,6 +122,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         super.onCreate(savedInstanceState);
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
 
+        getPermission(Manifest.permission.CALL_PHONE);
+        getPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+        getPermission(Manifest.permission.READ_PHONE_STATE);
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -132,6 +135,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onLocationChanged(Location location) {
                 trackMyLocation(new LatLng(location.getLatitude(), location.getLongitude()));
+                //policeman.clear();
                 createPolicemanMarkers();
             }
 
@@ -168,32 +172,6 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         bShow = findViewById(R.id.B_showD);
         bCall = findViewById(R.id.B_zadzwon);
 
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
-        {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.CALL_PHONE)) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CALL_PHONE}, 1);
-            } else
-            {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CALL_PHONE}, 1);
-            }
-        }
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
-        {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_PHONE_STATE)) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
-            } else
-            {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
-            }
-        }
 
 
         setContentView(R.layout.activity_map); // ustawienie widoku na jakiś taki z xml
@@ -236,8 +214,27 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
+    public void getPermission(String permission)
+    {
+        if (ContextCompat.checkSelfPermission(this,
+                permission) != PackageManager.PERMISSION_GRANTED)
+        {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    permission)) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{permission}, 1);
+            } else
+            {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{permission}, 1);
+            }
+        }
+    }
+
     private void createPolicemanMarkers()
     {
+        DownloadDataBase.policemanList.clear();
+        policeman.clear();
 
         DownloadDataBase.getData1(DownloadDataBase.getPolicemenFromTheDatabase);
 
@@ -801,7 +798,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
                 polylinesToAdd.add(polyLineOptions);
                 //mMap.addPolyline(polyLineOptions);
-                if(polylinesToAdd.size()==policeman.size()-1)
+                if(polylinesToAdd.size()==policeman.size())
                 {
                     for (int g = 0; g < polylinesToAdd.size(); g++) {
                         if(g==tempCounter)
