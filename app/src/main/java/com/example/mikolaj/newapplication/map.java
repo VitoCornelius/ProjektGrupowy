@@ -128,6 +128,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onLocationChanged(Location location) {
                 trackMyLocation(new LatLng(location.getLatitude(), location.getLongitude()));
+                createPolicemanMarkers();
             }
 
             @Override
@@ -233,6 +234,9 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
 
     private void createPolicemanMarkers()
     {
+
+        DownloadDataBase.getData1(DownloadDataBase.getPolicemenFromTheDatabase);
+
         for (int i=0; i<DownloadDataBase.policemanList.size(); i++)
         {
             policeman.add(new MarkerOptions().position(new LatLng(DownloadDataBase.policemanList.get(i)
@@ -652,6 +656,8 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         HashMap postData = new HashMap();
 //                postData.put("txtID", etID.getText().toString());
         postData.put("txtPhoneID", android_id);
+        postData.put("name", "fake");
+        postData.put("phone", String.valueOf(888888888));
         postData.put("txtLatitude", String.valueOf(location.latitude));
         postData.put("txtLongitute", String.valueOf(location.longitude));
 

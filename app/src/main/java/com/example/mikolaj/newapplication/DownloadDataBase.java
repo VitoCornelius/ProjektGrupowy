@@ -33,6 +33,8 @@ public class DownloadDataBase {
     static String sortByTypeASC = "http://wilki.kylos.pl/PSI/_showOffensesByStatusASC.php";
     static String sortByTypeDESC = "http://wilki.kylos.pl/PSI/_showOffensesByStatusDESC.php";
 
+    static String getPolicemenFromTheDatabase = "http://wilki.kylos.pl/PSI/_getPolicemen.php"; // TODO
+
     static List<offense> offenses = new ArrayList<>();
 
     static List<offense> offensesByDateASC = new ArrayList<>();
@@ -57,13 +59,13 @@ public class DownloadDataBase {
     static String line = null;
     static String result = null;
 
-    static {
-        policemanList.add(new Policeman("Nash Bridghes", 691342810, 54.505612,18.491115));
-        policemanList.add(new Policeman("Jackie Chan", 123456789, 54.439377,18.567191));
-        policemanList.add(new Policeman("Komisarz Rex", 123456789, 54.405890,18.601477));
-        policemanList.add(new Policeman("Ojciec Mateusz", 123456789, 54.389201,18.588173));
-        policemanList.add(new Policeman("Detektyw Cobretti", 123456789, 54.500359,18.507902));
-    }
+//    static {
+//        policemanList.add(new Policeman("Nash Bridghes", 691342810, 54.505612,18.491115));
+//        policemanList.add(new Policeman("Jackie Chan", 123456789, 54.439377,18.567191));
+//        policemanList.add(new Policeman("Komisarz Rex", 123456789, 54.405890,18.601477));
+//        policemanList.add(new Policeman("Ojciec Mateusz", 123456789, 54.389201,18.588173));
+//        policemanList.add(new Policeman("Detektyw Cobretti", 123456789, 54.500359,18.507902));
+//    }
 
     public static void splitRecords()
     {
@@ -163,6 +165,23 @@ public class DownloadDataBase {
                                 jsonObject.getString("address")));
                     }
                     break;
+                }
+
+                case "http://wilki.kylos.pl/PSI/_getPolicemen.php" : {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        try {
+                            jsonObject = jsonArray.getJSONObject(i);
+                            int phoneID = Integer.parseInt(jsonObject.getString("phoneID"));
+                            String name = jsonObject.getString("name");
+                            int poneNUmber = Integer.parseInt(jsonObject.getString("phone_number"));
+                            double longitude = Double.parseDouble(jsonObject.getString("longitude"));
+                            double latitude = Double.parseDouble(jsonObject.getString("latitude"));
+                            policemanList.add(new Policeman(name, poneNUmber, latitude, longitude));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
 
                 case "http://wilki.kylos.pl/PSI/_showOffensesByDateASC.php":{
