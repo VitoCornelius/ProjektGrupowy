@@ -59,10 +59,9 @@
         android:id="@+id/B_showD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
 
         android:layout_below="@+id/map"
-        android:layout_marginEnd="60dp"
+        android:layout_toEndOf="@+id/B_porwania"
         android:background="@drawable/mybutton"
         android:onClick="onClick"
         android:text="Koloruj mape"
@@ -114,5 +113,17 @@
         android:layout_alignStart="@+id/B_showD"
         android:onClick="onClick"
         android:text="Wyczysc" />
+
+    <Button
+        android:id="@+id/rysowanie_drogi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/map"
+        android:layout_marginStart="24dp"
+        android:layout_toEndOf="@+id/B_clear"
+        android:background="@drawable/mybutton"
+        android:onClick="onClick"
+        android:text="Rysuj Droge"
+        android:textColor="@android:color/background_light" />
 
 </RelativeLayout>

@@ -93,7 +93,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
     private LocationRequest locationRequest;
     private Location lastLocation;
     private Marker curreLocationMarker;
-    Button bMorderstwa, bPorwania, bPrzeklinanie, bPrzemoc, bShow, bCall;
+    Button bMorderstwa, bPorwania, bPrzeklinanie, bPrzemoc, bShow, bCall, rysowanieDrogiButton;
     private boolean isMapColor = false;
     private boolean isPressedB_zabojstwo = false;
     private boolean isPressedB_porwania = false;
@@ -116,6 +116,11 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
      * Manager lokalizacji
      */
     protected LocationManager mLocationManager;
+
+    /**
+     * czy kliknięty jest przycisk rysowanie drogi
+     */
+    boolean rysowanieDrogiEnabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,8 +176,7 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
         bPrzemoc = findViewById(R.id.B_przemoc);
         bShow = findViewById(R.id.B_showD);
         bCall = findViewById(R.id.B_zadzwon);
-
-
+        rysowanieDrogiButton = (Button)findViewById(R.id.rysowanie_drogi);
 
         setContentView(R.layout.activity_map); // ustawienie widoku na jakiś taki z xml
 
@@ -361,6 +365,11 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                 }
                 break;
             }
+            case R.id.rysowanie_drogi:{
+                rysowanieDrogiEnabled = !rysowanieDrogiEnabled;
+                break;
+            }
+
             case R.id.B_zadzwon: {
                 if (tempChosenCap<100000) {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -478,22 +487,22 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
                     shortestRoute=100000000000000000d;
                     polylinesToAdd.clear();
 
-                    for(int i=0; i<policeman.size();i++)
-                    {
-                        if(marker.getPosition().equals(policeman.get(i).getPosition()))
-                        {
-                            tempChosenCap = i;
-                            break;
-                        }
-                        else {
-                            String url = getMapsApiDirectionsUrl(
-                                    new LatLng(marker.getPosition().longitude,
-                                            marker.getPosition().latitude),
-                                    new LatLng((policeman.get(i).getPosition().longitude),
-                                            (policeman.get(i).getPosition().latitude)));
-                            ReadTask downloadTask = new ReadTask();
-                            // Start downloading json data from Google Directions API
-                            downloadTask.execute(url);
+                    if (rysowanieDrogiEnabled) {
+
+                        for (int i = 0; i < policeman.size(); i++) {
+                            if (marker.getPosition().equals(policeman.get(i).getPosition())) {
+                                tempChosenCap = i;
+                                break;
+                            } else {
+                                String url = getMapsApiDirectionsUrl(
+                                        new LatLng(marker.getPosition().longitude,
+                                                marker.getPosition().latitude),
+                                        new LatLng((policeman.get(i).getPosition().longitude),
+                                                (policeman.get(i).getPosition().latitude)));
+                                ReadTask downloadTask = new ReadTask();
+                                // Start downloading json data from Google Directions API
+                                downloadTask.execute(url);
+                            }
                         }
                     }
                     return false;
