@@ -367,6 +367,14 @@ public class map extends FragmentActivity implements OnMapReadyCallback,
             }
             case R.id.rysowanie_drogi:{
                 rysowanieDrogiEnabled = !rysowanieDrogiEnabled;
+
+                if (rysowanieDrogiEnabled){
+                    Toast.makeText(getApplicationContext(), "Kliknij na zdarzenie", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Rysowanie drogi wyłączone", Toast.LENGTH_SHORT).show();
+                }
+
+
                 break;
             }
 
